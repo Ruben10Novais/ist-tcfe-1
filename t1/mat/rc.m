@@ -5,71 +5,21 @@ clear all
 
 pkg load symbolic
 
-syms t
-syms R
-syms C
-syms vi(t)
-syms vo(t)
-syms i(t)
+%% MESH ANALYSIS
+R1 = vpa(1021.83054686)
+R2 = vpa(2005.19295062)
+R3 = vpa(3017.35849578)
+R4 = vpa(4151.36004156)
+R5 = vpa(3044.17402199)
+R6 = vpa(2021.96984898)
+R7 = vpa(1007.84334281)
+V = vpa(5.11339870586)
+I = vpa(0.0010050415923)
+Kb = vpa(7.18106630963)
+Kc = vpa(8.1227111635)
+Z = vpa(0.0)
+O = vpa(1.0)
 
-i(t)=C*diff(vo,t)
-
-printf("\n\nKVL equation:\n");
-
-vi(t) = R*i(t)+vo(t)
-
-syms vo_n(t) %natural solution
-syms vo_f(t) %forced solution
-
-printf("\n\nSolution is of the form");
-
-v(t) = vo_n(t) + vo_f(t)
-
-printf("\n\nNatural solution:\n");
-syms A
-syms wn
-
-vi(t) = 0 %no excitation
-i_n(t) = C*diff(vo_n, t)
-
-
-printf("\n\n Natural solution is of the form");
-vo_n(t) = A*exp(wn*t)
-
-R*i_n(t)+vo_n(t) == 0
-
-R*C*wn*vo_n(t)+vo_n(t) == 0
-
-R*C*wn+1==0
-
-solve(ans, wn)
-
-
-%%EXAMPLE NUMERIC COMPUTATIONS
-
-R=1e3 %Ohm
-C=100e-9 %F
-
-f = 1000 %Hz
-w = 2*pi*f; %rad/s
-
-%time axis: 0 to 10ms with 1us steps
-t=0:1e-6:10e-3; %s
-
-Zc = 1/(j*w*C)
-Cgain = Zc/(R+Zc)
-Gain = abs(Cgain)
-Phase = angle(Cgain)
-
-vi = 1*cos(w*t);
-vo = Gain*cos(w*t+Phase);
-
-hf = figure ();
-plot (t*1000, vi, "g");
-hold on;
-plot (t*1000, vo, "b");
-
-xlabel ("t[ms]");
-ylabel ("vi(t), vo(t) [V]");
-print (hf, "forced.eps", "-depsc");
-%print forced.eps
+A = [Z, Z, Z, O; R1+R3+R4, -R3, -R4, Z; -R4, Z, R6+R7+R4-Kc, Z; -R3*Kb, R3*Kb - O, Z, Z]
+B = [I; -V; Z; Z]
+A\B
