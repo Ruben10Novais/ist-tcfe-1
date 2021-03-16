@@ -1,0 +1,56 @@
+*
+* NGSPICE simulation script
+* BJT amp with feedback
+
+Four Square Circuit netlist
+
+* forces current values to be saved
+.options savecurrents
+
+R1 5 6 1.02183054686k
+R2 4 5 2.00519295062k
+R3 8 5 3.01735849578k
+R4 7 8 4.15136004156k
+R5 3 8 3.04417402199k
+R6 7 0 2.02196984898k
+R7 0 1 1.00784334281k
+
+Vaa 6 7 5.11339870586
+Idd 2 3 1.0050415923m
+
+Vnn 0 1 0
+
+Gb 3 4 (5,8) 7.18106630963
+Hc 8 1 Vnn 8.1227111635
+
+.control
+
+*makes plots in color
+set hcopypscolor=0
+set color0=white
+set color1=black
+set color2=red
+set color3=blue
+set color4=violet
+set color5=rgb:3/8/0
+set color6=rgb:4/0/0
+
+op
+
+echo "********************************************"
+echo  "Operating point"
+echo "********************************************"
+print Vcc
+print @Q1[ic]
+print @Rf[i]
+
+echo  "op_TAB"
+print all
+echo  "op_END"
+
+quit
+.endc
+
+.end
+
+.model P2model NPN(Bf=200, CJE=12pF, CJC=2pF)
