@@ -53,8 +53,8 @@ G6 = 1/R6
 G7 = 1/R7
 V = vpa(5.11339870586)
 I = vpa(0.0010050415923)
-Kb = vpa(7.18106630963)
-Kc = vpa(8.1227111635)
+Kb = vpa(0.00718106630963)
+Kc = vpa(8122.7111635)
 
 %% Matriz-resultado com valores numéricos das correntes nas malhas
 C = [Z, Z, Z, O; R1+R3+R4, -R3, -R4, Z; -R4, Z, R6+R7+R4-Kc, Z; -R3*Kb, R3*Kb - O, Z, Z]
