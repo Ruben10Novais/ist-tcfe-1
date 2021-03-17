@@ -62,7 +62,7 @@ D = [I; -V; Z; Z]
 C\D
 
 %% Matriz-resultado com valores numéricos da tensão nos nós do circuito (NODE)
-G = [G7, Z, Z, Z, Z, Z, G6, Z; O, -O, Z, Z, Z, Z, Z, Z; Z, Z, Z, Z, Z, O, -O, Z; Z, Z, Z, -G2, G1+G2+G3, -G1, Z, -G3; Z, Z, G5, Z, G3, Z, G4+G6, -G3-G4-G5; O, Z, Z, Z, Z, Z, Kc*G6, -O; Z, Z, Z, Z, G1, -G1, -G4-G6, G4; Z, Z, Z, -G2, Kb+G2, Z, Z, -Kb]
+G = [G7, Z, Z, Z, Z, Z, G6, Z; O, -O, Z, Z, Z, Z, Z, Z; Z, Z, Z, Z, Z, O, -O, Z; Z, Z, Z, -G2, G1+G2+G3, -G1, Z, -G3; Z, Z, G5, Z, G3, Z, G4+G6, -G3-G4-G5; O, Z, Z, Z, Z, Z, Kc*G6, -O; Z, Z, Z, Z, G1, -G1, -G4-G6, G4; Z, Z, Z, -G2, Kb-G2, Z, Z, -Kb]
 H = [Z; Z; V; Z; I; Z; Z; Z]
 G\H
 
