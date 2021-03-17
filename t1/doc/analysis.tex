@@ -2,30 +2,34 @@
 \label{sec:analysis}
 
 In this section, the circuit shown in Figure~\ref{fig:rc} is analysed
-theoretically, in terms of its time and frequency responses.
+theoretically, using both mesh and node analysis.
 
-\section{Time response}
+\section{Mesh Analysis}
 
-The circuit consists of a single V-R-C loop where a current $i(t)$ circulates. The
-voltage source $v_I(t)$ drives its input, and the output voltage $v_O(t)$ is taken from
-the capacitor terminals. Applying the Kirchhoff Voltage Law (KVL), a single
-equation for the single loop in the circuit can be written as
+The circuit consists of four independent loops, and 11 branches where different currents circulate. These will be our variables in the mesh analysis. The current flow is depicted in Figure ~\ref{fig:current}
 
+\begin{figure}[h] \centering
+\includegraphics[width=0.4\linewidth]{current.pdf}
+\caption{Circuit with linear components.}
+\label{fig:current}
+\end{figure}
+
+
+Applying the Kirchhoff Voltage Law (KVL) in the different loops, we get four different equations which we can then solve as a matrix:
 \begin{equation}
-  Ri(t) + v_O(t) = v_I(t).
-  \label{eq:kvl}
+  I_D=I;
 \end{equation}
 
-Because $v_O$ is the voltage between capacitor C's plates, it is related to the
-current $i$ by
 \begin{equation}
-  i(t) = C\frac{dv_O}{dt}.
+  (R_1+R_3+R_4)I_A-R_3I_B-R_4I_C=-V_A;
 \end{equation}
 
-Hence, Equation~(\ref{eq:kvl}) can be rewritten as
 \begin{equation}
-  RC\frac{dv_O}{dt} + v_O(t) = v_I.
-  \label{eq:kvl2}
+  (R_4+R_6+R_7-K_C)I_C-R_4I_A=0;
+\end{equation}
+
+\begin{equation}
+  (R_3K_B-1)I_B-R_3K_BI_A=0.
 \end{equation}
 
 Equation~(\ref{eq:kvl2}) is a linear differencial equation whose solution is a
@@ -47,7 +51,5 @@ where $A$ is an integration constant.
   V_{Of}(t) = |\bar{V}_{Of}| cos(\omega t + \angle \bar{V}_{Of}),
   \label{eq:vo_for}
 \end{equation}
-
-\lipsum[1-1]
 
 
