@@ -5,18 +5,12 @@ Since this circuit is a steady one, the voltage or current values of the various
 
 \subsection{Operating Point Analysis}
 
-
 For this circuit's simulation on Ngspice, there was a need to introduce a null voltage source between the ground node and the R7 resistor.
 
 Table~\ref{tab:op} below shows the simulated operating point results for the circuit
 under analysis.
 
 Using the results of the theoretical analysis for mere guidance, we know the voltage values for the nodes: that should follow from our simulation. We know then in which direction the voltage drops happen and we use this order for all branches except the current sources. In the current sources the order follows the current flow of such sources, as it is norm in Ngspice. Following the order we stated for the other branches means that the current that flows through every resistor must have a positive value in table~\ref{tab:op}, because in resistors the voltage drop and current flow have the same direction (resistors always consume energy).
-
-Analysing table~\ref{tab:op}, we notice that the current flowing through every resistor has a positive value, as it should be. I\textsubscript{a} is the current flowing through R1, I\textsubscript{b} is the current flowing through R2, I\textsubscript{c} is the current flowing through R6 (and R7), and, finally, I\textsubscript{d} is equivalent to Idd.
-Comparing the simulation results for the voltage and current values with the theoretical analysis values, we notice that the values for voltage in nodes V\textsubscript{1} to V\textsubscript{8} and the current for all four mesh currents are exactly equal, if we exclude all roundings carried out by NgSpice, since its precision (up to 7 significant figures) can be slightly different than the precision we used in GNU Octave (a maximum of 2 significant figures of difference). Different digits only start to appear by the 6\textsuperscript{th} decimal case, which is a disposable calculation error (Shrinking the theoretical results to Ngspice precision, we get equal theoretical and simulation results).
-
-With that being said, the theoretical results are equal to the simulation results (the complete accuracy is fruit of the staticness of the circuit), which confirms our theoretical analysis. The fact that the voltage and current results are equal obviously results in equal power values for each branch.
 
 \begin{table}[h]
   \centering
@@ -30,4 +24,9 @@ With that being said, the theoretical results are equal to the simulation result
     Volt.}
   \label{tab:op}
 \end{table}
+
+Analysing table~\ref{tab:op}, we notice that the current flowing through every resistor has a positive value, as it should be. I\textsubscript{a} is the current flowing through R1, I\textsubscript{b} is the current flowing through R2, I\textsubscript{c} is the current flowing through R6 (and R7), and, finally, I\textsubscript{d} is equivalent to Idd.
+Comparing the simulation results for the voltage and current values with the theoretical analysis values, we notice that the values for voltage in nodes V\textsubscript{1} to V\textsubscript{8} and the current for all four mesh currents are exactly equal, if we exclude all roundings carried out by NgSpice, since its precision (up to 7 significant figures) can be slightly different than the precision we used in GNU Octave (a maximum of 2 significant figures of difference). Different digits only start to appear by the 6\textsuperscript{th} decimal case, which is a disposable calculation error (Shrinking the theoretical results to Ngspice precision, we get equal theoretical and simulation results).
+
+With that being said, the theoretical results are equal to the simulation results (the complete accuracy is fruit of the staticness of the circuit), which confirms our theoretical analysis. The fact that the voltage and current results are equal obviously results in equal power values for each branch.
 

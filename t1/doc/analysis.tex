@@ -6,17 +6,12 @@ theoretically, using both mesh and node analysis.
 Here, we lay out the background information that was essential for the execution of this assignment. Since the circuit at hand is a simple one we only needed the following information (this is all referenced in Horowitz, P; Hill,W(2015). The Art of Electronics. Cambridge University Press(3rd ed, pp.2-4)):
 The sum of the currents into a point in a circuit equals the sum of the currents out. Each of these points is referred to as a node. This is also known as Kirchhoff’s current law (KCL).
 The sum of the voltage drops around any closed circuit is zero.This is Kirchhoff’s voltage law (KVL).
-The power consumed by a circuit device is
-\begin{equation}
-  P=VI;
-\end{equation}
 
-When voltages and currents are in the same direction they produce a positive power (the component is consuming energy). Voltages and currents in opposite direction produce negative power (the component is giving forth energy to the circuit)
 A resistor is characterized by its resistance:
 \begin{equation}
   R=\frac {V}{I};
 \end{equation}
-This is known as Ohm’s law.
+This is known as Ohm’s law. In a resistor, the voltage drop and current flow have the same direction (the resistance is always positive).
 Independent V/I sources impose voltage/current regardless of current/voltage.
 Linearly dependent V/I sources impose voltage/current that is linearly dependent on a specific variable of other circuit components.
 
@@ -160,9 +155,26 @@ I\\
 
 \subsection{Equivalence of the mesh and node methods}
 
-As it is obvious, both the mesh and the node methods must and will produce the same results. Through the mesh method we calculated the mesh currents and through the node method we calculated the node voltages. We won't analyse every single component only to check the equal results. We will analyse only a few components (some resistors), using Ohm's Law, to verify the equivalence of the results.
+As it is obvious, both the mesh and the node methods must and will produce the same results. Through the mesh method we calculated the mesh currents and through the node method we calculated the node voltages. We will analyse only a few components (some resistors), using Ohm's Law, to verify the equivalence of the results.
 
 \begin{gather*}
   V_4 - V_5=R1 \cdot I_a \Leftrightarrow 6.843347 - 7.067298=1021.83054686\times(-0.000219) \Leftrightarrow \\
   \Leftrightarrow -0.223951 = -0.223781 \Leftrightarrow 0 \approx 0 
 \end{gather*}
+
+\begin{gather*}
+  V_3 - V_4=R2 \cdot I_b \Leftrightarrow 6.382611 - 6.843347=2005.19295062\times(-0.000230) \Leftrightarrow \\
+  \Leftrightarrow -0.460736 = -0.461194 \Leftrightarrow 0 \approx 0 
+\end{gather*}
+
+\begin{gather*}
+  V_6=R6 \cdot I_c \Leftrightarrow 1.953900=2021.96984898\times(0.000966) \Leftrightarrow \\
+  \Leftrightarrow 1.953900 = 1.953223 \Leftrightarrow 0 \approx 0 
+\end{gather*}
+
+\begin{gather*}
+  V_2 - V_7=R5 \cdot (I_d-I_b) \Leftrightarrow 10.634329 - 6.875344=3044.17402199\times[0.001005-(-0.000230)] \Leftrightarrow \\
+  \Leftrightarrow 3.758985 = 3.759555 \Leftrightarrow 0 \approx 0 
+\end{gather*}
+
+As we can see in this calculations, both methods are equivalent and complete each other. The small diference in the results is only due to the roundings done by the Octave program.
