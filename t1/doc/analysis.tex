@@ -18,20 +18,46 @@ A resistor is characterized by its resistance:
 \end{equation}
 This is known as Ohm’s law.
 Independent V/I sources impose voltage/current regardless of current/voltage.
-Linearly dependent V/I sources impose voltage/current that is linearly dependent on a specific variable of other circuit component.
+Linearly dependent V/I sources impose voltage/current that is linearly dependent on a specific variable of other circuit components.
 
-The circuit consists of four independent meshes, and 11 branches where different currents circulate. These will be our variables in the mesh analysis. The current flow is depicted in Figure ~\ref{fig:current}
+The circuit consists of four independent meshes, and 11 branches where different currents circulate. These will be our variables in the mesh and node analysis. The hypothetical current flow and the node numbering is depicted in Figure ~\ref{fig:current}
 
 
 The components we are working with have a linear relationship between the voltage and current, therefore we will need to solve a system of linear equations to determine the variables of each component given some initial values.
-We will use two different methods that are based on KCL and KVL. These methods are the Mesh and Node methods. Each one of them will produce its set of equations that when solved, will give  us either the currents flowing through each mesh (Mesh Method) or the voltage on each node (Node Method).
+We will use two different methods that are based on KCL and KVL. These methods are the Mesh and Node methods. Each one of them will produce its set of equations that when solved, will give us either the currents flowing through each mesh (Mesh Method) or the voltage on each node (Node Method).
 We’ve written a program on GNU Octave to help us determine the solution for the linear system. The simulation of the circuit was carried out by the Ngspice tool. We’ve written a simple code describing the circuit.
 
 \begin{figure}[h] \centering
-\includegraphics[width=0.4\linewidth]{current.pdf}
-\caption{Direction of each mesh current.}
+\includegraphics[width=0.4\linewidth]{current_node.pdf}
+\caption{Direction of each mesh current and node listing.}
 \label{fig:current}
 \end{figure}
+
+Here follows the list of the components numeric values that we will use in our theoretical (and simulation) analyses:
+
+
+                                                      
+R1 = 1.02183054686 K\si{\ohm}
+
+R2 = 2.00519295062 K\si{\ohm}
+
+R3 = 3.01735849578 K\si{\ohm}
+
+R4 = 4.15136004156 K\si{\ohm}
+
+R5 = 3.04417402199 K\si{\ohm}
+
+R6 = 2.02196984898 K\si{\ohm}
+
+R7 = 1.00784334281 K\si{\ohm}
+
+$V_{a}$ (V) = 5.11339870586 V
+
+$I_{d}$ (I) = 1.0050415923 mA
+
+$K_{b}$ = 7.18106630963 mS
+
+$K_{c}$ = 8.1227111635 K\si{\ohm}
 
 \subsection{Mesh Analysis}
 
@@ -42,7 +68,7 @@ Applying the Kirchhoff Voltage Law (KVL) in the different loops, we get four dif
 \end{equation}
 
 \begin{equation}
-  (R_1+R_3+R_4)I_A-R_3I_B-R_4I_C=-V_A;
+  (R_1+R_3+R_4)I_A-R_3I_B-R_4I_C=-V;
 \end{equation}
 
 \begin{equation}
@@ -76,7 +102,6 @@ I\\
 \end{equation}
 
 
-
 \begin{table}[h]
   \centering
   \begin{tabular}{|l|r|}
@@ -90,17 +115,16 @@ I\\
 
 \subsection{Node Analysis}
 
-As in the previous section, we extract a set of equations from the circuit, this time using the node method. This yields 8 equations, one for each node. Then, we can solve those 8 equations in the form of the matrix presented here.
+As in the previous section, we extract a set of equations from the circuit, this time using the node method, which involves applying the Kirchoff Current Law (KCL). This yields 7 equations, one for each node. Then, we can solve those 7 equations in the form of the matrix presented here.
 \begin{equation}
 \begin{pmatrix}
-G7 & 0 & 0 & 0 & 0 & 0 & G6 & 0\\
-1 & -1 & 0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 1 & -1 & 0\\
-0 & 0 & 0 & -G2 & G1+G2+G3 & -G1 & 0 & -G3\\
-0 & 0 & G5 & 0 & G3 & 0 & G4+G6 & -G3-G4-G5\\
-1 & 0 & 0 & 0 & 0 & 0& Kc*G6 & -1\\
-0 & 0 & 0 & 0 & G1 & -G1 & -G4-G6 & G4\\
-0 & 0 & 0 & -G2 & Kb+G2 & 0 & 0 & -Kb
+G7 & 0 & 0 & 0 & 0 & G6 & 0\\
+0 & 0 & 0 & 0 & 1 & -1 & 0\\
+0 & 0 & -G2 & G1+G2+G3 & -G1 & 0 & -G3\\
+0 & G5 & 0 & G3 & 0 & G4+G6 & -G3-G4-G5\\
+1 & 0 & 0 & 0 & 0& Kc*G6 & -1\\
+0 & 0 & 0 & G1 & -G1 & -G4-G6 & G4\\
+0 & 0 & -G2 & Kb+G2 & 0 & 0 & -Kb
 \end{pmatrix}
 \begin{pmatrix}
 V1\\
@@ -110,11 +134,9 @@ V4\\
 V5\\
 V6\\
 V7\\
-V8
 \end{pmatrix}
 =
 \begin{pmatrix}
-0\\
 0\\
 V\\
 0\\
@@ -135,3 +157,12 @@ I\\
   \caption{Theoretical analysis results from Octave.}
   \label{tab:node}
 \end{table}
+
+\subsection{Equivalence of the mesh and node methods}
+
+As it is obvious, both the mesh and the node methods must and will produce the same results. Through the mesh method we calculated the mesh currents and through the node method we calculated the node voltages. We won't analyse every single component only to check the equal results. We will analyse only a few components (some resistors), using Ohm's Law, to verify the equivalence of the results.
+
+\begin{gather*}
+  V_4 - V_5=R1 \cdot I_a \Leftrightarrow 6.843347 - 7.067298=1021.83054686\times(-0.000219) \Leftrightarrow \\
+  \Leftrightarrow -0.223951 = -0.223781 \Leftrightarrow 0 \approx 0 
+\end{gather*}
