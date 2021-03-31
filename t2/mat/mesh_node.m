@@ -5,6 +5,9 @@ clear all
 
 pkg load symbolic
 
+fidd = fopen("data.txt","r")
+fclose(fidd)
+
 %% MESH AND NODE ANALYSIS 
 R1 = 1.02183054686e3 %% Ohm
 R2 = 2.00519295062e3
