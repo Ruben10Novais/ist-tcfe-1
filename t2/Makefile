@@ -6,6 +6,7 @@
 
 all:
 	echo 95782 | python t2_datagen.py > data.txt
+	sed -i '1,9d;21,23d' data.txt
 	cp data.txt ~/ist-tcfe-1/t2/doc
 	make -C doc
 	cp doc/report.pdf .

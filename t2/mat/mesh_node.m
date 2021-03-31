@@ -5,7 +5,11 @@ clear all
 
 pkg load symbolic
 
+format long
+
 fidd = fopen("data.txt","r")
+cte = fscanf(fidd,'%s = %f', [3 inf])
+printf("valor %f\n", cte(3,1))
 fclose(fidd)
 
 %% MESH AND NODE ANALYSIS 
