@@ -46,7 +46,19 @@ I14=0
 I21=(V2(1)-V2(2))/R1
 I22=(V2(2)-V2(3))/R2
 I23=(V2(7)-V2(4))/R6
-I24=5
+I5=(V2(6)-V2(5))/R5
+
+I24=I5-I22
+
+Req=(V1(6)-V1(8))/I24
+
+
+
+
+
+
+
+
 
 f_net=fopen("circuit1.net","w");
 fprintf(f_net, "*Circuito 1\n R1 1 2 %f \n R2 2 3 %f \n R3 2 5 %f \n R4 0 5 %f \n R5 5 6 %f \n R6 0 7 %f \n R7 7 8 %f \n C 6 8 %f \n V 1 0 DC %f \n H 5 8 %f \n G 3 6 %f", R1,R2,R3,R4,R5,R6,R7,C,Vs, V1(5)-V1(8), V1(6)-V1(3));
@@ -59,6 +71,18 @@ fprintf(f_net, "*Circuito 2\n R1 0 2 %f \n R2 2 3 %f \n R3 2 5 %f \n R4 0 5 %f \
 
 
 fclose(f_net);
+
+f_net=fopen("circuit3.net","w");
+fprintf(f_net, "*Circuito 3\n R1 0 2 %f \n R2 2 3 %f \n R3 2 5 %f \n R4 0 5 %f \n R5 5 6 %f \n R6 0 7 %f \n R7 7 8 %f \n C 6 8 %f \n H 5 8 %f \n G 3 6 %f", R1,R2,R3,R4,R5,R6,R7,C, V2(5)-V2(8), V2(6)-V2(3));
+
+
+fclose(f_net);
+
+
+
+
+
+
 
 
 %% Criar 2 ficheiros, que serão o input das tabelas com os resultados teóricos
