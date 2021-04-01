@@ -7,25 +7,23 @@ pkg load symbolic
 
 format long
 
-fp=fopen('data.txt', 'r');
-S=fscanf(fp,'%s');
-R=sscanf(S, 'Pleaseentertheloweststudentnumberinyourgroup:Unitsforthevalues:V,mA,kOhm,mSanduFValues:R1=%fR2=%fR3=%fR4=%fR5=%fR6=%fR7=%fVs=%fC=%fKb=%fKd=%f');
-
-fclose(fp);
+fp = fopen("data.txt", "r");
+S=fscanf(fp,'%s = %f', [3 inf])
+fclose(fp)
 
 %% MESH AND NODE ANALYSIS 
 
-R1 = R(1)*1000
-R2 = R(2)*1000
-R3 = R(3)*1000
-R4 = R(4)*1000
-R5 = R(5)*1000
-R6 = R(6)*1000
-R7 = R(7)*1000
-Vs = R(8)
-C = R(9)
-Kb = R(10)/1000
-Kd = R(11)*1000
+R1 = S(3,1)*1000
+R2 = S(3,2)*1000
+R3 = S(3,3)*1000
+R4 = S(3,4)*1000
+R5 = S(3,5)*1000
+R6 = S(3,6)*1000
+R7 = S(3,7)*1000
+Vs = S(3,8)
+C = S(2,9)*0.000001
+Kb = S(2,10)/1000
+Kd = S(2,11)*1000
 
 
 %% Matriz-resultado com valores numéricos das correntes nas malhas
@@ -62,7 +60,7 @@ fprintf(f_net, "*Circuito 2\n R1 0 2 %f \n R2 2 3 %f \n R3 2 5 %f \n R4 0 5 %f \
 
 fclose(f_net);
 
-%{
+
 %% Criar 2 ficheiros, que serão o input das tabelas com os resultados teóricos
 fid = fopen("data_current_tab.tex","w")
 fprintf(fid, "@$I_{a}$ & %f \\\\ \\hline \n", I11)
@@ -81,4 +79,4 @@ fprintf(fid, "$V_{6}$ & %f \\\\ \\hline \n", V1(6))
 fprintf(fid, "$V_{7}$ & %f \\\\ \\hline \n", V1(7))
 fprintf(fid, "$V_{8}$ & %f \\\\ \\hline \n", V1(8))
 fclose(fid)
-%}
+
