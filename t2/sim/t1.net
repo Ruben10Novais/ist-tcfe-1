@@ -2,7 +2,7 @@
 * NGSPICE simulation script
 * BJT amp with feedback
 
-*Four Square Circuit netlist
+*Four Square Circuit netlist, time variation
 
 * forces current values to be saved
 .options savecurrents
