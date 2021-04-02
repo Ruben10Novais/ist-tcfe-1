@@ -152,6 +152,44 @@ ylabel ("V_s(t) , V_6(t) [V]");
 legend ('V_s(t)','V_6(t)','Location','Northeast')
 print (hf2, "total.eps", "-depsc");
 
+
+f=1:100
+
+
+T(f) =1./(1+i*(2*pi*f)*C*Req)
+
+%{ para t=0, Vs tem o mesmo valor para qualquer f }%
+
+Vs=exp(i*(-pi/2))
+Vc=T*Vs
+V6=Vc
+
+hf3 = figure (3);
+plot (log10(f), 20*log10(abs(V6)), "g");
+hold on
+plot (log10(f),20*log10(abs(Vc)), "b");
+hold on
+plot (log10(f), 20*log10(abs(Vs)),"r");
+
+xlabel ("log10(f)");
+ylabel ("Magnitude in dB");
+print (hf3, "magnitude.eps", "-depsc");
+
+hf4 = figure (4);
+plot (log10(f), (180*angle(V6))/pi, "g");
+hold on
+plot (log10(f),(180*angle(Vc))/pi, "b");
+hold on
+plot (log10(f), (180*angle(Vs))/pi,"r");
+
+xlabel ("log10(f)");
+ylabel ("Angle in Degrees");
+print (hf4, "angle.eps", "-depsc");
+
+
+
+
+
 %%
 %f_net=fopen("circuit1.net","w");
 %fprintf(f_net, "*Circuito 1\n R1 1 2 %f \n R2 2 3 %f \n R3 2 5 %f \n R4 0 5 %f \n R5 5 6 %f \n R6 0 7 %f \n R7 7 8 %f \n C 6 8 %f \n V 1 0 DC %f \n H 5 8 %f \n G 3 6 %f", R1,R2,R3,R4,R5,R6,R7,C,Vs, V1(5)-V1(8), V1(6)-V1(3));
