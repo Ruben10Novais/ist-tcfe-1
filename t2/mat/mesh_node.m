@@ -31,9 +31,11 @@ G4 = 1/R4
 G5 = 1/R5
 G6 = 1/R6
 G7 = 1/R7
+Ca = S(2,9)
+Kbb = S(2,10)
 
 f_net=fopen("circuit1.txt","w");
-fprintf(f_net, "*Circuito 1\nR1 1 2 %f \nR2 2 3 %f \nR3 5 2 %f \nR4 5 0 %f \nR5 6 5 %f \nR6 0 7 %f \nR7 4 8 %f \nC 6 8 %f \nV 1 0 DC %f \nVf 7 4 0 \nH 5 8 Vf %f \nG 6 3 (2,5) %f", R1,R2,R3,R4,R5,R6,R7,C,Vs, Kd, Kb);
+fprintf(f_net, "*Circuito 1\nR1 1 2 %f \nR2 2 3 %f \nR3 5 2 %f \nR4 5 0 %f \nR5 6 5 %f \nR6 0 7 %f \nR7 4 8 %f \nC 6 8 %fu \nV 1 0 DC %f \nVf 7 4 0 \nH 5 8 Vf %f \nG 6 3 (2,5) %fm", R1,R2,R3,R4,R5,R6,R7,Ca,Vs,Kd,Kbb);
 fclose(f_net);
 
 %% Matriz-resultado com valores numéricos das tensões nos nós
@@ -63,6 +65,10 @@ Ic = 0
 I_kd = I_R6
 
 Vx = V_6 - V_8
+
+f_net=fopen("circuit2.txt","w");
+fprintf(f_net, "*Circuito 2\nR1 1 2 %f \nR2 2 3 %f \nR3 5 2 %f \nR4 5 0 %f \nR5 6 5 %f \nR6 0 7 %f \nR7 4 8 %f \nVs 1 0 0 \nVf 7 4 0 \nH 5 8 Vf %f \nG 6 3 (2,5) %fm", R1,R2,R3,R4,R5,R6,R7,Kd,Kbb);
+fclose(f_net);
 
 %% Resistência equivalente
 A2 = [1, 0, 0, 0, 0, 0, 0 ; -G1, G1+G2+G3, -G2, -G3, 0, 0, 0; 0, Kb+G2, -G2, -Kb, 0, 0, 0 ; -G1, G1, 0, G4, 0, G6, 0 ; 0, 0, 0, 0, 0, -G6-G7, G7 ; 0, 0, 0, 1, 0, G6*Kd, -1 ; 0, 0, 0, 0, 1, 0, -1]
@@ -152,7 +158,6 @@ ylabel ("V_s(t) , V_6(t) [V]");
 legend ('V_s(t)','V_6(t)','Location','Northeast')
 print (hf2, "total.eps", "-depsc");
 
-
 f=1:100
 
 
@@ -186,19 +191,7 @@ xlabel ("log10(f)");
 ylabel ("Angle in Degrees");
 print (hf4, "angle.eps", "-depsc");
 
-
-
-
-
 %%
-%f_net=fopen("circuit1.net","w");
-%fprintf(f_net, "*Circuito 1\n R1 1 2 %f \n R2 2 3 %f \n R3 2 5 %f \n R4 0 5 %f \n R5 5 6 %f \n R6 0 7 %f \n R7 7 8 %f \n C 6 8 %f \n V 1 0 DC %f \n H 5 8 %f \n G 3 6 %f", R1,R2,R3,R4,R5,R6,R7,C,Vs, V1(5)-V1(8), V1(6)-V1(3));
-%fclose(f_net);
-
-%f_net=fopen("circuit2.net","w");
-%fprintf(f_net, "*Circuito 2\n R1 0 2 %f \n R2 2 3 %f \n R3 2 5 %f \n R4 0 5 %f \n R5 5 6 %f \n R6 0 7 %f \n R7 7 8 %f \n V 6 8 %f \n H 5 8 %f \n G 3 6 %f", R1,R2,R3,R4,R5,R6,R7,V1(6)-V1(8), V1(5)-V1(8), V1(6)-V1(3));
-%fclose(f_net);
-
 %f_net=fopen("circuit3.net","w");
 %fprintf(f_net, "*Circuito 3\n R1 0 2 %f \n R2 2 3 %f \n R3 2 5 %f \n R4 0 5 %f \n R5 5 6 %f \n R6 0 7 %f \n R7 7 8 %f \n C 6 8 %f \n H 5 8 %f \n G 3 6 %f", R1,R2,R3,R4,R5,R6,R7,C, V2(5)-V2(8), V2(6)-V2(3));
 %fclose(f_net);
