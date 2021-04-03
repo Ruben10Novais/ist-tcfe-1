@@ -125,6 +125,11 @@ A3 = [1, 0, 0, 0, 0, 0, 0 ; -G1, G1+G2+G3, -G2, -G3, 0, 0, 0; 0, Kb+G2, -G2, -Kb
 b3 = [-j; 0; 0; 0; 0; 0; 0]
 V3 = A3\b3
 
+f_tab1=fopen("../doc/eq_tab2.tex","w");
+fprintf(f_tab1, "V1 & %f%+fj\\\\ \\hline\nV2 & %f%+fj\\\\ \\hline\nV3 & %f%+fj\\\\ \\hline\nV5 & %f%+fj\\\\ \\hline\nV6 & %f%+fj\\\\ \\hline\nV7 & %f%+fj\\\\ \\hline\nV8 & %f%+fj\\\\ \\hline", real(V3(1)),imag(V3(1)),real(V3(2)),imag(V3(2)),real(V3(3)),imag(V3(3)),real(V3(4)),imag(V3(4)),
+real(V3(5)),imag(V3(5)),real(V3(6)),imag(V3(6)),real(V3(7)),imag(V3(7)));
+fclose(f_tab1);
+
 V1r = abs(V3(1))
 V1teta = angle(V3(1))
 V2r = abs(V3(2))
@@ -164,7 +169,7 @@ plot (tt, Vs_t, "b");
 hold on
 plot (tt, V6_t, "r");
 
-xlabel ("t[ms]");
+xlabel ("t[s]");
 ylabel ("V_s(t) , V_6(t) [V]");
 legend ('V_s(t)','V_6(t)','Location','Northeast')
 print (hf2, "total.eps", "-depsc");

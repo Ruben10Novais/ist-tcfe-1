@@ -107,7 +107,7 @@ We were able to obtain the following values, laying the foundation for the natur
 \subsection{Natural solution}
 The general solution for RC circuits, making use of the computations in the previous section, yields:
 \begin{equation}
-V_{6n}(t)=V_xexp(-\frac{t}{RC})
+V_{6n}(t)=V_xexp(-\frac{t}{RC});
 \end{equation}
 From this equation, we obtained the following plot, which depicts the first twenty milisseconds of the circuit's natural response.
 \begin{figure}[h] \centering
@@ -117,32 +117,21 @@ From this equation, we obtained the following plot, which depicts the first twen
 \end{figure}
 
 \subsection{Forced and final total solution}
-
-\begin{figure}[h] \centering
-\includegraphics[width=0.8\linewidth]{total.eps}
-\caption{Total solution to $V_{6}$ node voltage.}
-\label{fig:current}
-\end{figure}
-
-\subsection{Node Analysis}
-
-As in the previous section, we extract a set of equations from the circuit, this time using the node method. This yields 8 equations, one for each node. Then, we can solve those 8 equations in the form of the matrix presented here.
+In order to study the forced response of the system, we performed a nodal analysis to obtain the phasor voltage in every node by solving the following system:
 \begin{equation}
 \begin{pmatrix}
-G7 & 0 & 0 & 0 & 0 & 0 & G6 & 0\\
-1 & -1 & 0 & 0 & 0 & 0 & 0 & 0\\
-0 & 0 & 0 & 0 & 0 & 1 & -1 & 0\\
-0 & 0 & 0 & -G2 & G1+G2+G3 & -G1 & 0 & -G3\\
-0 & 0 & G5 & 0 & G3 & 0 & G4+G6 & -G3-G4-G5\\
-1 & 0 & 0 & 0 & 0 & 0& Kc*G6 & -1\\
-0 & 0 & 0 & 0 & G1 & -G1 & -G4-G6 & G4\\
-0 & 0 & 0 & -G2 & Kb+G2 & 0 & 0 & -Kb
+1 & 0 & 0 & 0 & 0 & 0 & 0\\
+-G1 & G1+G2+G3 & -G2 & -G3 & 0 & 0 & 0\\
+0 & Kb+G2 & -G2 & -Kb & 0 & 0 & 0\\
+-G1 & G1 & 0 & G4 & 0 & G6 & 0\\
+0 & 0 & 0 & 0 & 0 & -G6-G7 & G7\\
+0 & 0 & 0 & 1 & 0 & G6*Kd & -1\\
+0 & -G3 & 0 & G3+G4+G5 & -G5-jwC & G6 & jwC
 \end{pmatrix}
 \begin{pmatrix}
 V1\\
 V2\\
 V3\\
-V4\\
 V5\\
 V6\\
 V7\\
@@ -150,14 +139,39 @@ V8
 \end{pmatrix}
 =
 \begin{pmatrix}
+-j\\
 0\\
 0\\
-V\\
 0\\
-I\\
 0\\
 0\\
 0
 \end{pmatrix}
 \end{equation}
-
+We then get these values:
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Value [V]} \\ \hline
+    \input{eq_tab2} 
+  \end{tabular}
+  \caption{Phasor voltage in every node.}
+  \label{tab:phasor}
+\end{table} \par
+We're now able to make sense of the equation that describes the forced solution to the voltage at node 6.
+\begin{equation}
+V_{6f}(t)=V_{6r}cos(wt+V_{6\phi})=-0.086733cos(2000\pi*t+1.7223);
+\end{equation}
+\subsection{Final total solution}
+Now we convert the phasors to real time functions and consider an angular frequency of $2000\pi$. By superimposing both natural and forced responses we get the total solution:
+\begin{equation}
+V_{6}(t)=V_{6f}(t)+V_{6n}(t);
+\end{equation}
+By plotting both $V_s(t)$ and $V_6(t)$ from -5ms to 20ms we can see that both plots are constant before t=0. The evolution of V6 is as expected, as we can clearly see the negative exponential behaviour as well as the induced frequency.
+\begin{figure}[h] \centering
+\includegraphics[width=0.7\linewidth]{total.eps}
+\caption{Total solution to $V_{6}$ node voltage.}
+\label{fig:current}
+\end{figure}\pagebreak
+\subsection{Frequency response}
