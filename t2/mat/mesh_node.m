@@ -66,6 +66,28 @@ I_kd = I_R6
 
 Vx = V_6 - V_8
 
+fid = fopen("data_constantsource_tab.tex","w")
+fprintf(fid, "@$I_{R1}$ & %f \\\\ \\hline \n", I_R1*1000)
+fprintf(fid, "@$I_{R2}$ & %f \\\\ \\hline \n", I_R2*1000)
+fprintf(fid, "@$I_{R3}$ & %f \\\\ \\hline \n", I_R3*1000)
+fprintf(fid, "@$I_{R4}$ & %f \\\\ \\hline \n", I_R4*1000)
+fprintf(fid, "@$I_{R5}$ & %f \\\\ \\hline \n", I_R5*1000)
+fprintf(fid, "@$I_{R6}$ & %f \\\\ \\hline \n", I_R6*1000)
+fprintf(fid, "@$I_{R7}$ & %f \\\\ \\hline \n", I_R7*1000)
+fprintf(fid, "@$I_{b}$ & %f \\\\ \\hline \n", Ib*1000)
+fprintf(fid, "@$I_{C}$ & %f \\\\ \\hline \n", Ic*1000)
+fprintf(fid, "@$I_{Vs}$ & %f \\\\ \\hline \n", I_Vs*1000)
+fprintf(fid, "@$I_{Kd}$ & %f \\\\ \\hline \n", I_kd*1000)
+fprintf(fid, "$V_{1}$ & %f \\\\ \\hline \n", V_1)
+fprintf(fid, "$V_{2}$ & %f \\\\ \\hline \n", V_2)
+fprintf(fid, "$V_{3}$ & %f \\\\ \\hline \n", V_3)
+fprintf(fid, "$V_{4}$ & %f \\\\ \\hline \n", V_4)
+fprintf(fid, "$V_{5}$ & %f \\\\ \\hline \n", V_5)
+fprintf(fid, "$V_{6}$ & %f \\\\ \\hline \n", V_6)
+fprintf(fid, "$V_{7}$ & %f \\\\ \\hline \n", V_7)
+fprintf(fid, "$V_{8}$ & %f \\\\ \\hline \n", V_8)
+fclose(fid)
+
 f_net=fopen("circuit2.txt","w");
 fprintf(f_net, "*Circuito 2\nR1 1 2 %f \nR2 2 3 %f \nR3 5 2 %f \nR4 5 0 %f \nR5 6 5 %f \nR6 0 7 %f \nR7 4 8 %f \nVs 1 0 0 \nVf 7 4 0 \nH 5 8 Vf %f \nG 6 3 (2,5) %fm", R1,R2,R3,R4,R5,R6,R7,Kd,Kbb);
 fclose(f_net);
@@ -89,8 +111,9 @@ Ix = ((V_66-V_55)/R5) + ((V_33-V_22)/R2)
 Req = abs(Vx/Ix)
 
 tau = Req*C
-f_tab=fopen("../doc/eq_tab.tex","w");
-fprintf(f_tab, "@Ix & %f A\\\\ \\hline\nVx & %f V\\\\ \\hline\nReq & %f Ohm\\\\ \\hline\nTau & %f s\\\\ \\hline", Ix,Vx,Req,tau);
+
+f_tab=fopen("eq_tab.tex","w");
+fprintf(f_tab, "$V_{x}$ & %f V\\\\ \\hline\n@$I_{x}$ & %f mA\\\\ \\hline\n$R_{eq}$ & %f kOhm\\\\ \\hline\n$tau$ & %f ms\\\\ \\hline", Vx,Ix*1000,Req/1000,tau*1000);
 fclose(f_tab);
 
 %% Natural solution
