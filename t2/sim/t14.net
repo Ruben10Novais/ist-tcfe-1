@@ -29,7 +29,8 @@ echo  "Transient analysis"
 echo "********************************************"
 tran 1e-5 20e-3
 
-hardcopy total.ps v(6) v(1)
+let vs = v(1)
+hardcopy total.ps v(6) vs
 echo total_FIG
 
 echo "********************************************"
@@ -38,9 +39,15 @@ echo "********************************************"
 
 ac dec 10 0.1 1MEG
 
-hardcopy magnitude.ps db(v(6)) db(v(1)) db(v(6)-v(8))
+let vs = v(1)
+let vc = v(6)-v(8)
+hardcopy magnitude.ps db(v(6)) db(vs) db(vc) 
 echo magnitude_FIG
-hardcopy phase.ps ph(v(6))*180/PI ph(v(1))*180/PI ph(v(6)-v(8))*180/PI
+
+let phase_v6 = ph(v(6))*180/PI
+let phase_vs = ph(v(1))*180/PI
+let phase_vc = ph(v(6)-v(8))*180/PI
+hardcopy phase.ps phase_v6 phase_vs phase_vc 
 echo phase_FIG
 
 
