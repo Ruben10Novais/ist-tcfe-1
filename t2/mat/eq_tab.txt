@@ -1,0 +1,4 @@
+@Ix & 0.002808 \ hline
+Vx & 8.548721 \ hline
+Req & 3044.174022 \ hline
+Tau & 0.003060 \ hline

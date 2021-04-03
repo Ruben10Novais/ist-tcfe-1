@@ -38,19 +38,31 @@ Vs\\
 0
 \end{pmatrix}
 \end{equation}
-We can also easily obtain the current values in the various branches. This yields the following results:
+We can also easily obtain the current values in the various branches through Ohm's law. This yields the following results:
 \begin{table}[h]
   \centering
   \begin{tabular}{|l|r|}
     \hline    
-    {\bf Name} & {\bf Value [A]} \\ \hline
+    {\bf Name} & {\bf Value [A and V]} \\ \hline
     \input{op_tab} 
   \end{tabular}
   \caption{Theoretical analysis results. (A variable preceded by @ is of type {\em current})}
   \label{tab:nodal}
 \end{table}
 
-\subsection{Mesh Analysis}
+\subsection{Equivalent Resistor}
+In order to compute the equivalent resistor we ran a nodal analysis, making Vs=0 and replacing the capacitor with a voltage source Vx=V6-V8 as calculated in the previous step. This is made to ensure that the voltage in the capacitor is continuous since it does so in reality: this is a capacitor discharging through a resistance, any discontinuity in voltage would require an infinite amount of current. 
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Value [A]} \\ \hline
+    \input{eq_tab} 
+  \end{tabular}
+  \caption{Theoretical analysis results. (A variable preceded by @ is of type {\em current})}
+  \label{tab:nodal}
+\end{table}
 
 \begin{figure}[h] \centering
 \includegraphics[width=0.8\linewidth]{natural.eps}

@@ -89,6 +89,9 @@ Ix = ((V_66-V_55)/R5) + ((V_33-V_22)/R2)
 Req = abs(Vx/Ix)
 
 tau = Req*C
+f_tab=fopen("../doc/eq_tab.tex","w");
+fprintf(f_tab, "@Ix & %f\\\\ \\hline\nVx & %f\\\\ \\hline\nReq & %f\\\\ \\hline\nTau & %f\\\\ \\hline", Ix,Vx,Req,tau);
+fclose(f_tab);
 
 %% Natural solution
 f_net=fopen("circuit3.txt","w");
