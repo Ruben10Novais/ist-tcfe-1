@@ -1,37 +1,54 @@
 \section{Theoretical Analysis}
 \label{sec:analysis}
 
-In this section, the circuit shown in Figure~\ref{fig:rc} is analysed
-theoretically, using both mesh and node analysis.
-Here, we lay out the background information that was essential for the execution of this assignment. Since the circuit at hand is a simple one we only needed the following information (this is all referenced in Horowitz, P; Hill,W(2015). The Art of Electronics. Cambridge University Press(3rd ed, pp.2-4)):
-The sum of the currents into a point in a circuit equals the sum of the currents out. Each of these points is referred to as a node. This is also known as Kirchhoff’s current law (KCL).
-The sum of the voltage drops around any closed circuit is zero.This is Kirchhoff’s voltage law (KVL).
-The power consumed by a circuit device is
+We analyse the circuit shown in Figure~\ref{fig:rc} for t<0 using the nodal method.
+The nodes are numbered according to what's shown in the picture.
+In this first instance we are working in a steady state, where no current is flowing through the capacitor: we can replace it with an open circuit.
+After doing this, it is clear that all the components we are working with are linear and so we will need to solve a system of linear equations to determine the initial values for the subsequent analysis.
+This way, we’ve ran the nodal method and solved the linear system on GNU Octave.
+\subsection{Node Analysis for t<0}
+Knowing that V4=0 since it is connected to the ground:
 \begin{equation}
-  P=VI;
+\begin{pmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0\\
+-G1 & G1+G2+G3 & -G2 & -G3 & 0 & 0 & 0\\
+0 & Kb+G2 & -G2 & -Kb & 0 & 0 & 0\\
+-G1 & G1 & 0 & G4 & 0 & G6 & 0\\
+0 & 0 & 0 & 0 & 0 & -G6-G7 & G7\\
+0 & 0 & 0 & 1 & 0 & G6*Kd & -1\\
+0 & -G3 & 0 & G3+G4+G5 & -G5 & G6 & 0
+\end{pmatrix}
+\begin{pmatrix}
+V1\\
+V2\\
+V3\\
+V5\\
+V6\\
+V7\\
+V8
+\end{pmatrix}
+=
+\begin{pmatrix}
+Vs\\
+0\\
+0\\
+0\\
+0\\
+0\\
+0
+\end{pmatrix}
 \end{equation}
-
-When voltages and currents are in the same direction they produce a positive power (the component is consuming energy). Voltages and currents in opposite direction produce negative power (the component is giving forth energy to the circuit)
-A resistor is characterized by its resistance:
-\begin{equation}
-  R=\frac {V}{I};
-\end{equation}
-This is known as Ohm’s law.
-Independent V/I sources impose voltage/current regardless of current/voltage.
-Linearly dependent V/I sources impose voltage/current that is linearly dependent on a specific variable of other circuit component.
-
-The circuit consists of four independent meshes, and 11 branches where different currents circulate. These will be our variables in the mesh analysis. The current flow is depicted in Figure ~\ref{fig:current}
-
-
-The components we are working with have a linear relationship between the voltage and current, therefore we will need to solve a system of linear equations to determine the variables of each component given some initial values.
-We will use two different methods that are based on KCL and KVL. These methods are the Mesh and Node methods. Each one of them will produce its set of equations that when solved, will give  us either the currents flowing through each mesh (Mesh Method) or the voltage on each node (Node Method).
-We’ve written a program on GNU Octave to help us determine the solution for the linear system. The simulation of the circuit was carried out by the Ngspice tool. We’ve written a simple code describing the circuit.
-
-\begin{figure}[h] \centering
-\includegraphics[width=0.4\linewidth]{current.pdf}
-\caption{Direction of each mesh current.}
-\label{fig:current}
-\end{figure}
+We can also easily obtain the current values in the various branches. This yields the following results:
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Value [A]} \\ \hline
+    \input{op_tab} 
+  \end{tabular}
+  \caption{Theoretical analysis results. (A variable preceded by @ is of type {\em current})}
+  \label{tab:nodal}
+\end{table}
 
 \subsection{Mesh Analysis}
 
@@ -87,18 +104,6 @@ I\\
 \end{equation}
 
 
-
-\begin{table}[h]
-  \centering
-  \begin{tabular}{|l|r|}
-    \hline    
-    {\bf Name} & {\bf Value [A]} \\ \hline
-    \input{data_current_tab} 
-  \end{tabular}
-  \caption{Theoretical analysis results from Octave. (A variable preceded by @ is of type {\em current})}
-  \label{tab:mesh}
-\end{table}
-
 \subsection{Node Analysis}
 
 As in the previous section, we extract a set of equations from the circuit, this time using the node method. This yields 8 equations, one for each node. Then, we can solve those 8 equations in the form of the matrix presented here.
@@ -136,13 +141,3 @@ I\\
 \end{pmatrix}
 \end{equation}
 
-\begin{table}[h]
-  \centering
-  \begin{tabular}{|l|r|}
-    \hline    
-    {\bf Name} & {\bf Value [V]} \\ \hline
-    \input{data_voltage_tab} 
-  \end{tabular}
-  \caption{Theoretical analysis results from Octave.}
-  \label{tab:node}
-\end{table}
