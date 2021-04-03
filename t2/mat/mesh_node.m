@@ -90,7 +90,7 @@ Req = abs(Vx/Ix)
 
 tau = Req*C
 f_tab=fopen("../doc/eq_tab.tex","w");
-fprintf(f_tab, "@Ix & %f\\\\ \\hline\nVx & %f\\\\ \\hline\nReq & %f\\\\ \\hline\nTau & %f\\\\ \\hline", Ix,Vx,Req,tau);
+fprintf(f_tab, "@Ix & %f A\\\\ \\hline\nVx & %f V\\\\ \\hline\nReq & %f Ohm\\\\ \\hline\nTau & %f s\\\\ \\hline", Ix,Vx,Req,tau);
 fclose(f_tab);
 
 %% Natural solution

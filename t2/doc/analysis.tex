@@ -52,69 +52,77 @@ We can also easily obtain the current values in the various branches through Ohm
 
 \subsection{Equivalent Resistor}
 In order to compute the equivalent resistor we ran a nodal analysis, making Vs=0 and replacing the capacitor with a voltage source Vx=V6-V8 as calculated in the previous step. This is made to ensure that the voltage in the capacitor is continuous since it does so in reality: this is a capacitor discharging through a resistance, any discontinuity in voltage would require an infinite amount of current. 
+\begin{equation}
+\begin{pmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0\\
+-G1 & G1+G2+G3 & -G2 & -G3 & 0 & 0 & 0\\
+0 & Kb+G2 & -G2 & -Kb & 0 & 0 & 0\\
+-G1 & G1 & 0 & G4 & 0 & G6 & 0\\
+0 & 0 & 0 & 0 & 0 & -G6-G7 & G7\\
+0 & 0 & 0 & 1 & 0 & G6*Kd & -1\\
+0 & 0 & 0 & 0 & 1 & 0 & -1
+\end{pmatrix}
+\begin{pmatrix}
+V1\\
+V2\\
+V3\\
+V5\\
+V6\\
+V7\\
+V8
+\end{pmatrix}
+=
+\begin{pmatrix}
+0\\
+0\\
+0\\
+0\\
+0\\
+0\\
+Vx
+\end{pmatrix}
+\end{equation}
 
+With the following definitions:
+\begin{equation}
+V_x=V_6-V_8;
+\end{equation}
+\begin{equation}
+I_x=\frac {V_6-V_5}{R_5}+\frac {V_3-V_2}{R_2};
+\end{equation}
+\begin{equation}
+Req=\frac {V_x}{I_x}
+\end{equation}
+We were able to obtain the following values, laying the foundation for the natural solution:
 \begin{table}[h]
   \centering
   \begin{tabular}{|l|r|}
     \hline    
-    {\bf Name} & {\bf Value [A]} \\ \hline
+    {\bf Name} & {\bf Value} \\ \hline
     \input{eq_tab} 
   \end{tabular}
-  \caption{Theoretical analysis results. (A variable preceded by @ is of type {\em current})}
+  \caption{Nodal analysis results.}
   \label{tab:nodal}
 \end{table}
-
+\subsection{Natural solution}
+The general solution for RC circuits, making use of the computations in the previous section, yields:
+\begin{equation}
+V_{6n}(t)=V_xexp(-\frac{t}{RC})
+\end{equation}
+From this equation, we obtained the following plot, which depicts the first twenty milisseconds of the circuit's natural response.
 \begin{figure}[h] \centering
 \includegraphics[width=0.8\linewidth]{natural.eps}
 \caption{Natural solution to $V_{6}$ node voltage.}
 \label{fig:current}
 \end{figure}
 
+\subsection{Forced and final total solution}
+
 \begin{figure}[h] \centering
 \includegraphics[width=0.8\linewidth]{total.eps}
 \caption{Total solution to $V_{6}$ node voltage.}
 \label{fig:current}
 \end{figure}
-
-Applying the Kirchhoff Voltage Law (KVL) in the different loops, we get four different equations, which we can then solve as a matrix:
-\begin{equation}
-  I_D=I;
-\end{equation}
-
-\begin{equation}
-  (R_1+R_3+R_4)I_A-R_3I_B-R_4I_C=-V_A;
-\end{equation}
-
-\begin{equation}
-  (R_4+R_6+R_7-K_C)I_C-R_4I_A=0;
-\end{equation}
-
-\begin{equation}
-  (R_3K_B-1)I_B-R_3K_BI_A=0.
-\end{equation}
-
-\begin{equation}
-\begin{pmatrix}
-0 & 0 & 0 & 1 \\
-R1+R3+R4 & -R3 & -R4 & 0 \\
--R4 & 0 & R4+R6+R7-Kc & 0 \\
--R3Kb & R3Kb-1 & 0 & 0
-\end{pmatrix}
-\begin{pmatrix}
-Ia\\
-Ib\\
-Ic\\
-Id
-\end{pmatrix}
-=
-\begin{pmatrix}
-I\\
--V\\
-0\\
-0
-\end{pmatrix}
-\end{equation}
-
 
 \subsection{Node Analysis}
 
