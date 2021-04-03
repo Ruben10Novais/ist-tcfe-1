@@ -7,21 +7,30 @@
 * forces current values to be saved
 .options savecurrents
 
-.INCLUDE circuit2.txt
-.INCLUDE datang.txt
+.INCLUDE circuit3.txt
+.INCLUDE datang2.txt
 
 .control
+
+*makes plots in color
+set hcopypscolor=0
+set color0=white
+set color1=black
+set color2=red
+set color3=blue
+set color4=violet
+set color5=rgb:3/8/0
+set color6=rgb:4/0/0
 
 op
 
 echo "********************************************"
-echo  "Operating point"
+echo  "Transient analysis"
 echo "********************************************"
+tran 1e-5 20e-3
 
-echo  "op2_TAB"
-print all
-print v(6) v(8) > datang2.txt
-echo  "op2_END"
+hardcopy natura.ps v(6)
+echo natura_FIG
 
 quit
 .endc

@@ -1,0 +1,51 @@
+*
+* NGSPICE simulation script
+* BJT amp with feedback
+
+*Four Square Circuit netlist, time variation
+
+* forces current values to be saved
+.options savecurrents
+
+.INCLUDE circuit4.txt
+.INCLUDE datang2.txt
+
+.control
+
+*makes plots in color
+set hcopypscolor=0
+set color0=white
+set color1=black
+set color2=red
+set color3=blue
+set color4=violet
+set color5=rgb:3/8/0
+set color6=rgb:4/0/0
+
+op
+
+echo "********************************************"
+echo  "Transient analysis"
+echo "********************************************"
+tran 1e-5 20e-3
+
+hardcopy total.ps v(6) v(1)
+echo total_FIG
+
+echo "********************************************"
+echo  "Frequency analysis"
+echo "********************************************"
+
+ac dec 10 0.1 1MEG
+
+hardcopy magnitude.ps db(v(6)) db(v(1)) db(v(6)-v(8))
+echo magnitude_FIG
+hardcopy phase.ps ph(v(6))*180/PI ph(v(1))*180/PI ph(v(6)-v(8))*180/PI
+echo phase_FIG
+
+
+quit
+.endc
+
+.end
+

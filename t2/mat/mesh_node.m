@@ -91,6 +91,10 @@ Req = abs(Vx/Ix)
 tau = Req*C
 
 %% Natural solution
+f_net=fopen("circuit3.txt","w");
+fprintf(f_net, "*Circuito 3\nR1 1 2 %f \nR2 2 3 %f \nR3 5 2 %f \nR4 5 0 %f \nR5 6 5 %f \nR6 0 7 %f \nR7 4 8 %f \nC 6 8 %fu \nVs 1 0 0 \nVf 7 4 0 \nH 5 8 Vf %f \nG 6 3 (2,5) %fm", R1,R2,R3,R4,R5,R6,R7,Ca,Kd,Kbb);
+fclose(f_net);
+
 syms t
 syms A
 syms wn
@@ -136,6 +140,10 @@ V8r = abs(V3(7))
 V8teta = angle(V3(7))
 
 %% Total solution
+f_net=fopen("circuit4.txt","w");
+fprintf(f_net, "*Circuito 4\nR1 1 2 %f \nR2 2 3 %f \nR3 5 2 %f \nR4 5 0 %f \nR5 6 5 %f \nR6 0 7 %f \nR7 4 8 %f \nC 6 8 %fu \nVs 1 0 0.0 AC 1.0 -90 SIN(0 1 1000) \nVf 7 4 0 \nH 5 8 Vf %f \nG 6 3 (2,5) %fm", R1,R2,R3,R4,R5,R6,R7,Ca,Kd,Kbb);
+fclose(f_net);
+
 V6f = V6r*cos((w*t)+V6teta)
 V6t = V6n + V6f
 

@@ -9,7 +9,7 @@ LODFIGS = $(patsubst %.odg,%.pdf,$(wildcard *.odg))
 all: $(FILE).pdf
 	evince $< &
 
-$(FILE).pdf: $(wildcard *.tex) $(LODFIGS) octave.log ngspice ngspice2
+$(FILE).pdf: $(wildcard *.tex) $(LODFIGS) octave.log ngspice ngspice2 ngspice3 ngspice4
 	pdflatex  $(FILE).tex
 	pdflatex  $(FILE).tex
 	pdflatex  $(FILE).tex
@@ -37,6 +37,28 @@ ngspice2: ngspice2.log
 		
 ngspice2.log: ../sim/t12.net
 	ngspice -b $< -o $@
+	sed -i "s/v(6)/.ic v(6)/g" datang2.txt
+	sed -i "s/v(8)/.ic v(8)/g" datang2.txt	
+	
+ngspice3: ngspice3.log
+	$(eval NGSFIGS=$(shell grep _FIG $< | sed 's/_FIG//g' | sed ':a;N;$!ba;s/\n/ /g'))
+	$(eval NGSFIGPS=$(addsuffix .ps, $(NGSFIGS)))
+	$(eval NGSTABS=$(shell grep _TAB $< | sed 's/_TAB//g' | sed ':a;N;$!ba;s/\n/ /g'))
+	$(foreach i, $(NGSTABS), sed -n '/^$i_TAB/,/^$i_END/{p;/^$i_END/q}' $< | grep -v $i_TAB | grep -v $i_END | grep -v '#' | sed 's/\=/\&/g' | sed 's/$$/\\\\ \\hline/g' > $i_tab.tex;)
+	$(foreach i, $(NGSFIGPS), ps2pdf $i;)	
+	
+ngspice3.log: ../sim/t13.net
+	ngspice -b $< -o $@	
+	
+ngspice4: ngspice4.log
+	$(eval NGSFIGS=$(shell grep _FIG $< | sed 's/_FIG//g' | sed ':a;N;$!ba;s/\n/ /g'))
+	$(eval NGSFIGPS=$(addsuffix .ps, $(NGSFIGS)))
+	$(eval NGSTABS=$(shell grep _TAB $< | sed 's/_TAB//g' | sed ':a;N;$!ba;s/\n/ /g'))
+	$(foreach i, $(NGSTABS), sed -n '/^$i_TAB/,/^$i_END/{p;/^$i_END/q}' $< | grep -v $i_TAB | grep -v $i_END | grep -v '#' | sed 's/\=/\&/g' | sed 's/$$/\\\\ \\hline/g' > $i_tab.tex;)
+	$(foreach i, $(NGSFIGPS), ps2pdf $i;)	
+	
+ngspice4.log: ../sim/t14.net
+	ngspice -b $< -o $@		
 
 #convert libreoffice draw figures to pdf
 %.pdf: %.odg
