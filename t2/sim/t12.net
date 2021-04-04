@@ -18,8 +18,10 @@ echo "********************************************"
 echo  "Operating point"
 echo "********************************************"
 
+let Vx = v(6)-v(8)
 echo  "op2_TAB"
 print all
+print @Vc[i]
 print v(6) v(8) > datang2.txt
 echo  "op2_END"
 
