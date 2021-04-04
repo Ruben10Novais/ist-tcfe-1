@@ -110,6 +110,18 @@ The general solution for RC circuits, making use of the computations in the prev
 V_{6n}(t)=V_xexp(-\frac{t}{RC});
 \end{equation}
 From this equation, we obtained the following plot, which depicts the first twenty milisseconds of the circuit's natural response.
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Value [V]} \\ \hline
+    \input{data_nule_tab} 
+  \end{tabular}
+  \caption{Node voltages for t=$\infty$.}
+  \label{tab:nule}
+\end{table}
+
 \begin{figure}[h] \centering
 \includegraphics[width=0.8\linewidth]{natural.eps}
 \caption{Natural solution to $V_{6}$ node voltage.}
@@ -151,12 +163,12 @@ V8
 We then get these values:
 \begin{table}[h]
   \centering
-  \begin{tabular}{|l|r|}
+  \begin{tabular}{|l|r|r|}
     \hline    
-    {\bf Name} & {\bf Value [V]} \\ \hline
-    \input{eq_tab2} 
+    {\bf Name} & {\bf Amplitude [V]} & {\bf Phase [Degrees]}\\ \hline
+    \input{eq2_tab} 
   \end{tabular}
-  \caption{Phasor voltage in every node.}
+  \caption{Phasor voltage for forced regime in every node.}
   \label{tab:phasor}
 \end{table} \par
 We're now able to make sense of the equation that describes the forced solution to the voltage at node 6.
@@ -171,20 +183,20 @@ V_{6}(t)=V_{6f}(t)+V_{6n}(t);
 By plotting both $V_s(t)$ and $V_6(t)$ from -5ms to 20ms we can see that both plots are constant before t=0. The evolution of V6 is as expected, as we can clearly see the negative exponential behaviour as well as the induced frequency.
 \begin{figure}[h] \centering
 \includegraphics[width=0.7\linewidth]{total.eps}
-\caption{Total solution to $V_{6}$ node voltage.}
+\caption{Total solution to $V_{6}$ node voltage, compared to $V_{s}$ voltage source.}
 \end{figure}\pagebreak
 
 \subsection{Frequency response}
 
 \begin{figure}[h] 
 	\centering
-\begin{minipage}[b]{0.45\linewidth}	
+\begin{minipage}[b]{0.65\linewidth}	
 	\includegraphics[width=\linewidth]{magnitude.eps}
-\caption{Total solution to $V_{6}$ node voltage.}
+\caption{Variation with frequency of $V_{s}$, $V_{6}$ and $V_{c}$ voltage magnitudes (in dB).}
 \end{minipage}
 \hfill
-\begin{minipage}[b]{0.45\linewidth}
-\includegraphics[width=\linewidth]{angle.eps}
-\caption{Total solution to $V_{6}$ node voltage.}
+\begin{minipage}[b]{0.65\linewidth}
+\includegraphics[width=\linewidth]{phase.eps}
+\caption{Variation with frequency of $V_{s}$, $V_{6}$ and $V_{c}$ voltage phases.}
 \end{minipage}
 \end{figure}

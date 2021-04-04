@@ -113,10 +113,34 @@ Req = abs(Vx/Ix)
 tau = Req*C
 
 f_tab=fopen("eq_tab.tex","w");
-fprintf(f_tab, "$V_{x}$ & %f V\\\\ \\hline\n@$I_{x}$ & %f mA\\\\ \\hline\n$R_{eq}$ & %f kOhm\\\\ \\hline\n$tau$ & %f ms\\\\ \\hline", Vx,Ix*1000,Req/1000,tau*1000);
+fprintf(f_tab, "$V_{x}$ & %f V\\\\ \\hline\n$V_{6}$ & %f V\\\\ \\hline\n$V_{8}$ & %f V\\\\ \\hline\n@$I_{x}$ & %f mA\\\\ \\hline\n$R_{eq}$ & %f kOhm\\\\ \\hline\n$tau$ & %f ms\\\\ \\hline", Vx, V_66, V_88, Ix*1000,Req/1000,tau*1000);
 fclose(f_tab);
 
 %% Natural solution
+A22 = [1, 0, 0, 0, 0, 0, 0 ; -G1, G1+G2+G3, -G2, -G3, 0, 0, 0; 0, Kb+G2, -G2, -Kb, 0, 0, 0 ; -G1, G1, 0, G4, 0, G6, 0 ; 0, 0, 0, 0, 0, -G6-G7, G7 ; 0, 0, 0, 1, 0, G6*Kd, -1 ; 0, -G3, 0, G3+G4+G5, -G5, G6, 0]
+b22 = [0; 0; 0; 0; 0; 0; 0]
+V22 = A22\b22
+
+V_11a = V22(1)
+V_22a = V22(2)
+V_33a = V22(3)
+V_44a = 0
+V_55a = V22(4)
+V_66a = V22(5)
+V_77a = V22(6)
+V_88a = V22(7)
+
+fid = fopen("data_nule_tab.tex","w")
+fprintf(fid, "$V_{1}$ & %f \\\\ \\hline \n", V_11a)
+fprintf(fid, "$V_{2}$ & %f \\\\ \\hline \n", V_22a)
+fprintf(fid, "$V_{3}$ & %f \\\\ \\hline \n", V_33a)
+fprintf(fid, "$V_{4}$ & %f \\\\ \\hline \n", V_44a)
+fprintf(fid, "$V_{5}$ & %f \\\\ \\hline \n", V_55a)
+fprintf(fid, "$V_{6}$ & %f \\\\ \\hline \n", V_66a)
+fprintf(fid, "$V_{7}$ & %f \\\\ \\hline \n", V_77a)
+fprintf(fid, "$V_{8}$ & %f \\\\ \\hline \n", V_88a)
+fclose(fid)
+
 f_net=fopen("circuit3.txt","w");
 fprintf(f_net, "*Circuito 3\nR1 1 2 %f \nR2 2 3 %f \nR3 5 2 %f \nR4 5 0 %f \nR5 6 5 %f \nR6 0 7 %f \nR7 4 8 %f \nC 6 8 %fu \nVs 1 0 0 \nVf 7 4 0 \nH 5 8 Vf %f \nG 6 3 (2,5) %fm", R1,R2,R3,R4,R5,R6,R7,Ca,Kd,Kbb);
 fclose(f_net);
@@ -139,6 +163,7 @@ plot (t*1000, V6n, "g");
 
 xlabel ("t[ms]");
 ylabel ("v6_n [V]");
+legend ('V6_n(t)','Location','Northeast')
 print (hf, "natural.eps", "-depsc");
 
 %% Forced solution
@@ -147,11 +172,6 @@ w = 2*pi*1000
 A3 = [1, 0, 0, 0, 0, 0, 0 ; -G1, G1+G2+G3, -G2, -G3, 0, 0, 0; 0, Kb+G2, -G2, -Kb, 0, 0, 0 ; -G1, G1, 0, G4, 0, G6, 0 ; 0, 0, 0, 0, 0, -G6-G7, G7 ; 0, 0, 0, 1, 0, G6*Kd, -1 ; 0, -G3, 0, G3+G4+G5, -G5-(j*w*C), G6, j*w*C]
 b3 = [-j; 0; 0; 0; 0; 0; 0]
 V3 = A3\b3
-
-f_tab1=fopen("../doc/eq_tab2.tex","w");
-fprintf(f_tab1, "V1 & %f%+fj\\\\ \\hline\nV2 & %f%+fj\\\\ \\hline\nV3 & %f%+fj\\\\ \\hline\nV5 & %f%+fj\\\\ \\hline\nV6 & %f%+fj\\\\ \\hline\nV7 & %f%+fj\\\\ \\hline\nV8 & %f%+fj\\\\ \\hline", real(V3(1)),imag(V3(1)),real(V3(2)),imag(V3(2)),real(V3(3)),imag(V3(3)),real(V3(4)),imag(V3(4)),
-real(V3(5)),imag(V3(5)),real(V3(6)),imag(V3(6)),real(V3(7)),imag(V3(7)));
-fclose(f_tab1);
 
 V1r = abs(V3(1))
 V1teta = angle(V3(1))
@@ -169,6 +189,11 @@ V7r = abs(V3(6))
 V7teta = angle(V3(6))
 V8r = abs(V3(7))
 V8teta = angle(V3(7))
+
+f_tab1=fopen("eq2_tab.tex","w");
+fprintf(f_tab1, "$V_{1}$ & %f & %f\\\\ \\hline\n$V_{2}$ & %f & %f\\\\ \\hline\n$V_{3}$ & %f & %f\\\\ \\hline\n$V_{4}$ & %f & %f\\\\ \\hline\n$V_{5}$ & %f & %f\\\\ \\hline\n$V_{6}$ & %f & %f\\\\ \\hline\n$V_{7}$ & %f & %f\\\\ \\hline\n$V_{8}$ & %f & %f\\\\ \\hline", V1r,V1teta*180/pi,V2r,V2teta*180/pi,V3r,V3teta*180/pi,V4r,V4teta*180/pi,
+V5r,V5teta*180/pi,V6r,V6teta*180/pi,V7r,V7teta*180/pi,V8r,V8teta*180/pi);
+fclose(f_tab1);
 
 %% Total solution
 f_net=fopen("circuit4.txt","w");
@@ -197,59 +222,42 @@ ylabel ("V_s(t) , V_6(t) [V]");
 legend ('V_s(t)','V_6(t)','Location','Northeast')
 print (hf2, "total.eps", "-depsc");
 
-f=1:100
+%% Frequency response
+f = logspace(-1, 6, 30)
 
+for i=1:1:30
 
-T(f) =1./(1+i*(2*pi*f)*C*Req)
+w=2*pi*f(i)
+A3 = [1, 0, 0, 0, 0, 0, 0 ; -G1, G1+G2+G3, -G2, -G3, 0, 0, 0; 0, Kb+G2, -G2, -Kb, 0, 0, 0 ; -G1, G1, 0, G4, 0, G6, 0 ; 0, 0, 0, 0, 0, -G6-G7, G7 ; 0, 0, 0, 1, 0, G6*Kd, -1 ; 0, -G3, 0, G3+G4+G5, -G5-(j*w*C), G6, j*w*C]
+b3 = [-j; 0; 0; 0; 0; 0; 0]
+V3 = A3\b3
+V6(i)=V3(5)
+V8(i)=V3(7)
+Vs(i)=V3(1)
+Vc(i)=V6(i)-V8(i)
 
-%{ para t=0, Vs tem o mesmo valor para qualquer f }%
-
-Vs=exp(i*(-pi/2))
-Vc=T*Vs
-V6=Vc
+end 
 
 hf3 = figure (3);
-plot (log10(f), 20*log10(abs(V6)), "g");
+plot (log10(f), 20*log10(abs(Vs)), "g");
 hold on
-plot (log10(f),20*log10(abs(Vc)), "b");
+plot (log10(f), 20*log10(abs(V6)), "r");
 hold on
-plot (log10(f), 20*log10(abs(Vs)),"r");
+plot (log10(f), 20*log10(abs(Vc)), "b");
 
-xlabel ("log10(f)");
-ylabel ("Magnitude in dB");
+xlabel ("Frequency, in logarithmic scale [Hz]");
+ylabel ("Magnitude [dB]");
+legend ('Vs','V6', 'Vc','Location','Northeast')
 print (hf3, "magnitude.eps", "-depsc");
 
 hf4 = figure (4);
-plot (log10(f), (180*angle(V6))/pi, "g");
+plot (log10(f), (180*angle(Vs))/pi, "g");
 hold on
-plot (log10(f),(180*angle(Vc))/pi, "b");
+plot (log10(f), (180*angle(V6))/pi, "r");
 hold on
-plot (log10(f), (180*angle(Vs))/pi,"r");
+plot (log10(f) , (180*angle(Vc))/pi, "b");
 
-xlabel ("log10(f)");
-ylabel ("Angle in Degrees");
-print (hf4, "angle.eps", "-depsc");
-
-%%
-%f_net=fopen("circuit3.net","w");
-%fprintf(f_net, "*Circuito 3\n R1 0 2 %f \n R2 2 3 %f \n R3 2 5 %f \n R4 0 5 %f \n R5 5 6 %f \n R6 0 7 %f \n R7 7 8 %f \n C 6 8 %f \n H 5 8 %f \n G 3 6 %f", R1,R2,R3,R4,R5,R6,R7,C, V2(5)-V2(8), V2(6)-V2(3));
-%fclose(f_net);
-
-%% Criar 2 ficheiros, que serão o input das tabelas com os resultados teóricos
-%fid = fopen("data_current_tab.tex","w")
-%fprintf(fid, "@$I_{a}$ & %f \\\\ \\hline \n", I11)
-%fprintf(fid, "@$I_{b}$ & %f \\\\ \\hline \n", I12)
-%fprintf(fid, "@$I_{c}$ & %f \\\\ \\hline \n", I13)
-%fprintf(fid, "@$I_{d}$ & %f \\\\ \\hline \n", I14)
-%fclose(fid)
-
-%fid = fopen("data_voltage_tab.tex","w")
-%fprintf(fid, "$V_{1}$ & %f \\\\ \\hline \n", V1(1))
-%fprintf(fid, "$V_{2}$ & %f \\\\ \\hline \n", V1(2))
-%fprintf(fid, "$V_{3}$ & %f \\\\ \\hline \n", V1(3))
-%fprintf(fid, "$V_{4}$ & %f \\\\ \\hline \n", V1(4))
-%fprintf(fid, "$V_{5}$ & %f \\\\ \\hline \n", V1(5))
-%fprintf(fid, "$V_{6}$ & %f \\\\ \\hline \n", V1(6))
-%fprintf(fid, "$V_{7}$ & %f \\\\ \\hline \n", V1(7))
-%fprintf(fid, "$V_{8}$ & %f \\\\ \\hline \n", V1(8))
-%fclose(fid)
+xlabel ("Frequecy, in logarithmic scale [Hz]");
+ylabel ("Phase [Degrees, º]");
+legend ('Vs','V6', 'Vc','Location','Northeast')
+print (hf4, "phase.eps", "-depsc");
