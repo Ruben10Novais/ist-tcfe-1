@@ -1,6 +1,7 @@
+\newpage
 \section{Simulation Analysis}
 \label{sec:simulation}
-Since this circuit has a sinusoidal voltage source, the voltage and current values of the various components vary in time. Therefore, we must perform a transient analysis to simulate the circuit's total response. We also ran operating point analysis for both t<0 and t=0 to determine what the initial conditions were and establish the boundary conditions.
+Since this circuit has a sinusoidal voltage source, the voltage and current values of the various components vary in time. Therefore, we must perform a transient analysis to simulate the circuit's total response. We also ran operating point analysis for both $t<0$ and $t=0$ to determine what the initial conditions were and establish the boundary conditions.
 \subsection{Operating Point Analysis}
 The tables below show the simulated operating point results for both $t<0$ (where we assume no current is flowing through the capacitor) and t=0 where we replace Vs for a short-circuit.
 \begin{table}[!htb]
@@ -22,30 +23,32 @@ The tables below show the simulated operating point results for both $t<0$ (wher
 	\caption{Operating point analysis for $t=0$. A variable preceded by @ is of type {\em current} and expressed in Ampere; other variables are of type {\it voltage} and expressed in Volt.}
 	\end{minipage}
 \end{table}
-\par
-
-
-\begin{figure}[h] \centering
+\subsection{Natural response}
+In this section we simulate the natural response of the circuit using the computations from the previous section.
+\begin{figure}[!h] \centering
 \includegraphics[width=0.4\linewidth]{natura.pdf}
 \caption{Simulated natural response for $V_{6}$ node voltage.}
 \label{fig:natura}
 \end{figure}
-
-\begin{figure}[h] \centering
+\newpage
+\subsection{Natural and forced response}
+We repeat the previous step with vs(t) considering a frequency of 1kHz. Below is the plot for both the stimulus and the response.
+\begin{figure}[!h] \centering
 \includegraphics[width=0.4\linewidth]{total.pdf}
 \caption{Simulated response for $V_{6}$ node voltage and stimulated voltage $V_{S}$.}
 \label{fig:total}
 \end{figure}
-
-\begin{figure}[h] \centering
+\newpage
+\subsection{Frequency response}
+After simulating the frequency response in node 6 we plotted the magnitude and phase of V6, Vc and Vs side by side.
+\begin{figure}[!h] \centering
 \includegraphics[width=0.4\linewidth]{magnitude.pdf}
-\caption{...}
+\caption{Magnitude of Vs, Vc and V6 as a function of frequency}
 \label{fig:magnitude}
 \end{figure}
-
 \begin{figure}[h] \centering
 \includegraphics[width=0.4\linewidth]{phase.pdf}
-\caption{...}
+\caption{Phase of Vs, Vc and V6 as a function of frequency}
 \label{fig:phase}
 \end{figure}
 \par
