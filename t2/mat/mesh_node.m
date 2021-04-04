@@ -197,38 +197,70 @@ ylabel ("V_s(t) , V_6(t) [V]");
 legend ('V_s(t)','V_6(t)','Location','Northeast')
 print (hf2, "total.eps", "-depsc");
 
-f=1:100
 
 
-T(f) =1./(1+i*(2*pi*f)*C*Req)
 
-%{ para t=0, Vs tem o mesmo valor para qualquer f }%
 
-Vs=exp(i*(-pi/2))
-Vc=T*Vs
-V6=Vc
+
+
+
+
+
+
+
+f = logspace(-1, 6, 30)
+for i=1:1:30
+
+w=2*pi*f(i)
+A3 = [1, 0, 0, 0, 0, 0, 0 ; -G1, G1+G2+G3, -G2, -G3, 0, 0, 0; 0, Kb+G2, -G2, -Kb, 0, 0, 0 ; -G1, G1, 0, G4, 0, G6, 0 ; 0, 0, 0, 0, 0, -G6-G7, G7 ; 0, 0, 0, 1, 0, G6*Kd, -1 ; 0, -G3, 0, G3+G4+G5, -G5-(j*w*C), G6, j*w*C]
+b3 = [-j; 0; 0; 0; 0; 0; 0]
+V3 = A3\b3
+V6(i)=V3(5)
+V8(i)=V3(7)
+Vs(i)=V3(1)
+
+
+end 
+
 
 hf3 = figure (3);
-plot (log10(f), 20*log10(abs(V6)), "g");
+plot (log10(f), 20*log10(abs(Vs)), "g");
 hold on
-plot (log10(f),20*log10(abs(Vc)), "b");
+plot (log10(f), 20*log10(abs(V6)), "r");
 hold on
-plot (log10(f), 20*log10(abs(Vs)),"r");
+plot (log10(f), 20*log10(abs(V6-V8)), "b");
+
+
 
 xlabel ("log10(f)");
-ylabel ("Magnitude in dB");
+ylabel ("Magnitude [dB]");
+legend ('Vs','V6', 'Vc','Location','Northeast')
 print (hf3, "magnitude.eps", "-depsc");
 
 hf4 = figure (4);
-plot (log10(f), (180*angle(V6))/pi, "g");
+plot (log10(f), (180*angle(Vs))/pi, "g");
 hold on
-plot (log10(f),(180*angle(Vc))/pi, "b");
+plot (log10(f), (180*angle(V6))/pi, "r");
 hold on
-plot (log10(f), (180*angle(Vs))/pi,"r");
+plot (log10(f) , (180*angle(V6-V8))/pi, "b");
+
 
 xlabel ("log10(f)");
-ylabel ("Angle in Degrees");
+ylabel ("angle [º]");
+legend ('Vs','V6', 'Vc','Location','Northeast')
 print (hf4, "angle.eps", "-depsc");
+
+
+
+
+
+
+
+
+
+
+
+
 
 %%
 %f_net=fopen("circuit3.net","w");
