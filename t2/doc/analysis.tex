@@ -6,7 +6,7 @@ The nodes are numbered according to what's shown in the picture.
 In this first instance we are working in a steady state, where no current is flowing through the capacitor: we can replace it with an open circuit.
 After doing this, it is clear that all the components we are working with are linear and so we will need to solve a system of linear equations to determine the initial values for the subsequent analysis.
 This way, we’ve ran the nodal method and solved the linear system on GNU Octave.
-\subsection{Node Analysis for t<0}
+\subsection{Node Analysis for t$<$0}
 Knowing that V4=0 since it is connected to the ground:
 \begin{equation}
 \begin{pmatrix}
@@ -184,11 +184,10 @@ By plotting both $V_s(t)$ and $V_6(t)$ from -5ms to 20ms we can see that both pl
 \begin{figure}[h] \centering
 \includegraphics[width=0.7\linewidth]{total.eps}
 \caption{Total solution to $V_{6}$ node voltage, compared to $V_{s}$ voltage source.}
-\end{figure}\pagebreak
-
+\end{figure}
 \subsection{Frequency response}
-
-\begin{figure}[h] 
+As we can see in the following plots, for low frequencies ($<$1Hz) every voltage is in phase. The capacitor is given enough time to charge up (asymptotically) to the same voltage as the voltage source, whose phase and magnitude remain constant throughout the analysed period. This means that at 0.1 Hz (period of 10 seconds), the capacitor charges and discharges in a fraction of a second and behaves like an open circuit for the rest of the cycle. We start seeing divergences in the graphs around the "cut-off frequency", defined as $\frac{1}{2\pi\tau}$, which in our case is around 52Hz, explaining the changes happening between 10 and 10²Hz. When we consider a time interval in the same order of magnitude of $\tau$, the time it takes for a capacitor to deplete 36.8\% of its charge through a resistance, we are no longer giving the capacitor enough time to charge or discharge (almost) all the way. For much higher frequencies than the cut off, the capacitor starts behaving like a short circuit since it can no longer oppose the change of current (its reactance drops).
+\begin{figure}[!h] 
 	\centering
 \begin{minipage}[b]{0.65\linewidth}	
 	\includegraphics[width=\linewidth]{magnitude.eps}
@@ -200,3 +199,11 @@ By plotting both $V_s(t)$ and $V_6(t)$ from -5ms to 20ms we can see that both pl
 \caption{Variation with frequency of $V_{s}$, $V_{6}$ and $V_{c}$ voltage phases.}
 \end{minipage}
 \end{figure}
+The apparent phase discontinuity is only due to the use of the arctan function, whose output is bounded by [-180,180] until it circles back around to the top. So the phase is in fact continuous.
+The following equations help describe the behaviour shown in the plots. They come from reducing the circuit to a sinusoidal voltage source, equivalent resistance and a capacitor.
+\begin{equation}
+V_c=\frac{V_s}{\sqrt{1+((R_{eq}C)2\pi*f)^2}}
+\end{equation}
+\begin{equation}
+\phi V_c=-\frac{\pi}{2}+arctan(R_eqC2\pi*f)
+\end{equation}
