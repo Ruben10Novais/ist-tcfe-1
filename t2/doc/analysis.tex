@@ -211,7 +211,7 @@ By plotting both $V_s(t)$ and $V_6(t)$ from -5ms to 20ms we can see that both pl
 \label{fig:tt}
 \end{figure}
 \subsection{Frequency response}
-As we can see in the following plots, for low frequencies ($<$1Hz) every voltage is in phase. The capacitor is given enough time to charge up (asymptotically) to the same voltage as the voltage source, whose phase and magnitude remain constant throughout the analysed period. This means that at 0.1 Hz (period of 10 seconds), the capacitor charges and discharges in a fraction of a second and behaves like an open circuit for the rest of the cycle. We start seeing divergences in the graphs around the "cut-off frequency", defined as $\frac{1}{2\pi\tau}$, which in our case is around 52Hz, explaining the changes happening between 10 and 10²Hz. When we consider a time interval in the same order of magnitude of $\tau$, the time it takes for a capacitor to deplete 36.8\% of its charge through a resistance, we are no longer giving the capacitor enough time to charge or discharge (almost) all the way. For much higher frequencies than the cut off, the capacitor starts behaving like a short circuit since it can no longer oppose the change of current (its reactance drops).
+As we can see in the following plots, for low frequencies ($<$1Hz) every voltage is in phase. The capacitor is given enough time to charge up (asymptotically) to the same voltage as the voltage source, whose phase and magnitude remain constant throughout the analysed period. This means that at 0.1 Hz (period of 10 seconds), the capacitor charges and discharges in a fraction of a second and behaves like an open circuit for the rest of the cycle. We start seeing divergences in the graphs around the "cut-off frequency", defined as $\frac{1}{2\pi\tau}$, as we will see, which in our case is around 52Hz, explaining the changes happening between 10 and 10²Hz. When we consider a time interval in the same order of magnitude of $\tau$, the time it takes for a capacitor to deplete 36.8\% of its charge through a resistance, we are no longer giving the capacitor enough time to charge or discharge (almost) all the way. For much higher frequencies than the cut off, the capacitor starts behaving like a short circuit since it can no longer oppose the change of current (its reactance drops).
 \begin{figure}[!h] 
 	\centering
 \begin{minipage}[b]{0.65\linewidth}	
@@ -227,8 +227,16 @@ As we can see in the following plots, for low frequencies ($<$1Hz) every voltage
 The apparent phase discontinuity is only due to the use of the arctan function, whose output is bounded by [-180,180] until it circles back around to the top. So the phase is in fact continuous.
 The following equations help describe the behaviour shown in the plots. They come from reducing the circuit to a sinusoidal voltage source, equivalent resistance and a capacitor.
 \begin{equation}
-V_c=\frac{V_s}{\sqrt{1+((R_{eq}C)2\pi*f)^2}}
+\tilde{V_c}=\frac{\tilde{V_i}}{1+j(R_{eq}C)2\pi*f}
 \end{equation}
 \begin{equation}
-\phi V_c=-\frac{\pi}{2}+arctan(R_eqC2\pi*f)
+|\tilde{V_c}|=\frac{|\tilde{V_i}|}{\sqrt{1+((R_{eq}C)2\pi*f)^2}}
 \end{equation}
+\begin{equation}
+\phi V_c=-\frac{\pi}{2}-arctan((R_{eq})C2\pi*f)
+\end{equation}
+
+Converting the magnitude equation to dB, we encounter a term from which the "cut-off" angular frequency appears, equal to $\frac{1}{R_{eq}C}$ : $-10\log_{10}(1+w^2(R_{eq}C)^2)$. In an other form, the "cut-off" frequency can be defined as the point of intersection of two asymptotes: the horizontal asymptote for frequencies close to zero and the oblique asymptote, for very high frequencies. Once again, after this point the voltage stored in the capacitor starts dropping considerably.
+
+In the magnitude plot of the $V_{6}$ node voltage, we have two horizontal asymptotes, one for frequencies very close to zero, other for very high frequencies, which means the node voltage remains constant for low frequencies, transforming then when the "cut-off" frequency is achieved, stabilizing afterwards at a lower value for very high frequencies. The same process happens regarding the $V_{6}$ phase: at an early stage the phase is of course the source's -90 degrees, but then transforms stabilizing at an opposite phase of 90 degrees. The $V_{c}$ phase variation is well described in Equation 13, starting at the before mentioned -90 degrees, and settling at a -180 degrees phase - for very high frequencies, the $V_{c}$ and $V_{6}$ voltages are not in phase anymore - with such a high frequency, $V_{8}$ is not given enough time to phase-in in relation to $V_{6}$.
+
