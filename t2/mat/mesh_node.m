@@ -34,6 +34,20 @@ G7 = 1/R7
 Ca = S(2,9)
 Kbb = S(2,10)
 
+fid = fopen("data_python_tab.tex","w")
+fprintf(fid, "R1 & %f kOhm \\\\ \\hline \n", R1/1000)
+fprintf(fid, "R2 & %f kOhm \\\\ \\hline \n", R2/1000)
+fprintf(fid, "R3 & %f kOhm \\\\ \\hline \n", R3/1000)
+fprintf(fid, "R4 & %f kOhm\\\\ \\hline \n", R4/1000)
+fprintf(fid, "R5 & %f kOhm \\\\ \\hline \n", R5/1000)
+fprintf(fid, "R6 & %f kOhm\\\\ \\hline \n", R6/1000)
+fprintf(fid, "R7 & %f kOhm\\\\ \\hline \n", R7/1000)
+fprintf(fid, "$V_{s}$ & %f V \\\\ \\hline \n", Vs)
+fprintf(fid, "C & %f uF\\\\ \\hline \n", Ca)
+fprintf(fid, "$K_{b}$ & %f mS \\\\ \\hline \n", Kbb)
+fprintf(fid, "$K_{d}$ & %f kOhm \\\\ \\hline \n", Kd/1000)
+fclose(fid)
+
 f_net=fopen("circuit1.txt","w");
 fprintf(f_net, "*Circuito 1\nR1 1 2 %f \nR2 2 3 %f \nR3 5 2 %f \nR4 5 0 %f \nR5 6 5 %f \nR6 0 7 %f \nR7 4 8 %f \nC 6 8 %fu \nV 1 0 DC %f \nVf 7 4 0 \nH 5 8 Vf %f \nG 6 3 (2,5) %fm", R1,R2,R3,R4,R5,R6,R7,Ca,Vs,Kd,Kbb);
 fclose(f_net);
@@ -223,9 +237,9 @@ legend ('V_s(t)','V_6(t)','Location','Northeast')
 print (hf2, "total.eps", "-depsc");
 
 %% Frequency response
-f = logspace(-1, 6, 30)
+f = logspace(-1, 6, 50)
 
-for i=1:1:30
+for i=1:1:50
 
 w=2*pi*f(i)
 A3 = [1, 0, 0, 0, 0, 0, 0 ; -G1, G1+G2+G3, -G2, -G3, 0, 0, 0; 0, Kb+G2, -G2, -Kb, 0, 0, 0 ; -G1, G1, 0, G4, 0, G6, 0 ; 0, 0, 0, 0, 0, -G6-G7, G7 ; 0, 0, 0, 1, 0, G6*Kd, -1 ; 0, -G3, 0, G3+G4+G5, -G5-(j*w*C), G6, j*w*C]
