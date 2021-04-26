@@ -1,0 +1,29 @@
+*
+* NGSPICE simulation script
+* BJT amp with feedback
+
+*Four Square Circuit netlist, time variation
+
+* forces current values to be saved
+.options savecurrents
+
+.INCLUDE circuit1.txt
+
+.control
+
+op
+
+echo "********************************************"
+echo  "Operating point"
+echo "********************************************"
+
+echo  "op_TAB"
+print all
+print v(6)-v(8) > datang.txt
+echo  "op_END"
+
+quit
+.endc
+
+.end
+
