@@ -2,28 +2,76 @@
 * NGSPICE simulation script
 * BJT amp with feedback
 
-*Four Square Circuit netlist, time variation
+*AC-DC converter
 
 * forces current values to be saved
 .options savecurrents
 
-.INCLUDE circuit1.txt
+Vs 3 1 0.0 SIN(0 15.333333 50 0 0 90)
+
+Da 0 3 Default
+Db 3 2 Default
+Dc 1 2 Default
+Dd 0 1 Default
+
+Ra 2 0 8k
+C 2 0 9u
+
+Rd 2 4 5k
+
+Dr 4 0 Dmine
+.MODEL Default D
+.MODEL Dmine D (N=19)
+
+.op
+.end 
 
 .control
 
-op
+*makes plots in color
+set hcopypscolor=0
+set color0=white
+set color1=black
+set color2=red
+set color3=blue
+set color4=violet
+set color5=rgb:3/8/0
+set color6=rgb:4/0/0
 
 echo "********************************************"
-echo  "Operating point"
+echo  "Transient analysis
 echo "********************************************"
 
-echo  "op_TAB"
-print all
-print v(6)-v(8) > datang.txt
-echo  "op_END"
+tran 1e-5 0.2
+
+let vs = v(3)-v(1)
+plot vs
+hardcopy ac.ps vs
+echo AC_FIG
+
+plot v(2)
+hardcopy first2.ps v(2)
+echo first2_FIG
+
+plot v(4)
+hardcopy first.ps v(4)
+echo first_FIG
+
+plot v(4)-12
+hardcopy output.ps v(4)-12
+echo output_FIG
+
+hardcopy total.ps vs v(2) v(4)
+echo total_FIG
+
+meas tran Output_average AVG v(4) 
+meas tran Max MAX v(4) 
+meas tran Min MIN v(4) 
+
+let ripple = Max - Min
+
+print Output_average ripple
 
 quit
 .endc
-
-.end
 
