@@ -1,3 +1,9 @@
+close all 
+clear all
+
+pkg load symbolic
+
+format long
 
 % DATA
 
@@ -5,226 +11,70 @@ R=15000
 C=1e-5
 f=50
 A=230
-N_coils=19.1
+N_coils=16
 w=2*pi*f
 T=1/f
-n=1000
+n=2000
 N_P=10
-VON=0.7
+VON=(2/3)
 
 % TIME VECTOR
 
-t=linspace(0,T*N_P,n+1)
-
+t=linspace(0,T*N_P,n)
 
 % Transformer
 
-A=A/N_coils
+Aa=A/N_coils
 
-Vs=A*cos(w*t)
-
+Vs=Aa*cos(w*t)
+Vo = zeros(1, length(t))
 
 % FULL WAVE RECTIFIER
 
-
-
-Vlim=3*VON
-
 for i=1:length(t) 
-	if Vs(i)>Vlim
-		Vo(i)=Vs(i);
-	elseif Vs(i)<Vlim
-		Vo(i)=-Vs(i);
-
+     Vo(i)=abs(Vs(i));
 end
-end
-
-%{
-% PLOT FULL WAVE REC
-
-plot(t, Vo , "g");
-hold on;
-%}
-
 
 % ***** ENVELOPE DETECTOR *****
 
+toff=(1/w)*atan(1/(w*R*C))
 
-toff1=(1/w)*atan(1/(w*R*C))
-t_off=toff1:T/2:T*10
-
-
-
-
-% **** DECAY FUNCTION ****
+for i=1:length(t)
+  
+  if t(i)<=toff
+    
+  elseif Aa*abs(cos(w*toff))*exp(-(t(i)-toff)/(R*C))>Vo(i)
+     Vo(i) = Aa*abs(cos(w*toff))*exp(-(t(i)-toff)/(R*C));
+  else
+     toff = toff + (T/2);
+  endif
+  
+endfor
 
 % OBS: the decay function takes abs() since we're using values that make the cos goes negative
 
-
-i=1
-for j=1:length(t_off)
-
-
-	if j==1
-		
-		while t(i)<(T/2)*j
-		
-			V0exp(i)= abs(A*cos(w*t_off(j))*exp(-(t(i)-t_off(j))/(R*C)));
-		
-			i=i+1;
-		end
-		
-	elseif j~=1  
-		
-		while (T/2)*(j-1)<=t(i) && t(i)<(T/2)*j
-		
-			V0exp(i)= abs(A*cos(w*t_off(j))*exp(-(t(i)-t_off(j))/(R*C)));
-		
-			i=i+1;
-		end
-			
-	else
-	
-	end
-end			
-	
-% I had to introduce the last value manually because t would go out of bound
-
-V0exp(i)= abs(A*cos(w*t_off(j))*exp(-(t(i)-t_off(j))/(R*C)))
-
-
-
-
-
-length(t)
-length(Vo)
-length(V0exp)
-length(t_off)
-
-
-%{
-% *** Plot Decay function ***
-
-plot(t, V0exp)
-
-%}
-
-% ***** Saw-Tooth Function *****
-
-
-i=1
-
-for j=1:length(t_off)
-
-
-	if j==1
-		
-		while t(i)<t_off(j)
-		
-		vf(i)=Vo(i);
-		
-		i=i+1;
-		end
-		
-	
-		while V0exp(i)>Vo(i) && t(i)>=t_off(j) 
-		
-		vf(i)=V0exp(i);
-		
-		i=i+1;
-		end
-		
-		while  t(i)<(T/2)*j
-		
-		vf(i)=Vo(i);
-		
-		i=i+1;
-		end
-		
-		
-	elseif j~=1 
-		
-		while t(i)<t_off(j) 
-		
-		vf(i)=Vo(i);
-		
-		i=i+1;
-		end
-		
-		while V0exp(i)>Vo(i)
-		
-		vf(i)=V0exp(i);
-		
-		i=i+1;
-		end
-		
-		while t(i)<(T/2)*j
-		
-		vf(i)=Vo(i);
-		
-		i=i+1;
-		end
-			
-	
-		
-	else
-	end
-			
-	
-
-end
-
-
-% I had to introduce the last value manually because t would go out of bound
-
-
-vf(i)=Vo(i)
-length(vf)
-
 % *** Plot Saw-Tooth ***
 
-
- plot(t, vf , "r");
- hold on;
-
-
-
-
+plot(t, Vo , "r");
+hold on;
 
 % ***** Voltage Regulator *****
 
-N_D=20
-r_D=0.7
+N_D=18
+r_D=0.026/((1e-14)*exp(VON/0.026))
 R2=1000
 
-
-V_DC=mean(vf)
-V_AC=vf-V_DC
-
+V_DC = mean(Vo)
+V_AC=Vo-V_DC
 
 V_AC_final=((N_D*r_D)/(N_D*r_D+R2))*V_AC
-V_final=V_AC_final+V_DC
+V_final=V_AC_final+(N_D*VON)
+V_level = N_D*VON
 V_ripple=max(V_final)-min(V_final)
-disp(V_DC)
+V_deviation = V_final - 12
 
-plot(t, V_final , "r");
+plot(t, V_final , "g");
 hold on;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+plot(t, V_deviation , "b");
+hold on;
