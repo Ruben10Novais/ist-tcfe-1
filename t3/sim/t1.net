@@ -7,21 +7,21 @@
 * forces current values to be saved
 .options savecurrents
 
-Vs 3 1 0.0 SIN(0 15.333333 50 0 0 90)
+Vs 3 1 0.0 SIN(0 25.255298 50 0 0 90)
 
 Da 0 3 Default
 Db 3 2 Default
 Dc 1 2 Default
 Dd 0 1 Default
 
-Ra 2 0 8k
-C 2 0 9u
+Ra 2 0 900k
+C 2 0 900u
 
-Rd 2 4 5k
+Rd 2 4 100k
 
 Dr 4 0 Dmine
 .MODEL Default D
-.MODEL Dmine D (N=19)
+.MODEL Dmine D (N=20)
 
 .op
 .end 
@@ -42,7 +42,7 @@ echo "********************************************"
 echo  "Transient analysis
 echo "********************************************"
 
-tran 1e-5 0.2
+tran 1e-5 4.2 4.0
 
 let vs = v(3)-v(1)
 plot vs
@@ -65,7 +65,7 @@ hardcopy total.ps vs v(2) v(4)
 echo total_FIG
 
 meas tran Output_average AVG v(4) 
-meas tran Max MAX v(4) 
+meas tran Max MAX v(4)
 meas tran Min MIN v(4) 
 
 let ripple = Max - Min
