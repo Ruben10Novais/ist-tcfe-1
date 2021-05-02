@@ -42,7 +42,7 @@ echo "********************************************"
 echo  "Transient analysis
 echo "********************************************"
 
-tran 1e-5 4.2 4.0
+tran 1e-5 4.0 3.8
 
 let vs = v(3)-v(1)
 plot vs
@@ -71,6 +71,14 @@ meas tran Min MIN v(4)
 let ripple = Max - Min
 
 print Output_average ripple
+
+let cost = (4+20)*0.1 + 900 + 900 + 100
+let merit = 1 / (cost*((1e-6) + abs(12-Output_average) + ripple))
+print merit
+
+echo  "result_TAB"
+print Output_average ripple merit
+echo  "result_END"
 
 quit
 .endc
