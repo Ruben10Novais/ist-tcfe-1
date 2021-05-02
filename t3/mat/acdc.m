@@ -7,20 +7,20 @@ format long
 
 % DATA
 
-R=15000
-C=1e-5
+R=9e5
+C=9e-4
 f=50
 A=230
-N_coils=16
+N_coils=9.107
 w=2*pi*f
 T=1/f
-n=2000
+n=8000
 N_P=10
-VON=(2/3)
+VON=0.6
 
 % TIME VECTOR
 
-t=linspace(0,T*N_P,n);
+t=linspace(3.8,T*N_P+3.8,n);
 
 % Transformer
 
@@ -37,7 +37,7 @@ end
 
 % ***** ENVELOPE DETECTOR *****
 
-toff=(1/w)*atan(1/(w*R*C))
+toff=(1/w)*atan(1/(w*R*C))+3.8
 
 for i=1:length(t)
   
@@ -56,16 +56,17 @@ endfor
 % *** Plot Saw-Tooth ***
 figure
 plot(t*1000, Vo , "r")
-title("Envelope detector voltage")
+title("Envelope detector output voltage")
 xlabel ("t[ms]")
-ylabel ("Vo[V]")
+ylabel ("Venv[V]")
+legend ('V_e(t)','Location','Northeast')
 print ("Venv.eps", "-depsc")
 
 % ***** Voltage Regulator *****
 
-N_D=18
+N_D=20
 r_D=0.026/((1e-14)*exp(VON/0.026))
-R2=1000
+R2=1e5
 
 V_DC = mean(Vo);
 V_AC=Vo-V_DC;
@@ -78,17 +79,38 @@ V_deviation = V_final - 12;
 
 figure
 plot(t*1000,V_final)
-title("Output voltage")
+title("Voltage regulator output voltage")
 xlabel ("t[ms]")
-ylabel ("Vo[V]")
-print ("Vo.eps", "-depsc")
+ylabel ("Vreg[V]")
+legend ('V_r(t)','Location','Northeast')
+print ("Vreg.eps", "-depsc")
 
 figure
 plot(t*1000,V_deviation)
-title("Output AC component")
+title("Output deviation from 12V")
 xlabel ("t[ms]")
-ylabel ("Vo[V]")
+ylabel ("Vdev[V]")
+legend ('V_d(t)','Location','Northeast')
 print ("deviation.eps", "-depsc")
 
-cost=0.1*(N_D+4)+C*10^6+R*10^-3
-merit=1/(cost*(V_ripple+max(V_deviation)+10^-6))
+figure
+plot(t*1000,Vs, "r");
+hold on
+plot(t*1000,Vo, "b");
+hold on
+plot(t*1000,V_final, "g");
+title("Comparison of output voltages from the transformer, the envelope detector and the voltage regulator")
+xlabel ("t[ms]")
+ylabel ("Vtransf , Venv , Vreg [V]")
+legend ('V_t(t)','V_e(t)','V_r(t)','Location','Northeast')
+print ("comparison.eps", "-depsc")
+
+cost=0.1*(N_D+4)+C*(1e6)+R*(1e-3)+R2*(1e-3)
+merit=1/(cost*(V_ripple+abs(12-V_level)+(1e-6)))
+
+fid = fopen("data_tab.tex","w")
+fprintf(fid, "@$V_{DC}$ & %f \\\\ \\hline \n", V_level)
+fprintf(fid, "@$V_{ACripple}$ & %f \\\\ \\hline \n", V_ripple)
+fprintf(fid, "Cost & %f \\\\ \\hline \n", cost)
+fprintf(fid, "Merit & %f \\\\ \\hline \n", merit)
+fclose(fid)
