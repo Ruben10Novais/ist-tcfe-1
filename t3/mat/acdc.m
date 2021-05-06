@@ -18,6 +18,13 @@ n=8000
 N_P=10
 VON=0.6
 
+fid = fopen("initialdata_tab.tex","w")
+fprintf(fid, "R & %f Ohm \\\\ \\hline \n", R)
+fprintf(fid, "C & %f Farad \\\\ \\hline \n", C)
+fprintf(fid, "Number of Coils & %f \\\\ \\hline \n", N_coils)
+fprintf(fid, " & %f \\\\ \\hline \n", merit)
+fclose(fid)
+
 % TIME VECTOR
 
 t=linspace(3.8,T*N_P+3.8,n);
