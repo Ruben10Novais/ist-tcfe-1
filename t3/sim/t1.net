@@ -61,10 +61,14 @@ echo deviation_FIG
 hardcopy total.ps vs v(2) v(4)
 echo total_FIG
 
+meas tran Env_average AVG v(2) 
+meas tran Maxx MAX v(2)
+meas tran Minn MIN v(2) 
 meas tran Output_average AVG v(4) 
 meas tran Max MAX v(4)
 meas tran Min MIN v(4) 
 
+let ripple2 = Maxx - Minn
 let ripple = Max - Min
 
 print Output_average ripple
@@ -72,6 +76,10 @@ print Output_average ripple
 let cost = (4+20)*0.1 + 900 + 900 + 100
 let merit = 1 / (cost*((1e-6) + abs(12-Output_average) + ripple))
 print merit
+
+echo  "env_TAB"
+print Env_average ripple2
+echo  "env_END"
 
 echo  "result_TAB"
 print Output_average ripple merit

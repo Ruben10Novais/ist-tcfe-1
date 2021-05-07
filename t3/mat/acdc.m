@@ -8,6 +8,7 @@ format long
 % DATA
 
 R=9e5
+R2=1e5
 C=9e-4
 f=50
 A=230
@@ -16,13 +17,16 @@ w=2*pi*f
 T=1/f
 n=8000
 N_P=10
+N_D=20
 VON=0.6
 
-fio= fopen("initialdata_tab.tex","w")
-fprintf(fio, "R & %f Ohm \\\\ \\hline \n", R)
-fprintf(fio, "C & %f Farad \\\\ \\hline \n", C)
-fprintf(fio, "Number of Coils & %f \\\\ \\hline \n", N_coils)
-fclose(fio)
+fid = fopen("initialdata_tab.tex","w")
+fprintf(fid, "Number of Coils & %f \\\\ \\hline \n", N_coils)
+fprintf(fid, "$R_{env}$ & %f KOhm \\\\ \\hline \n", R*(1e-3))
+fprintf(fid, "$C_{env}$ & %f uFarad \\\\ \\hline \n", C*(1e6))
+fprintf(fid, "$R_{reg}$ & %f KOhm \\\\ \\hline \n", R2*(1e-3))
+fprintf(fid, "Number of Diodes in Limiter & %f \\\\ \\hline \n", N_D)
+fclose(fid)
 
 % TIME VECTOR
 
@@ -70,14 +74,7 @@ print ("Venv.eps", "-depsc")
 
 % ***** Voltage Regulator *****
 
-N_D=20
 r_D=0.026/((1e-14)*exp(VON/0.026))
-R2=1e5
-
-fi= fopen("regulatordata_tab.tex","w")
-fprintf(fi, "Rreg & %f Ohm \\\\ \\hline \n", R2)
-fprintf(fi, "Number of Diodes & %f \\\\ \\hline \n", N_D)
-fclose(fi)
 
 V_DC = mean(Vo);
 V_AC=Vo-V_DC;
