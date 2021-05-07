@@ -86,6 +86,10 @@ V_deviation = V_final - 12;
 
 figure
 plot(t*1000,V_final)
+ylim([12-(1e-5) 12+(1e-5)])
+yticks = get(gca, "ytick")
+ylabels = arrayfun (@(x) sprintf ("%.5f",x), yticks, "uniformoutput", false)
+set(gca, "yticklabel", ylabels)
 title("Voltage regulator output voltage")
 xlabel ("t[ms]")
 ylabel ("Vreg[V]")
