@@ -18,12 +18,11 @@ n=8000
 N_P=10
 VON=0.6
 
-fid = fopen("initialdata_tab.tex","w")
-fprintf(fid, "R & %f Ohm \\\\ \\hline \n", R)
-fprintf(fid, "C & %f Farad \\\\ \\hline \n", C)
-fprintf(fid, "Number of Coils & %f \\\\ \\hline \n", N_coils)
-fprintf(fid, " & %f \\\\ \\hline \n", merit)
-fclose(fid)
+fio= fopen("initialdata_tab.tex","w")
+fprintf(fio, "R & %f Ohm \\\\ \\hline \n", R)
+fprintf(fio, "C & %f Farad \\\\ \\hline \n", C)
+fprintf(fio, "Number of Coils & %f \\\\ \\hline \n", N_coils)
+fclose(fio)
 
 % TIME VECTOR
 
@@ -74,6 +73,11 @@ print ("Venv.eps", "-depsc")
 N_D=20
 r_D=0.026/((1e-14)*exp(VON/0.026))
 R2=1e5
+
+fi= fopen("regulatordata_tab.tex","w")
+fprintf(fi, "Rreg & %f Ohm \\\\ \\hline \n", R2)
+fprintf(fi, "Number of Diodes & %f \\\\ \\hline \n", N_D)
+fclose(fi)
 
 V_DC = mean(Vo);
 V_AC=Vo-V_DC;
