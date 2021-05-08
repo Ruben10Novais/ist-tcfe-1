@@ -1,6 +1,16 @@
 \newpage
 \section{Conclusion}
 \label{sec:conclusion}
+\begin{table}[!h]
+  \centering
+  \begin{tabular}{c c c c}
+    \hline    
+    {\bf Theoretical} & {\bf Value} & {\bf Simulation} & {\bf Value}\\ \hline
+    \input{comp.tex} 
+  \end{tabular}
+  \caption{Comparison of the theoretical and simulated data results, regarding the DC and AC components.}
+  \label{tab:comp}
+\end{table}
 The main difference between simulation and the theoretical predictions was the transition regime, which was not considered for our calculations: we assumed the circuit was in equilibrium from the beginning. However, due to the relatively high resistance and capacitance of the components in the circuit, this regime became apparent in the simulation. A permanent regime should be established within 5 time periods, however, each time period (calculated from equivalent RC) took almost a second long. This is obviously not desirable in real world applications but we optimized the circuit to obtain a solid merit figure and nothing else.
 We tried to mitigate this effect by starting our study of the circuit after roughly 4 seconds of the beginning of the simulation. Still, the results didn't match perfectly, and the final merit figure was quite different from the predicted. This mostly has to do with the difference in diode model, since the calculations were performed with an ideal diode and that wasn't the case for the simulation.
 All things taken into account, in this laboratory assignment we were able to reproduce a working, despite rudimentary, ACDC converter. 

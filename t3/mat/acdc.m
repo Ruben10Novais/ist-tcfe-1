@@ -78,6 +78,12 @@ r_D=0.026/((1e-14)*exp(VON/0.026))
 
 V_DC = mean(Vo);
 V_AC=Vo-V_DC;
+Vpre = max(V_AC) - min(V_AC)
+
+fid = fopen("envelope_tab.tex","w")
+fprintf(fid, "@$V_{DC}$ & %f \\\\ \\hline \n", V_DC)
+fprintf(fid, "@$V_{ACripple}$ & %f \\\\ \\hline \n", Vpre)
+fclose(fid)
 
 V_AC_final=((N_D*r_D)/(N_D*r_D+R2))*V_AC;
 V_final=V_AC_final+(N_D*VON);
