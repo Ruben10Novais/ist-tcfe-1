@@ -1,0 +1,31 @@
+\section{Introduction}
+\label{sec:introduction}
+% state the learning objective 
+The objective of this laboratory assignment is to build an AC/DC converter. The AC voltage goes through a transformer in order to reduce its amplitude. The AC voltage is then processed by an envelope detector composed of a full bridge wave rectifier and a capacitor. The full wave rectifier is composed by 4 diodes and a resistor (the load): the diodes allow the AC voltage to always pass to the resistor, no matter the direction of the current. Combining this with a capacitor will allow the sinusoidal character of the input voltage to be diminuished, oscilating then around its amplitude value. After this, the new input voltage goes through a voltage regulator, which is composed by a resistor and a limiter - a series of diodes. The resistor will decrease the voltage ripple (oscilation) and the limiter will make sure the DC component of our voltage is the pretended one - 12V - allowing us a pretty much linear output voltage of 12V, ready to be used by many of our home electronical gadgets.
+For this laboratory assignment there is a figure of merit, depending on the results obtained in the NGSpice simulation. This figure takes into account the cost of the components used, and the results they provide - a desirable low voltage ripple and an ideal average for the DC component of 12V. The figure is calculated using the formula given by equation~\ref{eqn:merit}. The cost englobes the cost of diodes (0.1 units per diode), resistors (1 unit per KOhm) and capacitors (1 unit per uF). The objective is to achieve the highest merit, so we tried different configurations of components data until we achieved our greatest figure of merit.
+
+\begin{equation}
+\label{eqn:merit}
+M=\frac{1}{cost*[ripple(V_O) + |average(V_O - 12)| + 10^{-6}]}
+\end{equation}
+
+\begin{figure}[h] \centering
+\includegraphics[width=0.9\linewidth]{converter.pdf}
+\caption{Geometry of our AC/DC converter circuit.}
+\end{figure}
+
+To analyse this circuit theoretically we will use the ideal diode model for the full wave bridge rectifier and the incremental diode model in the voltage regulator. We will compare this results with the ones obtained in the NGSpice simulation.
+That being said, in Section 2 we present the various theoretical models and calculations used to determine the output voltage, in Section 3 we introduce the results obtained in the simulation. Finally, in Section 4 we compare the two set of results, looking for possible discrepancies and we lay out our conclusions.
+
+In Table~\ref{tab:data}, we list the numeric values of the components used.
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Values} \\ \hline
+    \input{initialdata_tab} 
+  \end{tabular}
+  \caption{Components numeric values used in our analysis and simulation.}
+  \label{tab:data}
+\end{table}
