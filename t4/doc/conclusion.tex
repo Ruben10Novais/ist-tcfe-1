@@ -1,16 +1,3 @@
-\newpage
-\section{Conclusion}
-\label{sec:conclusion}
-\begin{table}[!h]
-  \centering
-  \begin{tabular}{c c c c}
-    \hline    
-    {\bf Theoretical} & {\bf Value} & {\bf Simulation} & {\bf Value}\\ \hline
-    \input{comp.tex} 
-  \end{tabular}
-  \caption{Comparison of the theoretical and simulated data results, regarding the DC and AC components.}
-  \label{tab:comp}
-\end{table}
 As we can see in the table, regarding the envelope detector DC component, its value is lower in the simulation, which is due to the use of a real diode model in NGSpice, and the ideal diode model always produces a higher output voltage than a real diode. Both the ripples are higher in the simulation, cause of the same situation. For the DC component of the regulator output voltage, we were unable to fully hit the 12V. The merit is then obviously higher theoretically, fruit of lower ripples and a certain DC 12V. We noticed during our trials and errors that higher resistances and capacitances lowered the ripples and increased our merit, despite the greater cost, so we went for it.
 The main difference between simulation and the theoretical predictions was the transition regime, which was not considered for our calculations: we assumed the circuit was in equilibrium from the beginning. However, due to the relatively high resistance and capacitance of the components in the circuit, this regime became apparent in the simulation. A permanent regime should be established within 5 time periods, however, each time period (calculated from equivalent RC) took almost a second long. This is obviously not desirable in real world applications but we optimized the circuit to obtain a solid merit figure and nothing else.
 We tried to mitigate this effect by starting our study of the circuit after roughly 4 seconds of the beginning of the simulation. Still, the results didn't match perfectly, and the final merit figure was quite different from the predicted. This mostly has to do with the difference in diode model, since the calculations were performed with an ideal diode and that wasn't the case for the simulation.

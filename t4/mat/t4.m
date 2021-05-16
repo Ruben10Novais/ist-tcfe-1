@@ -11,6 +11,19 @@ VBEON=0.7
 VCC=12
 RS=100
 
+fid = fopen("initialdata_tab.tex","w")
+fprintf(fid, "VT & %f \\\\ \\hline \n", VT)
+fprintf(fid, "BFN& %f \\\\ \\hline \n", BFN)
+fprintf(fid, "VAFN& %f \\\\ \\hline \n", VAFN)
+fprintf(fid, "RE1& %f \\\\ \\hline \n", RE1)
+fprintf(fid, "RC1& %f \\\\ \\hline \n", RC1)
+fprintf(fid, "RB1& %f \\\\ \\hline \n", RB1)
+fprintf(fid, "RB2& %f \\\\ \\hline \n", RB2)
+fprintf(fid, "VBEON& %f \\\\ \\hline \n", VBEON)
+fprintf(fid, "VCC& %f \\\\ \\hline \n", VCC)
+fprintf(fid, "RS& %f \\\\ \\hline \n", RS)
+fclose(fid)
+
 RB=1/(1/RB1+1/RB2)
 VEQ=RB2/(RB1+RB2)*VCC
 IB1=(VEQ-VBEON)/(RB+(1+BFN)*RE1)
@@ -20,6 +33,16 @@ VE1=RE1*IE1
 VO1=VCC-RC1*IC1
 VCE=VO1-VE1
 
+fid = fopen("data_tab.tex","w")
+fprintf(fid, "RB%f \\\\ \\hline \n", RB)
+fprintf(fid, "VEQ%f \\\\ \\hline \n", VEQ)
+fprintf(fid, "IB1%f \\\\ \\hline \n", IB1)
+fprintf(fid, "IC1%f \\\\ \\hline \n", IC1)
+fprintf(fid, "IE1%f \\\\ \\hline \n", IE1)
+fprintf(fid, "VE1%f \\\\ \\hline \n", VE1)
+fprintf(fid, "VO1%f \\\\ \\hline \n", VO1)
+fprintf(fid, "VCE%f \\\\ \\hline \n", VCE)
+fclose(fid)
 
 gm1=IC1/VT
 rpi1=BFN/gm1
@@ -43,7 +66,7 @@ ZO1 = 1/(1/ZX+1/RC1)
 
 
 
-%ouput stage
+%output stage
 BFP = 227.3
 VAFP = 37.2
 RE2 = 100
