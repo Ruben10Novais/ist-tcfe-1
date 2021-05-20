@@ -39,12 +39,21 @@ RL out 0 8
 
 .control
 
+set hcopypscolor=0
+set color0=white
+set color1=black
+set color2=red
+set color3=blue
+set color4=violet
+set color5=rgb:3/8/0
+set color6=rgb:4/0/0
+
 print all
 
 * time analysis
 tran 1e-5 1e-2
-plot v(coll)
-hardcopy vo1.ps vdb(coll)
+plot v(coll) v(out) v(in)
+hardcopy vo1.ps v(coll) v(out) v(in)
 
 
 * frequency analysis
@@ -53,14 +62,25 @@ plot vdb(coll)
 plot vp(coll)
 hardcopy vo1f.ps vdb(coll)
 
-
-
 plot vdb(out)
 plot vp(out)
-hardcopy vo2f.ps vdb(coll)
+hardcopy vo2f.ps vdb(out)
+
+meas ac topo MAX vdb(out)
+let gain = topo
+let zone = topo - 3
+meas ac lower WHEN vdb(out) = zone
+meas ac upper WHEN vdb(out) = zone CROSS = LAST
+let bandwidth = upper - lower
+
+let cost = 0.2 + 0.1 + 0.008 + (80 + 20 + 1 + 0.1 + 0.1) + (1000 + 1000 + 1)
+let merit = (gain*bandwidth)/(cost*lower)
+
+print gain lower upper bandwidth cost merit
 
 *input impedance in kohm
-print v(in2)[40]/(v(in)[40]-v(in2)[40])/100*1000
+print v(in2)[40]/(((v(in)[40]-v(in2)[40])/100)*1000)
+print v(in2)[40]/@Rin[i]
 
 *need a different setup to measure output impedance
 
