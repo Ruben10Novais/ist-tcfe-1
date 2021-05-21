@@ -98,3 +98,72 @@ AVdB=20*log10(abs(AV))
 
 %frequency response
 
+f=logspace(1,8,70)
+w=2*pi*f
+
+R_in=100
+C_i=0.0001
+R1=80000
+R2=20000
+R_C=950
+R_E=200
+C_b=0.0025
+R_out=50
+C_o=0.0007
+R_L=8
+
+
+for i=1:length(f)
+
+Z_Ci=1./(i*C_i*w(i))
+Z_Cb=1./(i*C_b*w(i))
+Z_Co=1./(i*C_o*w(i))
+
+Z1=R_in+Z_Ci
+Z2=1/((1/R1)+(1/R2))
+Z3=1./((1/R_E)+(1./Z_Cb))
+
+gpi1=1/rpi1
+gZ2=1./Z2
+gZ1=1./Z1
+gZ3=1./Z3
+go1=1/ro1
+gRC=1/R_C
+gR_out=1/R_out
+
+
+A=[gpi1+gZ2+gZ1 0 -gpi1 0 ; gm1 go1+gRC+gpi2 -(go1+gm1) -gpi2 ; (gpi1+gm1) go1 -(gpi1+gm1+gZ3) 0 ; 0 (gpi2+gm2) 0 -(go2+gR_out+gm2+gpi2)]
+
+
+b=[gZ1 0 0 0]
+b=b'
+
+R=A\b
+
+Vi=1
+I=(Vi-R(1))/Z1
+
+
+Vs=Vi-I*R_in
+
+
+Vo(i)=(R_L/(R_L+Z_Co))*R(4)
+
+T=Vo/Vs
+
+endfor
+
+T_M=20*log10(abs(T))
+
+yi=max(T_M)-3
+xi=interp1(T_M,f,yi)
+
+
+
+plot(log10(f),T_M)
+xlim([1 8])
+ylim([0 120])
+
+
+
+
