@@ -14,10 +14,10 @@ M=\frac{Gain*bandwidth}{cost*CutOffFrequency}
 \caption{Geometry of our Audio Amplifier circuit.}
 \end{figure}
 
-To analyse this circuit theoretically we will use the ideal diode model for the full wave bridge rectifier and the incremental diode model in the voltage regulator. We will compare this results with the ones obtained in the NGSpice simulation.
-That being said, in Section 2 we present the various theoretical models and calculations used to determine the output voltage, in Section 3 we introduce the results obtained in the simulation. Finally, in Section 4 we compare the two set of results, looking for possible discrepancies and we lay out our conclusions.
+To analyse this circuit theoretically we will separate the circuit in two stages: the gain and output stage. We will compare these results with the ones obtained in the NGSpice simulation.
+That being said, in Section 2 we present the theoretical models and calculations used to determine the operating point, gain, impedances and frequency response, in Section 3 we introduce the results obtained in the simulation. Finally, in Section 4 we compare the two set of results, looking for possible discrepancies and we lay out our conclusions.
 
-In Table~\ref{tab:data}, we list the numeric values of the components used.
+In Table~\ref{tab:data}, we list the numeric values of the components used (nomenclatures consistent with the theoretical lecture).
 
 \begin{table}[h]
   \centering
@@ -26,6 +26,7 @@ In Table~\ref{tab:data}, we list the numeric values of the components used.
     {\bf Name} & {\bf Values} \\ \hline
     \input{initialdata_tab} 
   \end{tabular}
-  \caption{Components numeric values used in our analysis and simulation.}
+  \caption{Values of components used in our analysis and simulation.}
   \label{tab:data}
 \end{table}
+\pagebreak

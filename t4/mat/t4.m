@@ -35,7 +35,7 @@ VE1=RE1*IE1
 VO1=VCC-RC1*IC1
 VCE=VO1-VE1
 
-fid = fopen("data_tab.tex","w")
+fid = fopen("th_data_tab.tex","w")
 fprintf(fid, "RB & %f \\\\ \\hline \n", RB)
 fprintf(fid, "VEQ&%f \\\\ \\hline \n", VEQ)
 fprintf(fid, "IB1&%f \\\\ \\hline \n", IB1)
@@ -57,6 +57,15 @@ ZO1 = 1/((1/RC1)+(1/ro1))
 AV1 = - gm1*ZO1*(ZI1/(ZI1+RS))
 AV1dB = 20*log10(abs(AV1))
 
+fid = fopen("gain_tab.tex","w")
+fprintf(fid, "Gm & %f \\\\ \\hline \n", gm1)
+fprintf(fid, "Rpi&%f \\\\ \\hline \n", rpi1)
+fprintf(fid, "ro&%f \\\\ \\hline \n", ro1)
+fprintf(fid, "Input impedance&%f \\\\ \\hline \n", ZI1)
+fprintf(fid, "Output impedance&%f \\\\ \\hline \n", ZO1)
+fprintf(fid, "Gain&%f \\\\ \\hline \n", AV1)
+fprintf(fid, "Gain&%fdB \\\\ \\hline \n", AV1dB)
+fclose(fid)
 
 %output stage
 
@@ -83,6 +92,15 @@ AV2dB = 20*log10(AV2)
 ZI2=(1/gpi2)/(1-AV2)
 ZO2 = 1/(gm2+gpi2+go2+ge2)
 
+fid = fopen("output_tab.tex","w")
+fprintf(fid, "Gm & %f \\\\ \\hline \n", gm2)
+fprintf(fid, "gpi&%f \\\\ \\hline \n", gpi2)
+fprintf(fid, "go&%f \\\\ \\hline \n", go2)
+fprintf(fid, "Input impedance&%f \\\\ \\hline \n", ZI2)
+fprintf(fid, "Output impedance&%f \\\\ \\hline \n", ZO2)
+fprintf(fid, "Gain&%f \\\\ \\hline \n", AV2)
+fprintf(fid, "Gain&%fdB \\\\ \\hline \n", AV2dB)
+fclose(fid)
 
 %Circuito geral
 
@@ -95,6 +113,11 @@ prep1=1/(rpi2+ZO1)
 prep2=(gm2*rpi2)/(rpi2+ZO1)
 AV=(prep1+prep2)/(prep1+ge2+go2+prep2)*AV1
 AVdB=20*log10(abs(AV))
+
+fid = fopen("circuit_tab.tex","w")
+fprintf(fid, "Gain&%f \\\\ \\hline \n", AV)
+fprintf(fid, "Gain&%fdB \\\\ \\hline \n", AVdB)
+fclose(fid)
 
 %frequency response
 
