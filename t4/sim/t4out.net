@@ -51,9 +51,14 @@ tran 1e-5 1e-2
 * frequency analysis
 ac dec 10 10 100MEG
 
-*output impedance in kohm
-plot -v(out)/Vin#branch*0.001
-print -v(out)[25]/Vin#branch[25]*0.001
+*output impedance in ohm
+*plot -v(out)/Vin#branch
+print -v(out)[25]/Vin#branch[25]
+let Zo = abs(-v(out)[25]/Vin#branch[25])
+print Zo
+
+echo "outimp_TAB"
+echo "Output impedance = $&Zo Ohm"
+echo "outimp_END"
 
 .endc 
-

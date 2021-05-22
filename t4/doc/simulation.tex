@@ -1,6 +1,44 @@
 \newpage
 \section{Simulation Analysis}
 \label{sec:simulation}
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Values [V]} \\ \hline
+    \input{op_tab} 
+  \end{tabular}
+  \caption{Operating point node voltage values of the amplifier circuit.}
+  \label{tab:operator}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Values} \\ \hline
+    \input{data_tab}
+    \input{outimp_tab}     
+  \end{tabular}
+  \caption{Output gain, bandwidth, and input and output impedances of the audio amplifier circuit (as a whole).}
+  \label{tab:main}
+\end{table}
+
+\begin{figure}[!h] \centering
+\includegraphics[width=0.6\linewidth]{vgainstagedb.pdf}
+\caption{Gain Stage output voltage gain (frequency response).}
+\label{fig:gainstage}
+\end{figure}
+
+%\begin{figure}[!h] \centering
+%\includegraphics[width=0.6\linewidth]{voutput.pdf}
+%\caption{Load output voltage gain (frequency response).}
+%\label{fig:outputstage}
+%\end{figure}
+
+
+
 Since the input voltage source in this circuit is sinusoidal, the voltage and current values of the various components vary in time, and we are interested therefore in analysing how they evolve in time and obviously we want to picture the transformation of our AC input voltage source throughout the multiple stages of the circuit. Therefore, we will run a single transient analysis for this circuit, lasting 10 periods of the voltage source. For this simulation we are not taking the natural solution into account, only the forced one. In our simulation we came across a large transitional period of roughly 4 seconds, until the output voltage source stabilized enough in the envelope detector, so we only account for data after this period, [3.8 ; 4.0]. This is due to the natural solution of the voltage and its downfall effects will be aproached in our conclusions. We used the default diode model of NGSpice in this simulation and we saw no need of introducing a transformer since it only reduces the amplitude of the voltage source, so we applied the AC voltage output of the transformer as our input voltage source of the circuit.
 \subsection{Envelope Detector Output Voltage}
 In figure we present the plot of the envelope detector output voltage throughout 10 periods, and in table we introduce the average voltage (approximate DC component) and the voltage ripple of such voltage. Since the objective lies in the output of the regulator, this set of data isn't of much relevance.

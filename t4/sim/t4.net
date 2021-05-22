@@ -52,21 +52,35 @@ print all
 
 * time analysis
 tran 1e-5 1e-2
-plot v(coll) v(out) v(in) v(emit2)
-hardcopy vo1.ps v(coll) v(out) v(in) v(emit2)
+
+echo "OP_TAB"
+print vcc[0]
+print in[0]
+print in2[0]
+print base[0]
+print coll[0]
+print emit[0]
+print emit2[0]
+print out[0]
+echo "OP_END"
+
+plot v(coll) v(out) v(in2) 
+hardcopy vcomp.ps v(coll) v(out) v(in2)
 
 
 * frequency analysis
 ac dec 10 10 100MEG
 plot vdb(coll)
 *plot vp(coll)
-hardcopy vo1f.ps vdb(coll)
+hardcopy vgainstagedb.ps vdb(coll)
 
 plot vdb(out)
 *plot vp(out)
-hardcopy vo2f.ps vdb(out)
+hardcopy voutputdb.ps vdb(out)
 
 meas ac topo MAX vdb(out)
+meas ac topo2 MAX vm(out)
+let gainv = topo2
 let gain = topo
 let zone = topo - 3
 meas ac lower WHEN vdb(out) = zone
@@ -74,13 +88,28 @@ meas ac upper WHEN vdb(out) = zone CROSS = LAST
 let bandwidth = upper - lower
 
 let cost = 0.2 + 0.1 + 0.008 + (80 + 20 + 0.95 + 0.2 + 0.050) + (2500 + 100 + 700)
-let merit = (gain*bandwidth)/(cost*lower)
+let merit = (gainv*bandwidth)/(cost*lower)
 
-print gain lower upper bandwidth cost merit
+print gain gainv lower upper bandwidth cost merit
 
 *input impedance in kohm
-plot -v(in2)/Vin#branch*0.001
+*plot -v(in2)/Vin#branch*0.001
 print -v(in2)[25]/Vin#branch[25]*0.001
+let Zi = abs(-v(in2)[25]/Vin#branch[25]*0.001)
+print Zi
+
+echo "data_TAB"
+echo "Gain  = $&gainv"
+echo "Gain(dB) = $&gain"
+echo "Lower cut-off frequency = $&lower Hz"
+echo "Upper cut-off frequency = $&upper Hz"
+echo "Bandwidth = $&bandwidth Hz"
+echo "Input impedance = $&Zi kOhm"
+echo "data_END"
+
+echo "merit_TAB"
+print cost merit
+echo "merit_END"
 
 *need a different setup to measure output impedance
 

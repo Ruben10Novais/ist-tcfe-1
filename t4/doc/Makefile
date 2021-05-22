@@ -27,7 +27,7 @@ ngspice: ngspice.log
 ngspice.log: ../sim/t4.net
 	ngspice -b $< -o $@	
 	
-ngspice2: ngspice.log	
+ngspice2: ngspice2.log	
 	$(eval NGSFIGS=$(shell grep _FIG $< | sed 's/_FIG//g' | sed ':a;N;$!ba;s/\n/ /g'))
 	$(eval NGSFIGPS=$(addsuffix .ps, $(NGSFIGS)))
 	$(eval NGSTABS=$(shell grep _TAB $< | sed 's/_TAB//g' | sed ':a;N;$!ba;s/\n/ /g'))
