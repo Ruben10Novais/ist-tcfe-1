@@ -17,7 +17,7 @@ R2 base 0 20k
 
 * gain stage
 Q1 coll base emit BC547A
-Rc vcc coll 0.95k
+Rc vcc coll 0.9k
 Re emit 0 200
 
 * bypass capacitor
@@ -29,7 +29,7 @@ Q2 0 coll emit2 BC557A
 Rout emit2 vcc 50
 
 * output coupling capacitor
-Co emit2 out 700u
+Co emit2 out 1.5m
 
 * load
 RL out 0 8
@@ -71,26 +71,29 @@ echo comp_FIG
 
 * frequency analysis
 ac dec 10 10 100MEG
-plot vdb(coll)
+plot vdb(coll)-vdb(in2)
 *plot vp(coll)
-hardcopy stage.ps vdb(coll)
+hardcopy stage.ps vdb(coll)-vdb(in2)
 echo stage_FIG
 
-plot vdb(out)
+plot vdb(out)-vdb(in2)
 *plot vp(out)
-hardcopy output.ps vdb(out)
+hardcopy output.ps vdb(out)-vdb(in2)
 echo output_FIG
 
-meas ac topo MAX vdb(out)
-meas ac topo2 MAX vm(out)
+let transfer = vdb(out)-vdb(in2)
+let transferv = vm(out)/vm(in2)
+
+meas ac topo MAX transfer
+meas ac topo2 MAX transferv
 let gainv = topo2
 let gain = topo
 let zone = topo - 3
-meas ac lower WHEN vdb(out) = zone
-meas ac upper WHEN vdb(out) = zone CROSS = LAST
+meas ac lower WHEN transfer = zone
+meas ac upper WHEN transfer = zone CROSS = LAST
 let bandwidth = upper - lower
 
-let cost = 0.2 + 0.1 + 0.008 + (80 + 20 + 0.95 + 0.2 + 0.050) + (2500 + 100 + 700)
+let cost = 0.2 + 0.1 + 0.008 + (80 + 20 + 0.9 + 0.2 + 0.05) + (2500 + 100 + 1500)
 let merit = (gainv*bandwidth)/(cost*lower)
 
 print gain gainv lower upper bandwidth cost merit

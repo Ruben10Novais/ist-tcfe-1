@@ -3,25 +3,38 @@
 VT=25e-3
 BFN=178.7
 VAFN=69.7
-RE1=200
-RC1=950
+VBEON=0.7
+BFP = 227.3
+VAFP = 37.2
+VEBON = 0.7
+RS=100
+VCC=12
 RB1=80000
 RB2=20000
-VBEON=0.7
-VCC=12
-RS=100
+RE1=200
+RC1=900
+RE2 = 50
+C_i=0.0001
+C_b=0.0025
+C_o=0.0015
 
 fid = fopen("initialdata_tab.tex","w")
-fprintf(fid, "VT & %f \\\\ \\hline \n", VT)
+fprintf(fid, "VT& %f V \\\\ \\hline \n", VT)
 fprintf(fid, "BFN& %f \\\\ \\hline \n", BFN)
-fprintf(fid, "VAFN& %f \\\\ \\hline \n", VAFN)
-fprintf(fid, "RE1& %f \\\\ \\hline \n", RE1)
-fprintf(fid, "RC1& %f \\\\ \\hline \n", RC1)
-fprintf(fid, "RB1& %f \\\\ \\hline \n", RB1)
-fprintf(fid, "RB2& %f \\\\ \\hline \n", RB2)
-fprintf(fid, "VBEON& %f \\\\ \\hline \n", VBEON)
-fprintf(fid, "VCC& %f \\\\ \\hline \n", VCC)
-fprintf(fid, "RS& %f \\\\ \\hline \n", RS)
+fprintf(fid, "VAFN& %f V \\\\ \\hline \n", VAFN)
+fprintf(fid, "VBEON& %f V \\\\ \\hline \n", VBEON)
+fprintf(fid, "BFP& %f \\\\ \\hline \n", BFP)
+fprintf(fid, "VAFP& %f V \\\\ \\hline \n", VAFP)
+fprintf(fid, "VEBON& %f V \\\\ \\hline \n", VEBON)
+fprintf(fid, "VCC& %f V \\\\ \\hline \n", VCC)
+fprintf(fid, "RB1& %f kOhm \\\\ \\hline \n", RB1/1000)
+fprintf(fid, "RB2& %f kOhm \\\\ \\hline \n", RB2/1000)
+fprintf(fid, "RE1& %f Ohm \\\\ \\hline \n", RE1)
+fprintf(fid, "RC1& %f Ohm \\\\ \\hline \n", RC1)
+fprintf(fid, "RE2& %f Ohm \\\\ \\hline \n", RE2)
+fprintf(fid, "$C_{input}$& %f mF \\\\ \\hline \n", C_i*1000)
+fprintf(fid, "$C_{bypass}$& %f mF \\\\ \\hline \n", C_b*1000)
+fprintf(fid, "$C_{output}$& %f mF \\\\ \\hline \n", C_o*1000)
 fclose(fid)
 
 %Operating point
@@ -36,14 +49,20 @@ VO1=VCC-RC1*IC1
 VCE=VO1-VE1
 
 fid = fopen("th_data_tab.tex","w")
-fprintf(fid, "RB & %f \\\\ \\hline \n", RB)
-fprintf(fid, "VEQ&%f \\\\ \\hline \n", VEQ)
-fprintf(fid, "IB1&%f \\\\ \\hline \n", IB1)
-fprintf(fid, "IC1&%f \\\\ \\hline \n", IC1)
-fprintf(fid, "IE1&%f \\\\ \\hline \n", IE1)
-fprintf(fid, "VE1&%f \\\\ \\hline \n", VE1)
-fprintf(fid, "VO1&%f \\\\ \\hline \n", VO1)
-fprintf(fid, "VCE&%f \\\\ \\hline \n", VCE)
+fprintf(fid, "RB& %f Ohm \\\\ \\hline \n", RB)
+fprintf(fid, "VEQ&%f V \\\\ \\hline \n", VEQ)
+fprintf(fid, "IB1&%f A \\\\ \\hline \n", IB1)
+fprintf(fid, "IC1&%f A \\\\ \\hline \n", IC1)
+fprintf(fid, "IE1&%f A \\\\ \\hline \n", IE1)
+fprintf(fid, "VE1&%f V \\\\ \\hline \n", VE1)
+fprintf(fid, "VO1&%f V \\\\ \\hline \n", VO1)
+fprintf(fid, "VCE&%f V \\\\ \\hline \n", VCE)
+fprintf(fid, "$V_{in}$&0 V \\\\ \\hline \n")
+fprintf(fid, "$V_{in2}$&0 V \\\\ \\hline \n")
+fprintf(fid, "$V_{vcc}$&12 V \\\\ \\hline \n")
+fprintf(fid, "$V_{base}$&%f V \\\\ \\hline \n",VE1+VBEON)
+fprintf(fid, "$V_{coll}$&%f V \\\\ \\hline \n", VO1)
+fprintf(fid, "$V_{emit}$&%f V \\\\ \\hline \n", VE1)
 fclose(fid)
 
 %Incremental
@@ -58,27 +77,32 @@ AV1 = - gm1*ZO1*(ZI1/(ZI1+RS))
 AV1dB = 20*log10(abs(AV1))
 
 fid = fopen("gain_tab.tex","w")
-fprintf(fid, "Gm & %f \\\\ \\hline \n", gm1)
-fprintf(fid, "Rpi&%f \\\\ \\hline \n", rpi1)
-fprintf(fid, "ro&%f \\\\ \\hline \n", ro1)
-fprintf(fid, "Input impedance&%f \\\\ \\hline \n", ZI1)
-fprintf(fid, "Output impedance&%f \\\\ \\hline \n", ZO1)
+fprintf(fid, "Gm& %f S \\\\ \\hline \n", gm1)
+fprintf(fid, "Rpi&%f Ohm \\\\ \\hline \n", rpi1)
+fprintf(fid, "Ro&%f OHM\\\\ \\hline \n", ro1)
+fprintf(fid, "Input impedance&%f Ohm \\\\ \\hline \n", ZI1)
+fprintf(fid, "Output impedance&%f Ohm \\\\ \\hline \n", ZO1)
 fprintf(fid, "Gain&%f \\\\ \\hline \n", AV1)
-fprintf(fid, "Gain&%fdB \\\\ \\hline \n", AV1dB)
+fprintf(fid, "Gain(dB)&%f dB \\\\ \\hline \n", AV1dB)
 fclose(fid)
 
 %output stage
 
 %Operating point
 
-BFP = 227.3
-VAFP = 37.2
-RE2 = 50
-VEBON = 0.7
 VI2 = VO1
 IE2 = (VCC-VEBON-VI2)/RE2
 IC2 = BFP/(BFP+1)*IE2
 VO2 = VCC - RE2*IE2
+
+fid = fopen("th_data_tab.tex","w")
+fprintf(fid, "IB1&%f A \\\\ \\hline \n", IB1)
+fprintf(fid, "IC1&%f A \\\\ \\hline \n", IC1)
+fprintf(fid, "IE1&%f A \\\\ \\hline \n", IE1)
+fprintf(fid, "VE1&%f V \\\\ \\hline \n", VE1)
+fprintf(fid, "VO1&%f V \\\\ \\hline \n", VO1)
+fprintf(fid, "VCE&%f V \\\\ \\hline \n", VCE)
+fclose(fid)
 
 %Incremental
 
@@ -124,17 +148,7 @@ fclose(fid)
 f=logspace(1,8,70)
 w=2*pi*f
 
-R_in=100
-C_i=0.0001
-R1=80000
-R2=20000
-R_C=950
-R_E=200
-C_b=0.0025
-R_out=50
-C_o=0.0007
 R_L=8
-
 
 for i=1:length(f)
 
@@ -142,17 +156,17 @@ Z_Ci=1./(i*C_i*w(i))
 Z_Cb=1./(i*C_b*w(i))
 Z_Co=1./(i*C_o*w(i))
 
-Z1=R_in+Z_Ci
-Z2=1/((1/R1)+(1/R2))
-Z3=1./((1/R_E)+(1./Z_Cb))
+Z1=RS+Z_Ci
+Z2=1/((1/RB1)+(1/RB2))
+Z3=1./((1/RE1)+(1./Z_Cb))
 
 gpi1=1/rpi1
 gZ2=1./Z2
 gZ1=1./Z1
 gZ3=1./Z3
 go1=1/ro1
-gRC=1/R_C
-gR_out=1/R_out
+gRC=1/RC1
+gR_out=1/RE2
 
 
 A=[gpi1+gZ2+gZ1 0 -gpi1 0 ; gm1 go1+gRC+gpi2 -(go1+gm1) -gpi2 ; (gpi1+gm1) go1 -(gpi1+gm1+gZ3) 0 ; 0 (gpi2+gm2) 0 -(go2+gR_out+gm2+gpi2)]
@@ -167,7 +181,7 @@ Vi=1
 I=(Vi-R(1))/Z1
 
 
-Vs=Vi-I*R_in
+Vs=Vi-I*RS
 
 
 Vo(i)=(R_L/(R_L+Z_Co))*R(4)

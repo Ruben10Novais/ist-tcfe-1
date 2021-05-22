@@ -16,7 +16,7 @@ R2 base 0 20k
 
 * gain stage
 Q1 coll base emit BC547A
-Rc vcc coll 0.95k
+Rc vcc coll 0.9k
 Re emit 0 200
 
 * bypass capacitor
@@ -28,7 +28,7 @@ Q2 0 coll emit2 BC557A
 Rout emit2 vcc 50
 
 * output coupling capacitor
-Co emit2 out 700u
+Co emit2 out 1.5
 
 .op
 .end
