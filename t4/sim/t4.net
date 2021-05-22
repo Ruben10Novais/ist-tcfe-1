@@ -65,18 +65,21 @@ print out[0]
 echo "OP_END"
 
 plot v(coll) v(out) v(in2) 
-hardcopy vcomp.ps v(coll) v(out) v(in2)
+hardcopy comp.ps v(coll) v(out) v(in2)
+echo comp_FIG
 
 
 * frequency analysis
 ac dec 10 10 100MEG
 plot vdb(coll)
 *plot vp(coll)
-hardcopy vgainstagedb.ps vdb(coll)
+hardcopy stage.ps vdb(coll)
+echo stage_FIG
 
 plot vdb(out)
 *plot vp(out)
-hardcopy voutputdb.ps vdb(out)
+hardcopy output.ps vdb(out)
+echo output_FIG
 
 meas ac topo MAX vdb(out)
 meas ac topo2 MAX vm(out)
@@ -113,4 +116,6 @@ echo "merit_END"
 
 *need a different setup to measure output impedance
 
-.endc 
+quit
+
+.endc

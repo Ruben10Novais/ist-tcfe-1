@@ -61,4 +61,6 @@ echo "outimp_TAB"
 echo "Output impedance = $&Zo Ohm"
 echo "outimp_END"
 
+quit
+
 .endc 

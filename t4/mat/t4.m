@@ -182,11 +182,13 @@ yi=max(T_M)-3
 xi=interp1(T_M,f,yi)
 
 
-
+figure
 plot(log10(f),T_M)
+title("Load voltage gain (frequency response)")
+xlabel("log10(f) [Hz]")
 xlim([1 8])
-ylim([0 120])
-title("Resposta de frequencia")
-xlabel ("Frequencia [HZ - escala logaritmica]")
-ylabel ("Gain")
-print ("gain.eps", "-depsc")
+ylabel("Gain [dB]")
+ylim([0 60])
+print("Gain.eps", "-depsc")
+ylabel("Gain [dB]")
+ylim([0 60])
