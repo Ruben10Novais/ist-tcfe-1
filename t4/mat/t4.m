@@ -36,14 +36,14 @@ VO1=VCC-RC1*IC1
 VCE=VO1-VE1
 
 fid = fopen("data_tab.tex","w")
-fprintf(fid, "RB%f \\\\ \\hline \n", RB)
-fprintf(fid, "VEQ%f \\\\ \\hline \n", VEQ)
-fprintf(fid, "IB1%f \\\\ \\hline \n", IB1)
-fprintf(fid, "IC1%f \\\\ \\hline \n", IC1)
-fprintf(fid, "IE1%f \\\\ \\hline \n", IE1)
-fprintf(fid, "VE1%f \\\\ \\hline \n", VE1)
-fprintf(fid, "VO1%f \\\\ \\hline \n", VO1)
-fprintf(fid, "VCE%f \\\\ \\hline \n", VCE)
+fprintf(fid, "RB & %f \\\\ \\hline \n", RB)
+fprintf(fid, "VEQ&%f \\\\ \\hline \n", VEQ)
+fprintf(fid, "IB1&%f \\\\ \\hline \n", IB1)
+fprintf(fid, "IC1&%f \\\\ \\hline \n", IC1)
+fprintf(fid, "IE1&%f \\\\ \\hline \n", IE1)
+fprintf(fid, "VE1&%f \\\\ \\hline \n", VE1)
+fprintf(fid, "VO1&%f \\\\ \\hline \n", VO1)
+fprintf(fid, "VCE&%f \\\\ \\hline \n", VCE)
 fclose(fid)
 
 %Incremental
@@ -163,7 +163,7 @@ xi=interp1(T_M,f,yi)
 plot(log10(f),T_M)
 xlim([1 8])
 ylim([0 120])
-
-
-
-
+title("Resposta de frequencia")
+xlabel ("Frequencia [HZ - escala logaritmica]")
+ylabel ("Gain")
+print ("gain.eps", "-depsc")
