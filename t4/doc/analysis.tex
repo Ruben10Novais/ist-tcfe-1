@@ -72,8 +72,8 @@ At last, the total circuit gain results.
   \caption{Total circuit theoretical gain results}
   \label{tab:output}
 \end{table}
-
-We plotted the frequency response of the circuit for the output voltage of the circuit, in terms of gain and phase difference:
+The gain is slightly lower than the product of the two previous gains, likely due to some signal loss in the interface between stages.
+Besides this approach, we plotted the frequency response of the circuit for the output voltage of the circuit, in terms of gain and phase difference:
 
 \begin{figure}[!h] \centering
 \includegraphics[width=0.6\linewidth]{Gain.eps}
@@ -87,9 +87,11 @@ We plotted the frequency response of the circuit for the output voltage of the c
 \label{fig:phasefreq}
 \end{figure}
 
+\pagebreak
 
-As well, for the medium frequencies (within the bandwidth) we obtained the following gain figure.
+For the medium frequencies (within the bandwidth) we obtained the following gain figure.
 
+We also determined the lower cut-off frequency, which yielded close to 20 Hz, the lowest frequency the human ear can perceive as a musical note. This was achieved by finding the point on the gain frequency response plot that had a 3 decibel drop relative to the maximum gain.
 \begin{table}[h]
   \centering
   \begin{tabular}{|l|r|}
