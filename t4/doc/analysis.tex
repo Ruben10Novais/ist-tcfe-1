@@ -19,7 +19,7 @@ For the gain stage, the analysis of the incremental circuit yielded the followin
   \centering
   \begin{tabular}{|l|r|}
     \hline    
-    {\bf Name} & {\bf Values [V]} \\ \hline
+    {\bf Name} & {\bf Values} \\ \hline
     \input{gain_tab} 
   \end{tabular}
   \caption{Gain stage theoretical results}
@@ -43,7 +43,7 @@ We can clearly see the need for an output stage, given the magnitude of the outp
   \centering
   \begin{tabular}{|l|r|}
     \hline    
-    {\bf Name} & {\bf Values [V]} \\ \hline
+    {\bf Name} & {\bf Values} \\ \hline
     \input{output_tab} 
   \end{tabular}
   \caption{Output stage theoretical results}
@@ -55,9 +55,32 @@ At last, the total circuit gain results.
   \centering
   \begin{tabular}{|l|r|}
     \hline    
-    {\bf Name} & {\bf Values [V]} \\ \hline
+    {\bf Name} & {\bf Values} \\ \hline
     \input{circuit_tab} 
   \end{tabular}
   \caption{Total circuit theoretical gain results}
   \label{tab:output}
+\end{table}
+
+\begin{figure}[!h] \centering
+\includegraphics[width=0.6\linewidth]{Gain.eps}
+\caption{Load output voltage gain (frequency response).}
+\label{fig:gainfreq}
+\end{figure}
+
+\begin{figure}[!h] \centering
+\includegraphics[width=0.6\linewidth]{Phase.eps}
+\caption{Load output voltage phase difference (frequency response).}
+\label{fig:phasefreq}
+\end{figure}
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Values} \\ \hline
+    \input{frequency_tab} 
+  \end{tabular}
+  \caption{Gain for medium frequencies and lower cut-off frequency of the output voltage signal.}
+  \label{tab:freq}
 \end{table}

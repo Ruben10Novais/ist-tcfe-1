@@ -151,7 +151,6 @@ fclose(fid)
 %frequency response
 
 f=logspace(1,8,70)
-w=2*pi*f
 
 gpi1=1/rpi1 
 go1=1/ro1
@@ -174,8 +173,9 @@ T(i)=R(5)/R(6)
 endfor
 
 T_M=20*log10(abs(T))
+Tp=angle(T)*180/pi
 
-Gain=max(T)
+Gain=max(abs(T))
 GaindB=max(T_M)
 yi=max(T_M)-3
 xi=interp1(T_M,f,yi)
@@ -188,3 +188,17 @@ xlim([1 8])
 ylabel("Gain [dB]")
 ylim([0 50])
 print("Gain.eps", "-depsc")
+
+figure
+plot(log10(f),Tp)
+title("Load voltage phase difference (frequency response)")
+xlabel("log10(f) [Hz]")
+xlim([1 8])
+ylabel("Phase [Degrees]")
+print("Phase.eps", "-depsc")
+
+fid = fopen("frequency_tab.tex","w")
+fprintf(fid, "Gain&%f \\\\ \\hline \n", Gain)
+fprintf(fid, "Gain(dB)&%f dB \\\\ \\hline \n", GaindB)
+fprintf(fid, "Lower cut-off frequency&%f Hz \\\\ \\hline \n", xi)
+fclose(fid)
