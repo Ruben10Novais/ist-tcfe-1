@@ -77,9 +77,9 @@ AV1 = - gm1*ZO1*(ZI1/(ZI1+RS))
 AV1dB = 20*log10(abs(AV1))
 
 fid = fopen("gain_tab.tex","w")
-fprintf(fid, "Gm& %f S \\\\ \\hline \n", gm1)
-fprintf(fid, "Rpi&%f Ohm \\\\ \\hline \n", rpi1)
-fprintf(fid, "Ro&%f OHM\\\\ \\hline \n", ro1)
+fprintf(fid, "gm& %f S \\\\ \\hline \n", gm1)
+fprintf(fid, "rpi&%f Ohm \\\\ \\hline \n", rpi1)
+fprintf(fid, "ro&%f Ohm\\\\ \\hline \n", ro1)
 fprintf(fid, "Input impedance&%f Ohm \\\\ \\hline \n", ZI1)
 fprintf(fid, "Output impedance&%f Ohm \\\\ \\hline \n", ZO1)
 fprintf(fid, "Gain&%f \\\\ \\hline \n", AV1)
@@ -93,15 +93,18 @@ fclose(fid)
 VI2 = VO1
 IE2 = (VCC-VEBON-VI2)/RE2
 IC2 = BFP/(BFP+1)*IE2
+IB2 = IE2-IC2
 VO2 = VCC - RE2*IE2
 
-fid = fopen("th_data_tab.tex","w")
-fprintf(fid, "IB1&%f A \\\\ \\hline \n", IB1)
-fprintf(fid, "IC1&%f A \\\\ \\hline \n", IC1)
-fprintf(fid, "IE1&%f A \\\\ \\hline \n", IE1)
-fprintf(fid, "VE1&%f V \\\\ \\hline \n", VE1)
-fprintf(fid, "VO1&%f V \\\\ \\hline \n", VO1)
-fprintf(fid, "VCE&%f V \\\\ \\hline \n", VCE)
+fid = fopen("outoper_tab.tex","w")
+fprintf(fid, "IB2&%f A \\\\ \\hline \n", IB2)
+fprintf(fid, "IC2&%f A \\\\ \\hline \n", IC2)
+fprintf(fid, "IE2&%f A \\\\ \\hline \n", IE2)
+fprintf(fid, "VO2&%f V \\\\ \\hline \n", VO2)
+fprintf(fid, "$V_{vcc}$&12 V \\\\ \\hline \n")
+fprintf(fid, "$V_{coll}$&%f V \\\\ \\hline \n",VO1)
+fprintf(fid, "$V_{emit2}$&%f V \\\\ \\hline \n", VO2)
+fprintf(fid, "$V_{out}$&0 V \\\\ \\hline \n")
 fclose(fid)
 
 %Incremental
@@ -117,13 +120,13 @@ ZI2=(1/gpi2)/(1-AV2)
 ZO2 = 1/(gm2+gpi2+go2+ge2)
 
 fid = fopen("output_tab.tex","w")
-fprintf(fid, "Gm & %f \\\\ \\hline \n", gm2)
-fprintf(fid, "gpi&%f \\\\ \\hline \n", gpi2)
-fprintf(fid, "go&%f \\\\ \\hline \n", go2)
-fprintf(fid, "Input impedance&%f \\\\ \\hline \n", ZI2)
-fprintf(fid, "Output impedance&%f \\\\ \\hline \n", ZO2)
+fprintf(fid, "gm2& %f S \\\\ \\hline \n", gm2)
+fprintf(fid, "rpi2&%f Ohm \\\\ \\hline \n", 1/gpi2)
+fprintf(fid, "ro2&%f Ohm \\\\ \\hline \n", 1/go2)
+fprintf(fid, "Input impedance&%f Ohm \\\\ \\hline \n", ZI2)
+fprintf(fid, "Output impedance&%f Ohm \\\\ \\hline \n", ZO2)
 fprintf(fid, "Gain&%f \\\\ \\hline \n", AV2)
-fprintf(fid, "Gain&%fdB \\\\ \\hline \n", AV2dB)
+fprintf(fid, "Gain(dB)&%f dB \\\\ \\hline \n", AV2dB)
 fclose(fid)
 
 %Circuito geral
@@ -139,8 +142,10 @@ AV=(prep1+prep2)/(prep1+ge2+go2+prep2)*AV1
 AVdB=20*log10(abs(AV))
 
 fid = fopen("circuit_tab.tex","w")
+fprintf(fid, "Input impedance&%f Ohm \\\\ \\hline \n", ZI)
+fprintf(fid, "Output impedance&%f Ohm \\\\ \\hline \n", ZO)
 fprintf(fid, "Gain&%f \\\\ \\hline \n", AV)
-fprintf(fid, "Gain&%fdB \\\\ \\hline \n", AVdB)
+fprintf(fid, "Gain(dB)&%f dB \\\\ \\hline \n", AVdB)
 fclose(fid)
 
 %frequency response
@@ -148,53 +153,32 @@ fclose(fid)
 f=logspace(1,8,70)
 w=2*pi*f
 
-R_L=8
-
-for i=1:length(f)
-
-Z_Ci=1./(i*C_i*w(i))
-Z_Cb=1./(i*C_b*w(i))
-Z_Co=1./(i*C_o*w(i))
-
-Z1=RS+Z_Ci
-Z2=1/((1/RB1)+(1/RB2))
-Z3=1./((1/RE1)+(1./Z_Cb))
-
-gpi1=1/rpi1
-gZ2=1./Z2
-gZ1=1./Z1
-gZ3=1./Z3
+gpi1=1/rpi1 
 go1=1/ro1
 gRC=1/RC1
 gR_out=1/RE2
+gE1 = 1/RE1
+R_L=8
 
+T=1:length(f)
 
-A=[gpi1+gZ2+gZ1 0 -gpi1 0 ; gm1 go1+gRC+gpi2 -(go1+gm1) -gpi2 ; (gpi1+gm1) go1 -(gpi1+gm1+gZ3) 0 ; 0 (gpi2+gm2) 0 -(go2+gR_out+gm2+gpi2)]
+for i=1:length(f)
 
+C=[0, 0, -gpi2-gm2, gR_out+gpi2+gm2+go2+j*2*pi*f(i)*C_o, -j*2*pi*f(i)*C_o, 0 ; gm1, -gm1, go1+gRC+gpi2, -go1-gpi2, 0, 0 ; -gpi1-gm1, gE1+gpi1+gm1+go1+j*2*pi*f(i)*C_b, -go1, 0, 0, 0 ; j*2*pi*f(i)*C_i+gpi1, -gpi1, 0, 0, 0, -j*2*pi*f(i)*C_i ; -j*2*pi*f(i)*C_i, 0, 0, 0, 0, (1/RS)+j*2*pi*f(i)*C_i ; 0, 0, 0, -j*2*pi*f(i)*C_o, j*2*pi*f(i)*C_o+(1/R_L), 0]
+D=[0 ; 0 ; 0 ; 0 ; 0.01/RS; 0]
 
-b=[gZ1 0 0 0]
-b=b'
+R=C\D
 
-R=A\b
-
-Vi=1
-I=(Vi-R(1))/Z1
-
-
-Vs=Vi-I*RS
-
-
-Vo(i)=(R_L/(R_L+Z_Co))*R(4)
-
-T=Vo/Vs
+T(i)=R(5)/R(6)
 
 endfor
 
 T_M=20*log10(abs(T))
 
+Gain=max(T)
+GaindB=max(T_M)
 yi=max(T_M)-3
 xi=interp1(T_M,f,yi)
-
 
 figure
 plot(log10(f),T_M)
@@ -202,7 +186,5 @@ title("Load voltage gain (frequency response)")
 xlabel("log10(f) [Hz]")
 xlim([1 8])
 ylabel("Gain [dB]")
-ylim([0 60])
+ylim([0 50])
 print("Gain.eps", "-depsc")
-ylabel("Gain [dB]")
-ylim([0 60])
