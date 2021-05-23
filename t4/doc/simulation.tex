@@ -1,6 +1,10 @@
 \newpage
 \section{Simulation Analysis}
 \label{sec:simulation}
+Since the input voltage source in this circuit is sinusoidal, the voltage and current values of the various components vary in time, and we are interested therefore in analysing how they evolve in time and obviously we want to picture the transformation of our AC input voltage source throughout the multiple stages of the circuit. We will run an operating point analysis in order to confirm the forward-active region of the two transisters, a transient analysis which will help us measuring the input and output impedances. We will also run a frequency response analysis in order to determine the gain and bandwidth of our output amplified sinusoidal signal. The transistors used were the Philips BJT's.
+
+\subsection{Operating point}
+We start with the operating point analysis. Given that the output signal will be solely sinusoidal, there isn't much relevance to this set of data. Its main goal is to confirm the forward-active region of both the npn and pnp transistors. In table~\ref{tab:operator} we present the operating point node voltages of the circuit. As expected, the voltage in nodes $in$ e $in2$ since our source doesn't have a DC component. Our output signal doesn't have a linear voltage component, since the voltage in node $out$ is zero, because the output coupling capacitor blocks the coming DC voltage. Regarding the npn transistor, the voltage drop must occur from the collector to the base, and from the base to the emitter - since $V_{coll}>V_{base}>V_{emit}$, this is confirmed. Looking to the pnp transistor, our collector node is ground, our base node is $coll$ and our emitter node is $emit2$. The voltage drop in this case must happen from the emitter to the collector. Since $V_{emit2}>V_{coll}>GND$, this is confirmed - both our transistors work in the pretended forward-active region.
 
 \begin{table}[h]
   \centering
@@ -12,6 +16,9 @@
   \caption{Operating point node voltage values of the amplifier circuit.}
   \label{tab:operator}
 \end{table}
+
+\subsection{Frequency response and impedances}
+We measured the input impedance of the circuit, seen through the perspective of the source, and the output impedance, seen through the perspective of our output (using a dummy test source). With the frequency response, we measured the voltage gain in our output. As we will see in figure~\ref{fig:outputstage}, the gain graph has the traits of a band-pass filter, letting pass medium frequencies (our source operates at a medium frequency), so we measure the in that zone. We also measured then the lower and upper cut-off frequencies of such graph, in order to determine the bandwidth of our amplifier. In table~\ref{tab:main}, we present the results of our calculations. In figures~\ref{fig:gainstage}and~\ref{fig:outputstage} we can see the evolution of the gain throughout the circuit, first the gain out of the gain stage - node $coll$ - and then the final gain, the gain out of the output stage - node $out$. With this figures we can confirm the band-pass filter trait of our circuit.
 
 \begin{table}[h]
   \centering
@@ -25,6 +32,8 @@
   \label{tab:main}
 \end{table}
 
+Analysing both the input and output impedances of the circuit, the input impedance is pretty satisfactory as it allows the vast majority of input voltage to go through the transistors, which means a low voltage loss. However, comparing the value of the output impedance with the load resistor, they are very much comparable. This means that part of the gain coming from the transistors will be consumed by some of our resistors in the circuit, hence losing a considerable part of the possible output gain. However, given the gain value we obtained, the overall result is very satisfying.
+
 \begin{figure}[!h] \centering
 \includegraphics[width=0.6\linewidth]{stage.pdf}
 \caption{Gain Stage output voltage gain (frequency response).}
@@ -37,6 +46,16 @@
 \label{fig:outputstage}
 \end{figure}
 
+\subsection{Final product and merit}
+In figure~\ref{fig:comp}, we can see the evolution of our AC signal from stage to stage until its final form. The output voltage has a null DC component as pretended, a symmetric phase in comparison to the input source (it's inverted) and a clear greater amplitude of approximately 0.55V, in comparison to the input's 10mV. We can say then that we have achieved the goal of amplifying our input signal, in this case, by 50-60 times!
+In table~\ref{tab:merit}, we present the cost and merit of our circuit. When looking to the parameters judged by the merit formula, we achieved an amazing bandwidth that clearly operates in the 20Hz-20kHz frequency band pretended, since we have an upper cut-off frequency in the zone of MHz, and a lower cut-off frequency inferior to 20Hz - $\approx$16Hz. The voltage gain could always be a bit higher, but without a defined pretended output amplitude, we can't really evaluate our achieved gain. Since we achieved a merit similar to 2326, the high cost seems like a reasonable price to pay for a circuit with these results. We were able however to achieve greater values of gain, but the output sinusoidal wave would be distorted, almost "cut-off" in its positive voltage periods, which was clearly not desirable, so we escaped from such happening, no matter the increase of gain it delivered.
+
+\begin{figure}[!h] \centering
+\includegraphics[width=0.6\linewidth]{comp.pdf}
+\caption{Evolution of the AC signal from input to output.}
+\label{fig:comp}
+\end{figure}
+
 \begin{table}[h]
   \centering
   \begin{tabular}{|l|r|}
@@ -47,22 +66,5 @@
   \caption{Cost and merit of the audio amplifier circuit.}
   \label{tab:merit}
 \end{table}
-
-\begin{figure}[!h] \centering
-\includegraphics[width=0.6\linewidth]{comp.pdf}
-\caption{Evolution of the AC signal from input to output.}
-\label{fig:comp}
-\end{figure}
-
-Since the input voltage source in this circuit is sinusoidal, the voltage and current values of the various components vary in time, and we are interested therefore in analysing how they evolve in time and obviously we want to picture the transformation of our AC input voltage source throughout the multiple stages of the circuit. Therefore, we will run a single transient analysis for this circuit, lasting 10 periods of the voltage source. For this simulation we are not taking the natural solution into account, only the forced one. In our simulation we came across a large transitional period of roughly 4 seconds, until the output voltage source stabilized enough in the envelope detector, so we only account for data after this period, [3.8 ; 4.0]. This is due to the natural solution of the voltage and its downfall effects will be aproached in our conclusions. We used the default diode model of NGSpice in this simulation and we saw no need of introducing a transformer since it only reduces the amplitude of the voltage source, so we applied the AC voltage output of the transformer as our input voltage source of the circuit.
-\subsection{Envelope Detector Output Voltage}
-In figure we present the plot of the envelope detector output voltage throughout 10 periods, and in table we introduce the average voltage (approximate DC component) and the voltage ripple of such voltage. Since the objective lies in the output of the regulator, this set of data isn't of much relevance.
-
-\subsection{Voltage Regulator Output Voltage - The output of the circuit}
-Now, in figure we present the plot of the voltage regulator output voltage throughout the same 10 periods, and in table we introduce the average voltage (approximate DC component) and the voltage ripple of such voltage. This is indeed our desired output voltage for the circuit, so its average and ripple are very important data. In this case, we managed a average output voltage that only differs from 12V in its last significant algharism, and a voltage ripple in the order of the uV, which seems to us a pretty satisfactory result.
-
-In figure we are able to get a closer look to the slight deviations from the desired linear 12V in our output, and in figure we compare the input voltage source post-transformer, the output of the envelope detector, and our final output - the voltage regulator output voltage. In this figure we can see the linear character of the voltage post-envelope detector, opposed to its sinusoidal form after the transformer, so the envelope did its job in annihilating the sinusoidal wave form. Then, we can see that our final output voltage maintains this linear (DC) trait, even improving on it thanks to the resistor, and it is now at the desired 12V fruit of the action of our limiter, the 20 diodes in series.
-
-Going back to table, we calculated the figure of merit for this configuration, and obtained a value close to 5. The value could have been higher if the average of the output voltage were a straight 12V, which is not the case. Another way to increase the merit would have been to diminuish our ripple by increasing our resistors and capacitor values. Even though we would be increasing our cost, the decrease of the ripple would have an even bigger effect than that of the cost, increasing our merit. However, we noticed this could come at the cost of a even bigger transitional period, which is not a good model for an AC/DC converter, since it is impractical to wait more than 5 seconds for the conversion to take place in an effective manner. A way to decrease this transitional period could come in the form of increasing the input voltage source coming from the transformer, but that would require an even bigger resistance in the regulator to help bring that value down (we're using the default diode model, not the theoretical ideal one)... Final notes on the figure of merit topic will be approached in our conclusions.
 
 \par
