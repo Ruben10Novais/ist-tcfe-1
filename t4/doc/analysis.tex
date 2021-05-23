@@ -27,6 +27,9 @@ For the gain stage, the analysis of the incremental circuit yielded the followin
 \end{table}
 
 We can clearly see the need for an output stage, given the magnitude of the output impedance. The gain is also significant, and we'll strive for a unitary gain in the output stage in order not to sacrifice this.
+
+\subsection{Output Stage}
+As before, we perform a DC operating point analysis:
 \begin{table}[h!]
   \centering
   \begin{tabular}{|l|r|}
@@ -37,8 +40,13 @@ We can clearly see the need for an output stage, given the magnitude of the outp
   \caption{Operating point analysis results.}
   \label{tab:data2}
 \end{table}
+From both the table and the following equation we can understand that the voltage drop in this transistor is greater than 0.7V and so it is operating in the forward active region.
+\begin{equation}
+\label{eqn:collector}
+V_{emit2}=V_{coll}+V_{EBON};
+\end{equation}
 
-\subsection{Output Stage}
+Next, we present the results of the output stage theoretical model.
 \begin{table}[h]
   \centering
   \begin{tabular}{|l|r|}
@@ -49,8 +57,11 @@ We can clearly see the need for an output stage, given the magnitude of the outp
   \caption{Output stage theoretical results}
   \label{tab:output}
 \end{table}
-As desired, the input impedance of this stage is much bigger than the output impedance of the gain stage. This means that the circuit experiences very little signal loss. As well, the output impedance of this stage is desirably low when compared to the 8 Ohm of the speakers.
+\pagebreak
+
+As desired, the input impedance of this stage is more than 10 times greater than the output impedance of the gain stage. This means that the circuit experiences little signal loss. As well, the output impedance of this stage is desirably low when compared to the 8 Ohm of the speakers.
 At last, the total circuit gain results.
+
 \begin{table}[h]
   \centering
   \begin{tabular}{|l|r|}
@@ -61,6 +72,8 @@ At last, the total circuit gain results.
   \caption{Total circuit theoretical gain results}
   \label{tab:output}
 \end{table}
+
+We plotted the frequency response of the circuit for the output voltage of the circuit, in terms of gain and phase difference:
 
 \begin{figure}[!h] \centering
 \includegraphics[width=0.6\linewidth]{Gain.eps}
@@ -73,6 +86,9 @@ At last, the total circuit gain results.
 \caption{Load output voltage phase difference (frequency response).}
 \label{fig:phasefreq}
 \end{figure}
+
+
+As well, for the medium frequencies (within the bandwidth) we obtained the following gain figure.
 
 \begin{table}[h]
   \centering
