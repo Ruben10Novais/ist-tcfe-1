@@ -1,0 +1,33 @@
+\section{Introduction}
+\label{sec:introduction}
+% state the learning objective 
+The objective of this laboratory assignment is to build an audio amplifier circuit.
+Our circuit input consists of a 10 mV sinusoidal signal and its inevitable resistance. This signal goes through a first stage - the gain stage - whose principal component is the NPN transistor. This stage will amplify our signal drastically, but it will be not suited to be connected to our load due to its high output impedance (which would consume a great part of its own voltage). At the entrance of this stage we have an input coupling capacitor to block unwanted DC current. Now the signal goes through our second stage - the output stage - primarily composed of a PNP transistor. This stage will approximately mantain our amplitude, but due to the stage's very low output impedance, the signal will now be suitable to be linked to our resistor load without considerable gain lost. Before the load we have an output coupling capacitor, which will block the coming DC voltage, allowing a solely sinusoidal output signal. For this to run, we need a bias circuit powered by a supply DC voltage of 12V overlapped with our main circuit. 
+For this laboratory assignment there is a figure of merit, depending on the results obtained in the NGSpice simulation. This figure takes into account the cost of the components used, and the results they provide - a desirably low cut off frequency, the voltage gain and usable bandwidth. The figure is calculated using the formula given by equation~\ref{eqn:merit}. The cost englobes the cost of transistors (0.1 units per transistor), resistors (1 unit per KOhm) and capacitors (1 unit per uF). The objective is to achieve the highest merit, so we tried different configurations of components data until we achieved our greatest figure of merit.
+Since the human ear can perceive frequencies between 20 Hz to 20 kHz, the circuit was designed to amplify that frequency band.
+
+\begin{equation}
+\label{eqn:merit}
+M=\frac{Gain*Bandwidth}{Cost*LowerCutOffFrequency}
+\end{equation}
+
+\begin{figure}[h] \centering
+\includegraphics[width=0.9\linewidth]{amplifier.pdf}
+\caption{Geometry of our Audio Amplifier circuit.}
+\end{figure}
+
+To analyse this circuit theoretically we will separate the circuit in two stages: the gain and output stage. We will determine the operating point values of the circuit, with the help of a Thévenin equivalent of the bias circuit, in order to confirm the forward-active region of the transistors, and we will use the transistor incremental model to base in our calculations for the AC component of our circuit. We will compare these results with the ones obtained in the NGSpice simulation.
+That being said, in Section 2 we present the theoretical models and calculations used to determine the operating point, gain, impedances and frequency response, in Section 3 we introduce the results obtained in the simulation. Finally, in Section 4 we compare the two set of results, looking for possible discrepancies and we lay out our conclusions.
+In Table~\ref{tab:data}, we list the numeric values of the components used (nomenclatures consistent with the theoretical lecture), and some important parameters of the Philips BJT transistors used which will come in handy in our theoretical calculations.
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Values} \\ \hline
+    \input{initialdata_tab} 
+  \end{tabular}
+  \caption{Values of components used in our analysis and simulation.}
+  \label{tab:data}
+\end{table}
+
