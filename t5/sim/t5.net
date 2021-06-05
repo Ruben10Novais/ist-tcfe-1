@@ -53,13 +53,20 @@ Vcc vcc 0 5.0
 Vee vee 0 -5.0
 Vin in 0 0 ac 1.0 sin(0 10m 1k)
 
-X1 0 inv_in vcc vee out uA741
+X1 non_inv inv_in vcc vee outp uA741
 
-R1 in inv_in 1000
-R2 inv_in out 10000
+R1 non_inv 0 10000
+C1 in non_inv 1u
 
-* load
-RL out 0 8
+R3 inv_in 0 1000
+R4 outp inv_in 100000
+*R5 x y 10000
+*R6 y z 10000
+*R7 z inv_in 10000
+
+R2 outp out 500
+C2 out 0 220n
+C22 out 0 220n
 
 .op
 .end
@@ -70,18 +77,34 @@ print all
 
 * time analysis
 tran 1e-5 1e-2
+plot v(non_inv)
 plot v(out)
-hardcopy vo1.ps vdb(out)
+hardcopy vo1.ps v(out)
 
 
 * frequency analysis
-ac dec 10 10 100MEG
+ac dec 10 1 100MEG
 plot vdb(out)
 plot vp(out)
+plot vdb(outp)
 hardcopy vo1f.ps vdb(out)
 
+let transfer = vdb(out)-vdb(in)
+let transferv = vm(out)/vm(in)
+
+meas ac topo MAX transfer
+meas ac topo2 MAX transferv
+let zone = topo - 3
+meas ac lower WHEN transfer = zone
+meas ac upper WHEN transfer = zone CROSS = LAST
+let bandwidth = upper - lower
+let central = (upper + lower)/2
+print central
+
 *input impedance in kohm
-print v(in)[40]/R1[i]/1000
+print -v(in)[30]/Vin#branch[30]*0.001
+let Zi = abs(-v(in)[30]/Vin#branch[30]*0.001)
+print Zi
 
 *need a different setup to measure output impedance
 
