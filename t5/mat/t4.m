@@ -7,6 +7,15 @@ R4 = 1000
 C1 = 220e-9
 C2 = 110e-9
 
+fid = fopen("initdata_tab.tex","w")
+fprintf(fid, "$R_1$ & %fOhm \\\\ \\hline \n", R1)
+fprintf(fid, "$R_2$ & %fOhm \\\\ \\hline \n", R2)
+fprintf(fid, "$R_3$ & %fOhm \\\\ \\hline \n", R3)
+fprintf(fid, "$R_4$ & %fOhm \\\\ \\hline \n", R4)
+fprintf(fid, "$C_1$ & %fFarad \\\\ \\hline \n", C1)
+fprintf(fid, "$C_2$ & %fFarad \\\\ \\hline \n", C2)
+fclose(fid)
+
 f = logspace(1,8,70);
 T = (R1*C1*2*pi*f*j)./(1+R1*C1*2*pi*f*j).*(1+R3/R4).*(1./(1+R2*C2*2*pi*f*j))
 fig1 = figure();
@@ -43,6 +52,10 @@ AV= AV_HP + AV_Amp + AV_LP
 z_in = R1 + 1/(j*wO*C1)
 z_out = R2/(j*wO*C2)/(R2+1/(j*wO*C2))
 
+costOPAmp=22*0.1+158125/1000+30*10^-6
+cost=(R1+R2+R3+R4)/1000+(C1+C2)+costOPAmp
+merit=1/(cost*abs(AV-40)*abs(wO-1000))
+
 fid = fopen("theo_tab.tex","w")
 fprintf(fid, "$AV_{HP}$ & %f dB \\\\ \\hline \n", AV_HP)
 fprintf(fid, "$AV_{Amp}$& %f dB \\\\ \\hline \n", AV_Amp)
@@ -50,8 +63,5 @@ fprintf(fid, "$AV_{LP}$ & %f dB \\\\ \\hline \n", AV_LP)
 fprintf(fid, "$AV$ & %f dB \\\\ \\hline \n", AV)
 fprintf(fid, "$Z_{in}$ & %f Ohm \\\\ \\hline \n", z_in)
 fprintf(fid, "$Z_{out}$ & %f Ohm \\\\ \\hline \n", z_out)
+fprintf(fid, "Merit & %f\\\\ \\hline \n", merit)
 fclose(fid)
-
-costOPAmp=22*0.1+158125/1000+30*10^-6
-cost=(R1+R2+R3+R4)/1000+(C1+C2)+costOPAmp
-merit=1/(cost*abs(AV-40)*abs(wO-1000))
