@@ -1,7 +1,7 @@
 clear all
 
-R1 = 5000
-R2 = 5000
+R1 = 1000
+R2 = 1000
 R3 = 100000
 R4 = 1000
 C1 = 220e-9
@@ -51,3 +51,7 @@ fprintf(fid, "$AV$ & %f dB \\\\ \\hline \n", AV)
 fprintf(fid, "$Z_{in}$ & %f Ohm \\\\ \\hline \n", z_in)
 fprintf(fid, "$Z_{out}$ & %f Ohm \\\\ \\hline \n", z_out)
 fclose(fid)
+
+costOPAmp=22*0.1+158125/1000+30*10^-6
+cost=(R1+R2+R3+R4)/1000+(C1+C2)+costOPAmp
+merit=1/(cost*abs(AV-40)*abs(wO-1000))
