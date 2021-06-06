@@ -45,8 +45,6 @@
 .model qx NPN(Is=800.0E-18 Bf=93.75)
 .ends
 
-
-
 .options savecurrents
 
 Vcc vcc 0 5.0
@@ -55,58 +53,92 @@ Vin in 0 0 ac 1.0 sin(0 10m 1k)
 
 X1 non_inv inv_in vcc vee outp uA741
 
-R1 non_inv 0 10000
-C1 in non_inv 1u
+R1 non_inv 0 1000
+C1 in non_inv 220n
 
 R3 inv_in 0 1000
-R4 outp inv_in 100000
-*R5 x y 10000
-*R6 y z 10000
-*R7 z inv_in 10000
+R4 outp x 100000
+R41 x inv_in 100000
+R42 x inv_in 100000
 
-R2 outp out 500
-C2 out 0 220n
-C22 out 0 220n
+R2 outp out 1000
+C2 out 0 110n
 
 .op
 .end
 
 .control
 
+set hcopypscolor=0
+set color0=white
+set color1=black
+set color2=red
+set color3=blue
+set color4=violet
+set color5=rgb:3/8/0
+set color6=rgb:4/0/0
+
 print all
 
 * time analysis
 tran 1e-5 1e-2
-plot v(non_inv)
-plot v(out)
-hardcopy vo1.ps v(out)
-
+plot v(out) v(in)
+hardcopy vo1.ps v(out) v(in)
+echo vo1_FIG
 
 * frequency analysis
-ac dec 10 1 100MEG
-plot vdb(out)
-plot vp(out)
-plot vdb(outp)
-hardcopy vo1f.ps vdb(out)
+ac dec 10 10 100MEG
+plot vdb(out)-vdb(in)
+plot (vp(out)-vp(in))*180/PI
+hardcopy vo1f.ps vdb(out)-vdb(in)
+echo vo1f_FIG
+hardcopy vo1p.ps (vp(out)-vp(in))*180/PI
+echo vo1p_FIG
 
 let transfer = vdb(out)-vdb(in)
 let transferv = vm(out)/vm(in)
 
-meas ac topo MAX transfer
-meas ac topo2 MAX transferv
-let zone = topo - 3
+meas ac gain MAX transfer
+meas ac gainv MAX transferv
+
+let zone = gain - 3
 meas ac lower WHEN transfer = zone
 meas ac upper WHEN transfer = zone CROSS = LAST
 let bandwidth = upper - lower
-let central = (upper + lower)/2
-print central
+let centralf = sqrt(lower*upper)
+print centralf
+
+let cost = 2 + 0.66 + 1 + 300 + 13323.29204
+let gaindev = abs(100-gainv)
+let freqdev = abs(1000-centralf)
+let merit = 1/(cost*(gaindev+freqdev+(1e-6)))
 
 *input impedance in kohm
-print -v(in)[30]/Vin#branch[30]*0.001
-let Zi = abs(-v(in)[30]/Vin#branch[30]*0.001)
-print Zi
+let Zi = -v(in)[20]/Vin#branch[20]*0.001
+let real = RE(Zi)
+let imag = IM(Zi)
+let modulus = abs(Zi)
+let phase = phase(Zi)*180/PI
+print Zi modulus phase
+
+echo "data_TAB"
+echo "Gain  = $&gainv"
+echo "Gain(dB) = $&gain"
+echo "Lower cut-off frequency = $&lower Hz"
+echo "Upper cut-off frequency = $&upper Hz"
+echo "Bandwidth = $&bandwidth Hz"
+echo "Central frequency = $&centralf Hz"
+echo "Input impedance = $&real + j*$&imag kOhm"
+echo "Input impedance modulus = $&modulus kOhm"
+echo "Input impedance phase = $&phase degrees"
+echo "data_END"
+
+echo "merit_TAB"
+print cost merit
+echo "merit_END"
 
 *need a different setup to measure output impedance
 
-.endc 
+quit
 
+.endc 
