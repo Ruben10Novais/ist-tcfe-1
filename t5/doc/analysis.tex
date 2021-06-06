@@ -4,10 +4,10 @@
 With the following equations we determined both cutoff frequencies for the band pass circuit. 
 
 \begin{equation}
-w_L=\frac{1}{R1C1}
+w_L=\frac{1}{R_{1}C_{1}}
 \end{equation}
 \begin{equation}
-w_L=\frac{1}{R2C2}
+w_H=\frac{1}{R_{2}C_{2}}
 \end{equation}
 This was the definition used to determine the central frequency, which is meant to be 1KHz.
 \begin{equation}
@@ -25,18 +25,19 @@ w_O=\sqrt{w_{H}w_{L}}
   \label{tab:data}
 \end{table}
 
-\begin{figure}[!h] \centering
+\begin{figure}[h!] \centering
 \includegraphics[width=0.6\linewidth]{gain.eps}
 \caption{Voltage gain frequency response.}
 \label{fig:gainfreq}
 \end{figure}
 
-\begin{figure}[!h] \centering
+\begin{figure}[h!] \centering
 \includegraphics[width=0.6\linewidth]{phase.eps}
 \caption{Voltage phase frequency response.}
 \label{fig:gainfreq}
 \end{figure}
-
+The gain value peaks around the central frequency, at which point the output voltage is in phase with the input voltage.
+\pagebreak
 \subsection{Central frequency results}
 For the mentioned central frequency we computed the circuit gain and input and output impedances for the amplifier. Also, we determined a theoretical figure of merit based on the predicted results with the set of values we chose.
 \begin{table}[h!]
@@ -49,3 +50,14 @@ For the mentioned central frequency we computed the circuit gain and input and o
   \caption{Voltage gain of the different stages and input/output impedances of the amplifier.}
   \label{tab:data}
 \end{table}
+The gain value for the entire circuit is obtained by summing the individual gains (in decibels) of each of the three subcircuits. This is an ideal situation, where we don't take into account the loss of signal between stages.
+These are the equations for the gain values:
+\begin{equation}
+High Pass Gain=\frac{R_{1}C_{1}jw_{O}}{1+R_{1}C_{1}jw_{O}}
+\end{equation}
+\begin{equation}
+Amplifier Gain=1+\frac{R_{4}}{R_{3}}
+\end{equation}
+\begin{equation}
+Low Pass Gain=\frac{1}{1+R_{2}C_{2}jw_{O}}
+\end{equation}

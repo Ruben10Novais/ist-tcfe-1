@@ -6,9 +6,9 @@ The objective of this laboratory assignment is to build a BandPass Filter (BPF) 
 In order to achieve this, we used a selected number of components whose properties were predefined.
 
 
-our circuit is comprised of a $\mu$A741 OPAMP connected to two resistors, creating a non-inverting amplifier, and a combination of resistors and capacitors to take care of the filtering. These components are arranged according to figure 1.
+Our circuit is comprised of a $\mu$A741 OPAMP connected to two resistors, creating a non-inverting amplifier, and a combination of resistors and capacitors to take care of the filtering. These components are arranged according to figure \ref{fig:circuit1} and their values shown in table \ref{tab:circuit}.
 
-The signal goes through a first stage where we have a capacitor whose function is to block unwanted DC current and to filter out lower frequencies, since the rest of the circuit is connected to the terminals of the resistor. Now the signal goes through a combination of resistors and a $\mu$741 OPAMP. This arrangement creates a non-inverting amplifier. In this configuration, the output singal is "in-phase" with the input signal. Feedback control of the non-inverting OPAMP is achieved by applying a small part of the output voltage back to the inverting (-) terminal via Rx-Ry voltage divider network. And finally, the signal is subjected to a voltage divider network comprised of resistor Rz and capacitor C-ona. The desired voltage corresponds to the voltage drop at the terminals of the capacitor which, as a result, is subjected to a low pass filtering. For this to run, we need two supply DC voltage sources overlapped with our main circuit in order to power the transistors inside the OPAMP.
+The signal goes through a first stage where we have a capacitor whose function is to block unwanted DC current and to filter out lower frequencies, since the rest of the circuit is connected to the terminals of the resistor. Now the signal goes through a combination of resistors and a $\mu$741 OPAMP. This arrangement creates a non-inverting amplifier. In this configuration, the output signal is "in-phase" with the input signal. Feedback control of the non-inverting OPAMP is achieved by applying a small part of the output voltage back to the inverting (-) terminal via Rx-Ry voltage divider network. And finally, the signal is subjected to a voltage divider network comprised of resistor Rz and capacitor C-ona. The desired voltage corresponds to the voltage drop at the terminals of the capacitor which, as a result, is subjected to a low pass filtering. For this to run, we need two supply DC voltage sources overlapped with our main circuit in order to power the transistors inside the OPAMP.
 
 
 For this laboratory assignment there is a figure of merit, depending on the results obtained in the NGSpice simulation. This figure takes into account the cost of the components used, and the results they provide - a desirably low gain deviation and low central frequency deviation. The figure is calculated using the formula given by equation~\ref{eqn:merit}. The cost englobes the cost of transistors (0.1 units per transistor), resistors (1 unit per KOhm) and capacitors (1 unit per uF). The objective is to achieve the highest merit, so we tried different configurations of components data until we achieved our greatest figure of merit.
@@ -16,17 +16,26 @@ For this laboratory assignment there is a figure of merit, depending on the resu
 
 \begin{equation}
 \label{eqn:merit}
-M=\frac{1}{Cost*Gain Deviation*Central Frequency Deviation}
+M=\frac{1}{Cost*(Gain Deviation+Central Frequency Deviation+10^{-6})}
 \end{equation}
 
 \begin{figure}[h] \centering
 \includegraphics[width=0.9\linewidth]{circuit.pdf}
 \caption{Geometry of our Audio Amplifier circuit.}
+\label{fig:circuit1}
 \end{figure}
+
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Values} \\ \hline
+    \input{initdata_tab} 
+  \end{tabular}
+  \caption{Values of the components used.}
+  \label{tab:circuit}
+\end{table}
 
 To analyse this circuit theoretically we computed the transfer function for each stage in order to obtain the overall transfer function.
 
-That being said, in Section 2 we present the theoretical models and calculations used to determine the transfer function and, therefore, the frequency response of the circuit, in Section 3 we introduce the results obtained in the simulation. Finally, in Section 4 we compare the two set of results, looking for possible discrepancies and we lay out our conclusions.
-
-
-
+That being said, in Section \ref{sec:analysis} we present the theoretical models and calculations used to determine the transfer function and, therefore, the frequency response of the circuit, in Section 3 we introduce the results obtained in the simulation. Finally, in Section 4 we compare the two set of results, looking for possible discrepancies and we lay out our conclusions.
