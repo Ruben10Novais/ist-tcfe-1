@@ -1,26 +1,57 @@
 \newpage
 \section{Simulation Analysis}
 \label{sec:simulation}
-Since the input voltage source in this circuit is sinusoidal, the voltage and current values of the various components vary in time, and we are interested therefore in analysing how they evolve in time and obviously we want to picture the transformation of our AC input voltage source throughout the multiple stages of the circuit. We will run an operating point analysis in order to confirm the forward-active region of the two transisters, a transient analysis which will help us measuring the input and output impedances. We will also run a frequency response analysis in order to determine the gain and bandwidth of our output amplified sinusoidal signal. The transistors used were the Philips BJT's.
-
-\subsection{Operating point}
-We start with the operating point analysis. Given that the output signal will be solely sinusoidal, there isn't much relevance to this set of data. Its main goal is to confirm the forward-active region of both the npn and pnp transistors. In table~\ref{tab:operator} we present the operating point node voltages of the circuit. As expected, the voltage in nodes $in$ e $in2$ since our source doesn't have a DC component. Our output signal doesn't have a linear voltage component, since the voltage in node $out$ is zero, because the output coupling capacitor blocks the coming DC voltage. Regarding the npn transistor, the voltage drop must occur from the collector to the base, and from the base to the emitter - since $V_{coll}>V_{base}>V_{emit}$, this is confirmed. Looking to the pnp transistor, our collector node is ground, our base node is $coll$ and our emitter node is $emit2$. The voltage drop in this case must happen from the emitter to the collector. Since $V_{emit2}>V_{coll}>GND$, this is confirmed - both our transistors work in the pretended forward-active region.
-
-
+Since the input voltage source in this circuit is sinusoidal, the voltage and current values of the various components vary in time, and we are interested therefore in analysing how they evolve in time and obviously we want to picture the transformation of our AC input voltage source from the input to the output of the circuit. We will run a transient analysis which will help us measuring the input and output impedances. We will also run a frequency response analysis in order to determine the gain and central frequency of our output amplified sinusoidal signal.
 
 \subsection{Frequency response and impedances}
-We measured the input impedance of the circuit, seen through the perspective of the source, and the output impedance, seen through the perspective of our output (using a dummy test source). With the frequency response, we measured the voltage gain in our output. As we will see in figure~\ref{fig:outputstage}, the gain graph has the traits of a band-pass filter, letting pass medium frequencies (our source operates at a medium frequency), so we measure the in that zone. We also measured then the lower and upper cut-off frequencies of such graph, in order to determine the bandwidth of our amplifier. In table~\ref{tab:main}, we present the results of our calculations. In figures~\ref{fig:gainstage}and~\ref{fig:outputstage} we can see the evolution of the gain throughout the circuit, first the gain out of the gain stage - node $coll$ - and then the final gain, the gain out of the output stage - node $out$. With this figures we can confirm the band-pass filter trait of our circuit.
+We measured the input impedance of the circuit, seen through the perspective of the source, and the output impedance, seen through the perspective of our output (using a dummy test source). With the frequency response, we measured the voltage gain in our output and the lower and upper cut-off frequencies. Using the same equation from the theoretical analysis we determined the central frequency, then extracting the output gain for such frequency. In table~\ref{tab:main}, we present the results of our calculations. In figures~\ref{fig:gainstage}and~\ref{fig:outputstage} we can see the frequency response for our output's gain and phase, respectively. With this figures we can notice a slightly narrow band-pass filter, as expected and wanted. Regarding the phase plot though, we notice a full circle phase drop until it reaches the 90 degrees back again, whereas in the theoretical analysis the phase drops from 90 degrees to -90 degrees, stabilizing there. This difference is cause of the aproximation used to study the OP-AMP behaviour in the theoretical section. For study purposes, we considered the OP-AMP did not introduce any phase difference in its output compared to its input, which is not true in reality. Due to the two transistors used in the uA741 OP-AMP, the transfer function in this sector actually presents 2 poles, which causes a double phase drop of 90 degrees (45 degrees the decade before and 45 degrees the decade after) each, which then means the phase actually drops 180 degrees due to the OP-AMP, hence stabilizing not in -90 degrees, but in 90 (-270) degrees.
 
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Values} \\ \hline
+    \input{data_tab}
+    \input{outimp_tab}     
+  \end{tabular}
+  \caption{Output gain, center frequency, and input and output impedances of the OP-AMP band-pass filter.}
+  \label{tab:main}
+\end{table}
 
+Our input impedance value is reasonably high, so, depending on the input signal's inner resistance, it does allow the great majority of the input voltage to flow through ahead to the OP-AMP. That being said, the output impedance value is also considerably high, which in this case is not desirable. This means that for loads with low resistance values, most of the voltage will be consumed by the circuit's output impedance itself, undoing its very purpose. This band-pass filter is then better suited for loads with greater resistance values. Given the components we had at our disposal, it was very difficult to accomplish a lower value for the output impedance, specially without comprimising the most important goal of this laboratory assignment.
+Looking now to the central frequency obtained, and the gain for such frequency, we had very slight deviations from the targeted values - 1 kHz and 40 dB. That being said, we obtained a 1.863\% relative error for the central frequency value, and a 0.264\% error for the output voltage gain, which we consider to be fantastic results, when we take into account the limited components available, which made optimization more difficult than usual.
 
-Analysing both the input and output impedances of the circuit, the input impedance is pretty satisfactory as it allows the vast majority of input voltage to go through the transistors, which means a low voltage loss. However, comparing the value of the output impedance with the load resistor, they are very much comparable. This means that part of the gain coming from the transistors will be consumed by some of our resistors in the circuit, hence losing a considerable part of the possible output gain. However, given the gain value we obtained, the overall result is very satisfying.
+\begin{figure}[!h] \centering
+\includegraphics[width=0.6\linewidth]{vo1f.pdf}
+\caption{Output voltage gain (frequency response).}
+\label{fig:gainstage}
+\end{figure}
 
-
+\begin{figure}[!h] \centering
+\includegraphics[width=0.6\linewidth]{vo1p.pdf}
+\caption{Output voltage phase difference (frequency response).}
+\label{fig:outputstage}
+\end{figure}
 
 \subsection{Final product and merit}
-In figure~\ref{fig:comp}, we can see the evolution of our AC signal from stage to stage until its final form. The output voltage has a null DC component as pretended, a symmetric phase in comparison to the input source (it's inverted) and a clear greater amplitude of approximately 0.55V, in comparison to the input's 10mV. We can say then that we have achieved the goal of amplifying our input signal, in this case, by 50-60 times!
-In table~\ref{tab:merit}, we present the cost and merit of our circuit. When looking to the parameters judged by the merit formula, we achieved an amazing bandwidth that clearly operates in the 20Hz-20kHz frequency band pretended, since we have an upper cut-off frequency in the zone of MHz, and a lower cut-off frequency inferior to 20Hz - $\approx$16Hz. The voltage gain could always be a bit higher, but without a defined pretended output amplitude, we can't really evaluate our achieved gain. Since we achieved a merit similar to 2326, the high cost seems like a reasonable price to pay for a circuit with these results. We were able however to achieve greater values of gain, but the output sinusoidal wave would be distorted, almost "cut-off" in its positive voltage periods, which was clearly not desirable, so we escaped from such happening, no matter the increase of gain it delivered.
+In figure~\ref{fig:comp}, we can compare the output signal to the input. As normal, the output voltage does not possess a DC component. Since the wanted gain was 40 dB, which is the same as 100$\times$ the initial amplitude, we can see the clear evolution from the starting 10mV to the final 1V of amplitude (more or less). For the first few milisseconds there is some small variation in the output sinusoidal wave due to a small transient regime.
+In table~\ref{tab:merit}, we present the cost and merit of our circuit. As we've already discusseed, we obtained a central frequency and gain very close to the targeted ones, which is expressed by very low relative erros, and therefore very small deviations. The overall cost of the circuit is considerably high, but that is mainly due to the high cost of the OP-AMP subcircuit itself. Because of this, using higher cost components in the rest of the circuit became more tolerable, since it wouldn't create as much of an effect in the overall cost value. Because of this we used the three 100 kOhm resistors available in the amplification stage, which allowed us to get an almost perfect gain for the central frequency, without harming the merit figure. The merit figure itself is clearly a very low number, but we believe that is only cause of the merit formula itself.
 
+\begin{figure}[!h] \centering
+\includegraphics[width=0.6\linewidth]{vo1.pdf}
+\caption{Comparison between the input and the output sinusoidal signals.}
+\label{fig:comp}
+\end{figure}
 
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline    
+    {\bf Name} & {\bf Values} \\ \hline
+    \input{merit_tab} 
+  \end{tabular}
+  \caption{Cost and merit of the OP-AMP band-pass filter.}
+  \label{tab:merit}
+\end{table}
 
 \par
