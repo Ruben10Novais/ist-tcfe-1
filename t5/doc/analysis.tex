@@ -25,7 +25,7 @@ w_O=\sqrt{w_{H}w_{L}}
   \label{tab:data}
 \end{table}
 
-This central frequency result represents a 2.309\% relative error, which is a fairly great result, that we hope to replicate in the simulation.
+This central frequency result represents a 2.309\% relative error, which is a relatively good result (given the components we could choose from), that we hope to replicate in the simulation.
 
 \begin{figure}[h!] \centering
 \includegraphics[width=0.6\linewidth]{gain.eps}
@@ -44,7 +44,7 @@ As wanted, the plot has the trait of a narrower band-pass filter, with its top g
 The phase drops from 90 degrees to -90 degrees, which is cause of the 2 poles of the transfer function (which we will present in the next subsection), one pole introduced by the high-pass and the other pole introduced by the low pass. Each pole causes a 90 degree drop, 45º the decade before and 45º the decade after. At the central frequency, the phase is zero, which means the output voltage is in phase with the input voltage.
 
 \subsection{Central frequency results}
-For the mentioned central frequency we computed the circuit gain and input and output impedances for the amplifier. Also, we determined a theoretical figure of merit based on the predicted results with the set of values we chose.
+For a frequency of 1 KHz we computed the circuit gain and input and output impedances for the amplifier. Also, we determined a theoretical figure of merit based on the predicted results with the set of values we chose.
 
 The gain value for the entire circuit is obtained by multiplying the individual gains of each of the three stages of the circuit. This is an ideal situation, where we don't take into account the loss of signal between stages, or charge effects between the same stages.
 These are the equations for the gain values:
@@ -58,7 +58,7 @@ Amplifier Gain=1+\frac{R_{4}}{R_{3}}
 Low Pass Gain=|\frac{1}{1+R_{2}C_{2}jw_{O}}|
 \end{equation}
 
-Using the incremental model for the circuit (the input impedance of the OP-AMP is infinite and the output impedance of the OP-AMP is nule, according to the model studied in classes), we determined the following equations for the input and output impedances of the circuit:
+Using the incremental model for the circuit (the input impedance of the OP-AMP is infinite and the output impedance of the OP-AMP is null, according to the model studied in class), we determined the following equations for the input and output impedances of the circuit:
 \begin{equation}
 Z_i = R_1 + \frac{1}{jw_{O}C_{1}}
 \end{equation}
@@ -77,4 +77,5 @@ Z_o = \frac{R_2}{1+jw_OR_2C_2}
   \label{tab:data}
 \end{table}
 
-We obtained then a relative error of 0.667\% for the gain at central frequency, which is meant to be 100, so this a fantastic theoretical result. The input impedance value is quite high, which is good, so, depending on the resistance of the input, most of the input voltage will flow through ahead to the OP-AMP as pretended. The output impedance value though is quite large, so this circuit will not be suited to loads with very low resistance values, but given the components we had available there wasn't much room for improvement. Also, we don't know the load that would be linked to this circuit, so we can't fully know how good or bad this value is, we just know it is clearly not the most desirable.
+This way we can see that the gain for a frequency of 1KHz is almost the same as the gain for the calculated central frequency, meaning the 1KHz frequency is still very much within the band pass region.
+We obtained then a relative error of 0.643\% for the gain at central frequency, which is meant to be 100, so this a fantastic theoretical result. The input impedance value is quite high, which is good, so, depending on the resistance of the input, most of the input voltage will flow through ahead to the OP-AMP as pretended. The output impedance value though is quite large, so this circuit will not be suited to loads with very low resistance values, but given the components we had available there wasn't much room for improvement. Also, we don't know the load that would be linked to this circuit, so we can't fully know how good or bad this value is, we just know it is clearly not the most desirable.
