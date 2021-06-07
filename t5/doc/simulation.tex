@@ -20,13 +20,13 @@ We measured the input impedance of the circuit, seen through the perspective of 
 Our input impedance value is reasonably high, so, depending on the input signal's inner resistance, it does allow the great majority of the input voltage to flow through ahead to the OP-AMP. That being said, the output impedance value is also considerably high, which in this case is not desirable. This means that for loads with low resistance values, most of the voltage will be consumed by the circuit's output impedance itself, undoing its very purpose. This band-pass filter is then better suited for loads with greater resistance values. Given the components we had at our disposal, it was very difficult to accomplish a lower value for the output impedance, specially without comprimising the most important goal of this laboratory assignment.
 Looking now to the central frequency obtained, and the gain for such frequency, we had very slight deviations from the targeted values - 1 kHz and 40 dB. That being said, we obtained a 1.863\% relative error for the central frequency value, and a 0.264\% error for the output voltage gain, which we consider to be fantastic results, when we take into account the limited components available, which made optimization more difficult than usual.
 
-\begin{figure}[!h] \centering
+\begin{figure}[h!] \centering
 \includegraphics[width=0.6\linewidth]{vo1f.pdf}
 \caption{Output voltage gain (frequency response).}
 \label{fig:gainstage}
 \end{figure}
 
-\begin{figure}[!h] \centering
+\begin{figure}[h!] \centering
 \includegraphics[width=0.6\linewidth]{vo1p.pdf}
 \caption{Output voltage phase difference (frequency response).}
 \label{fig:outputstage}
@@ -34,15 +34,15 @@ Looking now to the central frequency obtained, and the gain for such frequency, 
 
 \subsection{Final product and merit}
 In figure~\ref{fig:comp}, we can compare the output signal to the input. As normal, the output voltage does not possess a DC component. Since the wanted gain was 40 dB, which is the same as 100$\times$ the initial amplitude, we can see the clear evolution from the starting 10mV to the final 1V of amplitude (more or less). For the first few milisseconds there is some small variation in the output sinusoidal wave due to a small transient regime.
-In table~\ref{tab:merit}, we present the cost and merit of our circuit. As we've already discusseed, we obtained a central frequency and gain very close to the targeted ones, which is expressed by very low relative erros, and therefore very small deviations. The overall cost of the circuit is considerably high, but that is mainly due to the high cost of the OP-AMP subcircuit itself. Because of this, using higher cost components in the rest of the circuit became more tolerable, since it wouldn't create as much of an effect in the overall cost value. Because of this we used the three 100 kOhm resistors available in the amplification stage, which allowed us to get an almost perfect gain for the central frequency, without harming the merit figure. The merit figure itself is clearly a very low number, but we believe that is only cause of the merit formula itself.
-
-\begin{figure}[!h] \centering
-\includegraphics[width=0.6\linewidth]{vo1.pdf}
+In table~\ref{tab:merit}, we present the cost and merit of our circuit. As we've already discusseed, we obtained a central frequency and gain very close to the targeted ones, which is expressed by very low relative errors, and therefore very small deviations. The overall cost of the circuit is considerably high, but that is mainly due to the high cost of the OP-AMP subcircuit itself. Because of this, using higher cost components in the rest of the circuit became more tolerable, since it wouldn't create as much of an effect in the overall cost value. Because of this we used the three 100 kOhm resistors available in the amplification stage, which allowed us to get an almost perfect gain for the central frequency, without harming the merit figure. The merit figure itself is clearly a very low number, but we believe that is only because of the restraints of the merit formula itself.
+\pagebreak
+\begin{figure}[h!] \centering
+\includegraphics[width=0.5\linewidth]{vo1.pdf}
 \caption{Comparison between the input and the output sinusoidal signals.}
 \label{fig:comp}
 \end{figure}
-
-\begin{table}[h]
+\par
+\begin{table}[h!]
   \centering
   \begin{tabular}{|l|r|}
     \hline    
@@ -53,4 +53,4 @@ In table~\ref{tab:merit}, we present the cost and merit of our circuit. As we've
   \label{tab:merit}
 \end{table}
 
-\par
+\pagebreak
